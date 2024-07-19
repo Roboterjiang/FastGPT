@@ -144,7 +144,8 @@ const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
         outLinkUid,
         user_id: userId,
         kb_ids: kb_ids,
-        serverResponse: responseText
+        textResponse: responseText,
+        responseData: responseData
       };
       await insertChatItem2DB(requestData);
 

@@ -324,7 +324,7 @@ const EditForm = ({
         </Box> */}
 
         {/* welcome */}
-        {/* <Box {...BoxStyles}>
+        <Box {...BoxStyles}>
           <WelcomeTextConfig
             value={appForm.chatConfig.welcomeText}
             onChange={(e) => {
@@ -337,7 +337,7 @@ const EditForm = ({
               }));
             }}
           />
-        </Box> */}
+        </Box>
 
         {/* tts */}
         <Box {...BoxStyles}>
@@ -389,7 +389,7 @@ const EditForm = ({
         </Box> */}
 
         {/* question tips */}
-        {/* <Box {...BoxStyles}>
+        <Box {...BoxStyles}>
           <InputGuideConfig
             appId={appDetail._id}
             value={appForm.chatConfig.chatInputGuide}
@@ -403,7 +403,7 @@ const EditForm = ({
               }));
             }}
           />
-        </Box> */}
+        </Box>
 
         {/* timer trigger */}
         {/* <Box {...BoxStyles} borderBottom={'none'}>

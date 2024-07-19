@@ -44,3 +44,9 @@ files/helm/fastgpt/fastgpt-0.1.0.tgz
 files/helm/fastgpt/charts/*.tgz
 
 tmp/
+
+# 忽略files/docker/mongo目录下的所有文件
+files/docker/mongo/*
+files/docker/mysql/*
+files/docker/oneapi/*
+files/docker/pg/*
