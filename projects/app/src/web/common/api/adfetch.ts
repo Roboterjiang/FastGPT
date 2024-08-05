@@ -28,7 +28,7 @@ export type StreamResponseType = {
 class FatalError extends Error {}
 
 export const adStreamFetch = ({
-  url = '/api/aidong/kbqa/adrag_chat',
+  url = `/api/aidong/kbqa/adrag_chat`,
   data,
   onMessage,
   abortCtrl
@@ -40,6 +40,7 @@ export const adStreamFetch = ({
 
     // response data
     let responseText = '';
+    let responseImageList: string[] = [];
     let responseQueue: (
       | { event: SseResponseEventEnum.fastAnswer | SseResponseEventEnum.answer; text: string }
       | {
@@ -67,7 +68,7 @@ export const adStreamFetch = ({
     const failedFinish = (err?: any) => {
       finished = true;
       reject({
-        message: getErrText(err, errMsg ?? '响应过程出现异常~'),
+        message: getErrText(err, errMsg ?? '服务器开小差了，请稍后再试~'),
         responseText
       });
     };
@@ -88,7 +89,7 @@ export const adStreamFetch = ({
       }
 
       if (responseQueue.length > 0) {
-        const fetchCount = Math.max(1, Math.round(responseQueue.length / 10));
+        const fetchCount = Math.max(1, Math.ceil(responseQueue.length / 30));
         for (let i = 0; i < fetchCount; i++) {
           const item = responseQueue[i];
           onMessage(item);
@@ -141,6 +142,8 @@ export const adStreamFetch = ({
       await fetchEventSource(url, {
         ...requestData,
         async onopen(res) {
+          console.log('fetchEventSource-open', res);
+
           clearTimeout(timeoutId);
           const contentType = res.headers.get('content-type');
 
@@ -182,16 +185,14 @@ export const adStreamFetch = ({
           })();
           if (aidongEvent === SseResponseEventEnum.answer) {
             const text = parseJson.response;
-
             for (const item of text) {
               responseQueue.push({
                 event: aidongEvent,
                 text: item
               });
             }
-            //获取应用文档
+            //获取应用文档和图片
             if (parseJson.source_documents && parseJson.source_documents.length > 0) {
-              console.log('爱动source_documents', parseJson.source_documents);
               const quoteList = parseJson.source_documents.map((x) => {
                 return {
                   sourceName: x.file_name,
@@ -199,11 +200,18 @@ export const adStreamFetch = ({
                   q: x.retrieval_query
                 };
               });
+              parseJson.source_documents.forEach((x) => {
+                if (x.image) {
+                  const tempdata = 'data:image/png;base64,' + x.image;
+                  responseImageList.push(`<img src="${tempdata}" />`);
+                }
+              });
               responseData = [
                 {
                   nodeId: new Date().getTime() + '',
                   moduleName: '知识库检索',
                   moduleType: FlowNodeTypeEnum.datasetSearchNode,
+                  imageList: responseImageList,
                   quoteList
                 }
               ];
@@ -250,6 +258,7 @@ export const adStreamFetch = ({
           //聊天成功后，聊天记录传入数据
         },
         onerror(err) {
+          console.log('fetchEventSource-err', err);
           if (err instanceof FatalError) {
             throw err;
           }
@@ -259,6 +268,8 @@ export const adStreamFetch = ({
         openWhenHidden: true
       });
     } catch (err: any) {
+      console.log('fetchEventSource-err', err);
+
       clearTimeout(timeoutId);
 
       if (abortCtrl.signal.aborted) {

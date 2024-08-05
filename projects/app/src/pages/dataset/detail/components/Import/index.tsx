@@ -12,7 +12,7 @@ const TableLocal = dynamic(() => import('./diffSource/TableLocal'));
 const ExternalFileCollection = dynamic(() => import('./diffSource/ExternalFile'));
 
 const ImportDataset = ({ datasetId, kb_id }: { datasetId: string; kb_id: string }) => {
-  console.log('爱动datasetId-kb_id', kb_id + '====' + datasetId);
+  //   console.log('爱动datasetId-kb_id', kb_id + '====' + datasetId);
 
   const importSource = useContextSelector(DatasetImportContext, (v) => v.importSource);
 

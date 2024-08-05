@@ -60,12 +60,12 @@ const ChatHeader = ({
                 : t('core.chat.History Amount', { amount: history.length })}
             </Box>
           </MyTag>
-          {!!chatModels && chatModels.length > 0 && (
+          {/* {!!chatModels && chatModels.length > 0 && (
             <MyTag ml={2} colorSchema={'green'}>
               <MyIcon name={'core/chat/chatModelTag'} w={'14px'} />
               <Box ml={1}>{chatModels.join(',')}</Box>
             </MyTag>
-          )}
+          )} */}
           <Box flex={1} />
         </>
       ) : (

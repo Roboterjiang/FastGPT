@@ -99,12 +99,19 @@ const ChatItem = ({
       <Flex flexDirection={'column'} key={chat.dataId} gap={2}>
         {chat.value.map((value, i) => {
           const key = `${chat.dataId}-ai-${i}`;
-
           if (value.text) {
             let source = (value.text?.content || '').trim();
 
             if (!source && chat.value.length > 1) return null;
 
+            if (
+              chat.responseData &&
+              chat.responseData.length > 0 &&
+              chat.responseData[0].imageList
+            ) {
+              const imageStrchat = chat.responseData[0].imageList.join('');
+              source = source + imageStrchat;
+            }
             if (
               isLastChild &&
               !isChatting &&
@@ -117,11 +124,13 @@ ${JSON.stringify(questionGuides)}`;
             }
 
             return (
-              <Markdown
-                key={key}
-                source={source}
-                showAnimation={isLastChild && isChatting && i === chat.value.length - 1}
-              />
+              <>
+                <Markdown
+                  key={key}
+                  source={source}
+                  showAnimation={isLastChild && isChatting && i === chat.value.length - 1}
+                />
+              </>
             );
           }
           if (value.type === ChatItemValueTypeEnum.tool && value.tools) {

@@ -293,7 +293,6 @@ const ChatBox = (
           } else if (event === SseResponseEventEnum.updateVariables && variables) {
             setValue('variables', variables);
           }
-
           return item;
         })
       );
@@ -482,10 +481,6 @@ const ChatBox = (
               generatingMessage: (e) => generatingMessage({ ...e, autoTTSResponse }),
               variables: requestVariables
             });
-
-            console.log('爱动ChatBoxresponseData', responseData);
-
-            console.log('爱动ChatBoxresponseText', responseText);
 
             isNewChatReplace.current = isNewChat;
 

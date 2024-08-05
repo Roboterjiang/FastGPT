@@ -91,17 +91,19 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
   );
   const aidongResult = await getAdDatasetsDocs(data.user_id, data.kb_id);
 
-  console.log('爱动aidongResult', aidongResult);
+  //   console.log('爱动aidongResult', aidongResult);
 
   if (aidongResult && aidongResult.data && result.data.length > 0) {
     result.data.forEach((item) => {
       const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
       if (findItem) {
         item.trainingAmount = findItem.status == 'green' ? 0 : 5;
+        //表示向量化状态  1进行中 2.成功  3.失败
+        item.status = findItem.status == 'green' ? 2 : findItem.status == 'red' ? 3 : 1;
       }
     });
   }
-  console.log('爱动fastgptResult', result);
+  //   console.log('爱动fastgptResult', result);
   return new Promise((resolve, reject) => {
     resolve(result);
   });
@@ -210,3 +212,13 @@ export const delAdDatasetDocs = (user_id: string, kb_id: string, adFileId: strin
 /**获取单个知识库的文档列表 */
 export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
   GET<Object>('/aidong/kbqa/docs', { user_id: 'user' + user_id, kb_id });
+/**
+ *
+ *向量化指定文件
+ *  */
+export const vectorizeAdDatasetsDocs = (
+  user_id: string,
+  kb_id: string,
+  adFileId: string,
+  lang: string
+) => POST(`/aidong/kbqa/emb_kb`, { user_id: 'user' + user_id, kb_id, file_ids: [adFileId], lang });

@@ -456,10 +456,12 @@ const Radio = radioStyle({
         bg: 'primary.50',
         boxShadow: shadowLight,
         _before: {
-          bg: 'primary.600'
+          bg: 'primary.600',
+          borderColor: 'primary.400'
         },
         _hover: {
-          bg: 'primary.50'
+          bg: 'primary.50',
+          borderColor: 'primary.400'
         }
       }
     }
@@ -479,11 +481,22 @@ const Checkbox = checkBoxMultiStyle({
         color: 'primary.600',
         boxShadow: `${shadowLight} !important`,
         _hover: {
-          bg: 'primary.50'
+          bg: 'primary.50',
+          borderColor: 'primary.400'
         }
       },
       _hover: {
         borderColor: 'primary.400'
+      },
+      _indeterminate: {
+        bg: 'primary.50',
+        borderColor: 'primary.600',
+        color: 'primary.600',
+        boxShadow: `${shadowLight} !important`,
+        _hover: {
+          bg: 'primary.50',
+          borderColor: 'primary.400'
+        }
       }
     }
   })
@@ -557,6 +570,7 @@ export const theme = extendTheme({
       a: {
         color: 'primary.600'
       },
+
       '*': {
         _focusVisible: {
           boxShadow: 'none'
@@ -581,6 +595,7 @@ export const theme = extendTheme({
       '05': 'rgba(17, 24, 36, 0.05)',
       1: 'rgba(17, 24, 36, 0.1)',
       15: 'rgba(17, 24, 36, 0.15)',
+
       25: '#FBFBFC',
       50: '#F7F8FA',
       100: '#F4F4F7',
@@ -596,46 +611,48 @@ export const theme = extendTheme({
       900: '#111824'
     },
     primary: {
-      1: 'rgba(204, 24, 0, 0.1)',
-      '015': 'rgba(204, 24, 0, 0.15)',
-      3: 'rgba(204, 24, 0, 0.3)',
-      5: 'rgba(204, 24, 0, 0.5)',
-      7: 'rgba(204, 24, 0, 0.7)',
-      9: 'rgba(204, 24, 0, 0.9)',
-      50: '#FFECE8',
-      100: '#FFD4D0',
-      200: '#FFB0A8',
-      300: '#FF897D',
-      400: '#FF6253',
-      500: '#FF3B29',
-      600: '#CC1800',
-      700: '#A31200',
-      800: '#7A0D00',
-      900: '#520900'
+      1: 'rgba(174, 0, 85, 0.1)',
+      '015': 'rgba(174, 0, 85, 0.15)',
+      3: 'rgba(174, 0, 85, 0.3)',
+      5: 'rgba(174, 0, 85, 0.5)',
+      7: 'rgba(174, 0, 85, 0.7)',
+      9: 'rgba(174, 0, 85, 0.9)',
+
+      50: '#ffe4f0',
+      100: '#ffb8d9',
+      200: '#ff8bc2',
+      300: '#ff5eaa',
+      400: '#ff3193',
+      500: '#ff047b',
+      600: '#d30065',
+      700: '#a80050',
+      800: '#7d003c',
+      900: '#520027'
     },
     blue: {
-      1: 'rgba(51, 112, 255, 0.1)',
-      '015': 'rgba(51, 112, 255, 0.15)',
-      3: 'rgba(51, 112, 255, 0.3)',
-      5: 'rgba(51, 112, 255, 0.5)',
-      7: 'rgba(51, 112, 255, 0.7)',
-      9: 'rgba(51, 112, 255, 0.9)',
+      1: 'rgba(174, 0, 85, 0.1)',
+      '015': 'rgba(174, 0, 85, 0.15)',
+      3: 'rgba(174, 0, 85, 0.3)',
+      5: 'rgba(174, 0, 85, 0.5)',
+      7: 'rgba(174, 0, 85, 0.7)',
+      9: 'rgba(174, 0, 85, 0.9)',
 
-      50: '#F0F4FF',
-      100: '#E1EAFF',
-      200: '#C5D7FF',
-      300: '#94B5FF',
-      400: '#5E8FFF',
-      500: '#487FFF',
-      600: '#3370FF',
-      700: '#2B5FD9',
-      800: '#2450B5',
-      900: '#1D4091'
+      50: '#ffe4f0',
+      100: '#ffb8d9',
+      200: '#ff8bc2',
+      300: '#ff5eaa',
+      400: '#ff3193',
+      500: '#ff047b',
+      600: '#d30065',
+      700: '#a80050',
+      800: '#7d003c',
+      900: '#520027'
     },
     red: {
-      1: 'rgba(204, 24, 0, 0.1)',
-      3: 'rgba(204, 24, 0, 0.3)',
-      5: 'rgba(204, 24, 0, 0.5)',
+      1: 'rgba(217, 45, 32, 0.1)',
+      3: 'rgba(217, 45, 32, 0.3)',
+      5: 'rgba(217, 45, 32, 0.5)',
+
       25: '#FFFBFA',
       50: '#FEF3F2',
       100: '#FEE4E2',
@@ -720,7 +737,7 @@ export const theme = extendTheme({
     5: '0px 20px 24px -8px rgba(19, 51, 107, 0.15), 0px 0px 1px 0px rgba(19, 51, 107, 0.15)',
     6: '0px 24px 48px -12px rgba(19, 51, 107, 0.20), 0px 0px 1px 0px rgba(19, 51, 107, 0.20)',
     7: '0px 32px 64px -12px rgba(19, 51, 107, 0.20), 0px 0px 1px 0px rgba(19, 51, 107, 0.20)',
-    focus: '0px 0px 0px 3px rgba(204, 24, 0, 0.5)',
+    focus: '0px 0px 0px 3px rgba(174, 0, 85, 0.6)',
     outline: 'none'
   },
   breakpoints: {
@@ -731,10 +748,10 @@ export const theme = extendTheme({
     '2xl': '2100px'
   },
   lgColor: {
-    activeBlueGradient: 'linear-gradient(to bottom right, #FFECE8 0%, #FFFBFA 100%)',
-    hoverBlueGradient: 'linear-gradient(to top left, #FFECE8 0%, #FFFBFA 100%)',
-    primary: 'linear-gradient(to bottom right, #CC1800 0%,#FF3B29 40%, #FF6253 100%)',
-    primary2: 'linear-gradient(to bottom right, #CC1800 0%,#FF3B29 30%,#FF6253 80%, #FF897D 100%)'
+    activeBlueGradient: 'linear-gradient(to bottom right, #ffe4ec 0%, #ffb8d9 100%)',
+    hoverBlueGradient: 'linear-gradient(to top left, #ffe4ec 0%, #ffb8d9 100%)',
+    primary: 'linear-gradient(to bottom right, #ae0055 0%,#d30065 40%, #ff3193 100%)',
+    primary2: 'linear-gradient(to bottom right, #ae0055 0%,#d30065 30%,#ff3193 80%, #ff8bc2 100%)'
   },
   components: {
     Button,

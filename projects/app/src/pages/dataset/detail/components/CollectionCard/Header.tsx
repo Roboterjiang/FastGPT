@@ -31,8 +31,12 @@ import { ImportDataSourceEnum } from '@fastgpt/global/core/dataset/constants';
 import { useContextSelector } from 'use-context-selector';
 import { CollectionPageContext } from './Context';
 import { DatasetPageContext } from '@/web/core/dataset/context/datasetPageContext';
+import { TagItemType } from '@fastgpt/global/core/tag/type';
 
 const FileSourceSelector = dynamic(() => import('../Import/components/FileSourceSelector'));
+
+//动态引入ChooseTagModal
+const ChooseTagModal = dynamic(() => import('../SelectTagModal'));
 
 const Header = ({}: {}) => {
   const { t } = useTranslation();
@@ -74,6 +78,14 @@ const Header = ({}: {}) => {
     onOpen: onOpenFileSourceSelector,
     onClose: onCloseFileSourceSelector
   } = useDisclosure();
+
+  //标签弹窗
+  const {
+    isOpen: isOpenTagModal,
+    onOpen: onOpenTagModal,
+    onClose: onCloseTagModal
+  } = useDisclosure();
+
   const { mutate: onCreateCollection } = useRequest({
     mutationFn: async ({
       name,
@@ -109,6 +121,10 @@ const Header = ({}: {}) => {
     successToast: t('common.Create Success'),
     errorToast: t('common.Create Failed')
   });
+
+  const onSubmit = (result: TagItemType[]) => {
+    console.log('提交result', result);
+  };
 
   return (
     <Flex px={[2, 6]} alignItems={'flex-start'} h={'35px'}>
@@ -190,118 +206,40 @@ const Header = ({}: {}) => {
       {datasetDetail.permission.hasWritePer && (
         <>
           {datasetDetail?.type === DatasetTypeEnum.dataset && (
-            <Button
-              _hover={{
-                color: 'primary.500'
-              }}
-              fontSize={['sm', 'md']}
-              onClick={() => {
-                router.replace({
-                  query: {
-                    ...router.query,
-                    currentTab: TabEnum.import,
-                    source: ImportDataSourceEnum.fileLocal
-                  }
-                });
-              }}
-            >
-              {/* <Flex
-                    alignItems={'center'}
-                    px={5}
-                    py={2}
-                    borderRadius={'md'}
-                    cursor={'pointer'}
-                    // bg={'primary.500'}
-                    overflow={'hidden'}
-                    color={'white'}
-                    h={['28px', '35px']}
-                  > */}
-              <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
-              <Box>{t('dataset.collections.Create And Import')}</Box>
-              {/* </Flex> */}
-            </Button>
-            // <MyMenu
-            //   offset={[0, 5]}
-            //   Button={
-            //     <MenuButton
-            //       _hover={{
-            //         color: 'primary.500'
-            //       }}
-            //       fontSize={['sm', 'md']}
-            //     >
-            //       <Flex
-            //         alignItems={'center'}
-            //         px={5}
-            //         py={2}
-            //         borderRadius={'md'}
-            //         cursor={'pointer'}
-            //         bg={'primary.500'}
-            //         overflow={'hidden'}
-            //         color={'white'}
-            //         h={['28px', '35px']}
-            //       >
-            //         <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
-            //         <Box>{t('dataset.collections.Create And Import')}</Box>
-            //       </Flex>
-            //     </MenuButton>
-            //   }
-            //   menuList={[
-            //     {
-            //       children: [
-            //         {
-            //           label: (
-            //             <Flex>
-            //               <MyIcon name={'common/folderFill'} w={'20px'} mr={2} />
-            //               {t('Folder')}
-            //             </Flex>
-            //           ),
-            //           onClick: () => setEditFolderData({})
-            //         },
-            //         {
-            //           label: (
-            //             <Flex>
-            //               <MyIcon name={'core/dataset/manualCollection'} mr={2} w={'20px'} />
-            //               {t('core.dataset.Manual collection')}
-            //             </Flex>
-            //           ),
-            //           onClick: () => {
-            //             onOpenCreateVirtualFileModal({
-            //               defaultVal: '',
-            //               onSuccess: (name) => {
-            //                 onCreateCollection({ name, type: DatasetCollectionTypeEnum.virtual });
-            //               }
-            //             });
-            //           }
-            //         },
-            //         {
-            //           label: (
-            //             <Flex>
-            //               <MyIcon name={'core/dataset/fileCollection'} mr={2} w={'20px'} />
-            //               {t('core.dataset.Text collection')}
-            //             </Flex>
-            //           ),
-            //           onClick: onOpenFileSourceSelector
-            //         },
-            //         {
-            //           label: (
-            //             <Flex>
-            //               <MyIcon name={'core/dataset/tableCollection'} mr={2} w={'20px'} />
-            //               {t('core.dataset.Table collection')}
-            //             </Flex>
-            //           ),
-            //           onClick: () =>
-            //             router.replace({
-            //               query: {
-            //                 ...router.query,
-            //                 currentTab: TabEnum.import,
-            //                 source: ImportDataSourceEnum.csvTable
-            //               }
-            //             })
-            //         }
-            //       ]
-            //     }
-            //   ]}
-            // />
+            <Box>
+              {/* <Button
+                _hover={{
+                  color: 'primary.500'
+                }}
+                fontSize={['sm', 'md']}
+                onClick={() => {
+                  onOpenTagModal();
+                }}
+              >
+                <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
+                <Box>批量设置tag</Box>
+              </Button> */}
+              <Button
+                ml={4}
+                _hover={{
+                  color: 'primary.500'
+                }}
+                fontSize={['sm', 'md']}
+                onClick={() => {
+                  // onOpenTagModal();
+                  router.replace({
+                    query: {
+                      ...router.query,
+                      currentTab: TabEnum.import,
+                      source: ImportDataSourceEnum.fileLocal
+                    }
+                  });
+                }}
+              >
+                <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
+                <Box>{t('dataset.collections.Create And Import')}</Box>
+              </Button>
+            </Box>
           )}
           {datasetDetail?.type === DatasetTypeEnum.websiteDataset && (
             <>
@@ -428,6 +366,9 @@ const Header = ({}: {}) => {
       )}
       <EditCreateVirtualFileModal iconSrc={'modal/manualDataset'} closeBtnText={''} />
       {isOpenFileSourceSelector && <FileSourceSelector onClose={onCloseFileSourceSelector} />}
+      {isOpenTagModal && (
+        <ChooseTagModal onClose={onCloseTagModal} isOpen={isOpenTagModal} onSubmit={onSubmit} />
+      )}
     </Flex>
   );
 };

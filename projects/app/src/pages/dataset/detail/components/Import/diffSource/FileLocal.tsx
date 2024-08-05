@@ -19,7 +19,7 @@ import { BucketNameEnum } from '@fastgpt/global/common/file/constants';
 import { useRouter } from 'next/router';
 import { useToast } from '@fastgpt/web/hooks/useToast';
 
-import { postCreateDatasetFileCollection } from '@/web/core/dataset/api';
+import { postCreateDatasetFileCollection, vectorizeAdDatasetsDocs } from '@/web/core/dataset/api';
 
 import { TabEnum } from '../../../index';
 
@@ -42,8 +42,8 @@ const FileLocal = ({ datasetId, kb_id }: { datasetId: string; kb_id: string }) =
   return (
     <>
       {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} />}
-      {activeStep === 1 && <DataProcess showPreviewChunks={false} />}
-      {activeStep === 2 && <Upload />}
+      {activeStep === 1 && <DataProcess showPreviewChunks={true} />}
+      {activeStep === 2 && <Upload kb_id={kb_id} />}
     </>
   );
 };
@@ -57,7 +57,7 @@ const SelectFile = React.memo(function SelectFile({
   datasetId: string;
   kb_id: string;
 }) {
-  console.log('爱动SelectFile', datasetId + '---' + kb_id);
+  //   console.log('爱动SelectFile', datasetId + '---' + kb_id);
   const { t } = useTranslation();
   const { goToNext, sources, setSources } = useContextSelector(DatasetImportContext, (v) => v);
   const [selectFiles, setSelectFiles] = useState<ImportSourceItemType[]>(
@@ -82,108 +82,6 @@ const SelectFile = React.memo(function SelectFile({
     goToNext();
   }, [goToNext]);
 
-  const { userInfo } = useUserStore();
-
-  const startUpload = () => {
-    console.log('爱动selectFiles', selectFiles);
-
-    onSelectFile(selectFiles);
-  };
-
-  const { mutate: onSelectFile, isLoading } = useRequest({
-    mutationFn: async (files: ImportSourceItemType[]) => {
-      {
-        setUploading(true);
-        try {
-          //上传文件之前判断是否有文件名重复
-          // upload file
-
-          await Promise.all(
-            files.map(async ({ id, file }) => {
-              //上传到爱动服务器
-              const uploadInfo = await uploadFile2AidongDB({
-                kb_id,
-                user_id: userInfo._id,
-                file,
-                percentListen: (e) => {
-                  console.log('爱动percentListen', e);
-                  setSelectFiles((state) =>
-                    state.map((item) =>
-                      item.id === id
-                        ? {
-                            ...item,
-                            uploadedFileRate: e
-                          }
-                        : item
-                    )
-                  );
-                }
-              });
-              if (uploadInfo.status !== 'success') {
-                toast({
-                  title: '上传失败，请重新上传',
-                  status: 'error'
-                });
-                return;
-              }
-
-              if (uploadInfo.data && uploadInfo.data.length > 0) {
-                const serverFileId = uploadInfo.data[0].file_id;
-                console.log('爱动serverFileId', serverFileId);
-                setSelectFiles((state) =>
-                  state.map((item) =>
-                    item.id === id
-                      ? {
-                          ...item,
-                          dbFileId: serverFileId,
-                          isUploading: false
-                        }
-                      : item
-                  )
-                );
-
-                //上传到 fastgpt服务器
-                const uploadFileId = await uploadFile2DB({
-                  file,
-                  bucketName: BucketNameEnum.dataset,
-                  percentListen: (e) => {}
-                });
-
-                //创建关联
-                const commonParams = {
-                  trainingType: 'chunk',
-                  datasetId: router.query.datasetId,
-                  chunkSize: 512,
-                  chunkSplitter: '',
-                  qaPrompt: '',
-                  name: file?.name,
-                  fileId: uploadFileId,
-                  adFileId: serverFileId
-                };
-                await postCreateDatasetFileCollection(commonParams);
-              }
-            })
-          );
-        } catch (error) {
-          console.log(error);
-        }
-        setUploading(false);
-
-        toast({
-          title: '文件上传成功，等待向量化',
-          status: 'success'
-        });
-
-        router.replace({
-          query: {
-            ...router.query,
-            currentTab: TabEnum.collectionCard
-          }
-        });
-      }
-    }
-  });
-
   return (
     <Box>
       <FileSelector
@@ -201,19 +99,19 @@ const SelectFile = React.memo(function SelectFile({
       <RenderUploadFiles files={selectFiles} setFiles={setSelectFiles} showPreviewContent />
 
       <Box textAlign={'right'} mt={5}>
-        {/* <Button isDisabled={successFiles.length === 0 || uploading} onClick={onclickNext}>
+        <Button isDisabled={successFiles.length === 0 || uploading} onClick={onclickNext}>
           {selectFiles.length > 0
             ? `${t('core.dataset.import.Total files', { total: selectFiles.length })} | `
             : ''}
           {t('common.Next Step')}
-        </Button> */}
+        </Button>
 
-        <Button isDisabled={successFiles.length === 0 || uploading} onClick={startUpload}>
+        {/* <Button isDisabled={successFiles.length === 0 || uploading} onClick={startUpload}>
           {selectFiles.length > 0
             ? `${t('core.dataset.import.Total files', { total: selectFiles.length })} | `
             : ''}
           开始上传
-        </Button>
+        </Button> */}
       </Box>
     </Box>
   );

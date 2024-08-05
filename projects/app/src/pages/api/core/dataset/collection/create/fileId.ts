@@ -30,6 +30,7 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
     chunkSize = 512,
     chunkSplitter,
     qaPrompt,
+    tagInfo,
     ...body
   } = req.body;
 
@@ -73,6 +74,7 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
       name: filename,
       fileId,
       adFileId,
+      tagInfo,
       metadata: {
         relatedImgId: fileId
       },

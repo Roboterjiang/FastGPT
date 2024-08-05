@@ -133,6 +133,7 @@ async function handler(req: NextApiRequest) {
           fileId: 1,
           adFileId: 1,
           rawLink: 1,
+          tagInfo: 1,
           dataAmount: {
             $ifNull: [{ $arrayElemAt: ['$dataCount.count', 0] }, 0]
           },

@@ -113,10 +113,25 @@ const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
 
       const kb_ids = chatData.kb_ids;
 
+      const startIndex = messages.length - 3;
+      // 计算需要截取的起始索引，确保不会产生负数索引
+      const endIndex = Math.max(startIndex - 10, 0);
+      // 获取从倒数第二条数据往前的11条数据
+      const sliceResult = messages.slice(endIndex, startIndex + 1);
+      //默认取倒数第二条到 倒数第12条
+      const history =
+        messages.length > 2
+          ? sliceResult.map((item) => ({
+              content: item.content,
+              role: item.role
+            }))
+          : [];
+
       const { responseText, responseData } = await adStreamFetch({
         data: {
           question: prompts?.find((x) => x.role === 'user')?.content,
           messages: prompts,
+          history,
           variables: {
             ...variables,
             ...customVariables
@@ -130,8 +145,6 @@ const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
         onMessage: generatingMessage,
         abortCtrl: controller
       });
-
-      console.log('爱动responseData', responseData);
 
       const requestData = {
         messages: prompts,

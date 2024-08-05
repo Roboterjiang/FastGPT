@@ -1,5 +1,9 @@
 #nprogress .bar {
-  background: '#1237b3' !important; //自定义颜色
+  background: #ae0055 !important; //自定义颜色
+}
+#nprogress .spinner-icon {
+  border-top-color: rgb(221, 34, 34) !important;
+  border-left-color: rgb(221, 34, 34) !important;
 }
 
 .textEllipsis {
@@ -25,7 +29,8 @@
   display: none !important;
 }
 .textlg {
-  background: linear-gradient(to bottom right, #1237b3 0%, #3370ff 40%, #4e83fd 80%, #85b1ff 100%);
+  //   background: linear-gradient(to bottom right, #1237b3 0%, #3370ff 40%, #4e83fd 80%, #85b1ff 100%);
+  background: linear-gradient(to bottom right, #8c003f 0%, #ae0055 40%, #d30065 80%, #ff8bc2 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }

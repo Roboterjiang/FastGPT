@@ -10,6 +10,7 @@ import { UploadChunkItemType } from '@fastgpt/global/core/dataset/type';
 import { DatasetCollectionSchemaType } from '@fastgpt/global/core/dataset/type';
 import { PermissionTypeEnum } from '@fastgpt/global/support/permission/constant';
 import type { LLMModelItemType } from '@fastgpt/global/core/ai/model.d';
+import { TagItemType } from '@fastgpt/global/core/tag/type';
 
 /* ===== dataset ===== */
 
@@ -26,6 +27,7 @@ export type UpdateDatasetCollectionParams = {
   id: string;
   parentId?: string;
   name?: string;
+  tagInfo?: TagItemType[];
 };
 
 /* ==== data ===== */

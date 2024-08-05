@@ -47,7 +47,7 @@ async function handler(req: ApiRequestProps<PreviewContextProps>, res: NextApiRe
   });
 
   return {
-    previewContent: rawText.slice(0, 3000),
+    previewContent: rawText,
     totalLength: rawText.length
   };
 }

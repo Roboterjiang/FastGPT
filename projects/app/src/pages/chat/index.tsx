@@ -82,11 +82,27 @@ const Chat = ({
         (x) => x.flowNodeType == FlowNodeTypeEnum.datasetSearchNode
       );
       const datasetInfos = node?.inputs.find((x) => x.key === 'datasets')?.value;
-      const kb_ids = datasetInfos.map((x) => x.kb_id);
+      const kb_ids = datasetInfos?.map((x) => x.kb_id);
+
+      const startIndex = messages.length - 3;
+      // 计算需要截取的起始索引，确保不会产生负数索引
+      const endIndex = Math.max(startIndex - 10, 0);
+      // 获取从倒数第二条数据往前的11条数据
+      const sliceResult = messages.slice(endIndex, startIndex + 1);
+      //默认取倒数第二条到 倒数第12条
+      const history =
+        messages.length > 2
+          ? sliceResult.map((item) => ({
+              content: item.content,
+              role: item.role
+            }))
+          : [];
+
       const { responseText, responseData } = await adStreamFetch({
         data: {
           question: prompts?.find((x) => x.role === 'user')?.content,
           messages: prompts,
+          history,
           variables,
           appId,
           chatId: completionChatId,

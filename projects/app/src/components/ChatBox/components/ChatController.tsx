@@ -94,7 +94,7 @@ const ChatController = ({
               <MyIcon
                 {...controlIconStyle}
                 name={'common/retryLight'}
-                _hover={{ color: 'green.500' }}
+                _hover={{ color: 'red.600' }}
                 onClick={onRetry}
               />
             </MyTooltip>
@@ -212,11 +212,11 @@ const ChatController = ({
               {...(!!chat.userGoodFeedback
                 ? {
                     color: 'white',
-                    bg: 'green.500',
+                    bg: 'red.500',
                     fontWeight: 'bold'
                   }
                 : {
-                    _hover: { color: 'green.600' }
+                    _hover: { color: 'red.600' }
                   })}
               name={'core/chat/feedback/goodLight'}
               onClick={onAddUserLike}
@@ -233,7 +233,7 @@ const ChatController = ({
                     onClick: onAddUserDislike
                   }
                 : {
-                    _hover: { color: '#FB7C3C' },
+                    _hover: { color: 'red.600' },
                     onClick: onAddUserDislike
                   })}
               name={'core/chat/feedback/badLight'}

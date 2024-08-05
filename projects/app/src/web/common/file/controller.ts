@@ -34,17 +34,20 @@ export const uploadFile2AidongDB = ({
   kb_id,
   user_id,
   file,
+  doc_type,
   percentListen
 }: {
   file: File;
   kb_id: string;
   user_id: string;
+  doc_type: string;
   percentListen?: (percent: number) => void;
 }) => {
   const form = new FormData();
   form.append('kb_id', kb_id);
+  form.append('doc_type', doc_type);
   form.append('user_id', 'user' + user_id);
-  form.append('files', file, file.name);
+  form.append('file', file, file.name);
   return postAidongUploadFiles(form, (e) => {
     if (!e.total) return;
     const percent = Math.round((e.loaded / e.total) * 100);

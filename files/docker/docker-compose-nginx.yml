@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  fastgpt-nginx:
+    image: nginx:latest
+    container_name: fastgpt-nginx
+    ports:
+      - 4000:4000
+    volumes:
+      - ./nginx-conf.d:/etc/nginx/conf.d
+

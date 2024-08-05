@@ -45,6 +45,10 @@ export type DispatchNodeResponseType = {
   temperature?: number;
   maxToken?: number;
   quoteList?: SearchDataResponseItemType[];
+
+  //图片列表
+  imageList?: string[];
+
   historyPreview?: {
     obj: `${ChatRoleEnum}`;
     value: string;

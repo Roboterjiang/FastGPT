@@ -80,11 +80,11 @@ const FormLayout = ({ children, setPageType, pageType }: Props) => {
           alignItems={'center'}
           justifyContent={'center'}
         >
-          <Image src={LOGO_ICON} w={['24px', '28px']} alt={'icon'} />
+          <Image src={LOGO_ICON} w={['48px', '48px']} alt={'icon'} />
         </Flex>
         <Box ml={3} fontSize={['2xl', '3xl']} fontWeight={'bold'}>
           {/* {feConfigs?.systemTitle} */}
-          爱动GPT
+          中力GPT
         </Box>
       </Flex>
       {children}

@@ -85,8 +85,8 @@ const Logs = () => {
               {appT('Chat logs')}
             </Box>
             <Box color={'myGray.500'} fontSize={'sm'}>
-              {appT('Chat Logs Tips')},{' '}
-              <Box
+              {appT('Chat Logs Tips')}{' '}
+              {/* <Box
                 as={'span'}
                 mr={2}
                 textDecoration={'underline'}
@@ -94,7 +94,7 @@ const Logs = () => {
                 onClick={onOpenMarkDesc}
               >
                 {t('core.chat.Read Mark Description')}
-              </Box>
+              </Box> */}
             </Box>
           </>
         )}
@@ -304,12 +304,12 @@ const DetailLogsModal = ({
                 <MyIcon name={'history'} w={'14px'} />
                 <Box ml={1}>{`${history.length}条记录`}</Box>
               </MyTag>
-              {!!chatModels && chatModels.length > 0 && (
+              {/* {!!chatModels && chatModels.length > 0 && (
                 <MyTag ml={2} colorSchema={'green'}>
                   <MyIcon name={'core/chat/chatModelTag'} w={'14px'} />
                   <Box ml={1}>{chatModels.join(',')}</Box>
                 </MyTag>
-              )}
+              )} */}
               <Box flex={1} />
             </>
           ) : (

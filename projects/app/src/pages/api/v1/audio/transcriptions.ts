@@ -58,7 +58,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse<any>) {
 
     const result = await ai.audio.transcriptions.create({
       file: fs.createReadStream(file.path),
-      model: global.whisperModel.model
+      model: global.whisperModel.model,
+      prompt: '文字请用中文简体展示'
     });
 
     pushWhisperUsage({

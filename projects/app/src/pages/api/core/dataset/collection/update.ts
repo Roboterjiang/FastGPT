@@ -8,7 +8,7 @@ import { WritePermissionVal } from '@fastgpt/global/support/permission/constant'
 import { CommonErrEnum } from '@fastgpt/global/common/error/code/common';
 
 async function handler(req: NextApiRequest) {
-  const { id, parentId, name } = req.body as UpdateDatasetCollectionParams;
+  const { id, parentId, name, tagInfo } = req.body as UpdateDatasetCollectionParams;
 
   if (!id) {
     return Promise.reject(CommonErrEnum.missingParams);
@@ -25,7 +25,7 @@ async function handler(req: NextApiRequest) {
 
   const updateFields: Record<string, any> = {
     ...(parentId !== undefined && { parentId: parentId || null }),
-    ...(name && { name, updateTime: getCollectionUpdateTime({ name }) })
+    ...(tagInfo && { tagInfo, updateTime: getCollectionUpdateTime({ name: 'name' }) })
   };
 
   await MongoDatasetCollection.findByIdAndUpdate(id, {

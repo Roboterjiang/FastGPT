@@ -15,6 +15,7 @@ import { deleteDatasetDataVector } from '../../../common/vectorStore/controller'
 import { delFileByFileIdList } from '../../../common/file/gridfs/controller';
 import { BucketNameEnum } from '@fastgpt/global/common/file/constants';
 import { ClientSession } from '../../../common/mongo';
+import { TagItemType } from '@fastgpt/global/core/tag/type';
 
 export async function createOneCollection({
   teamId,
@@ -31,6 +32,7 @@ export async function createOneCollection({
 
   fileId,
   adFileId,
+  tagInfo,
   rawLink,
 
   externalFileId,
@@ -46,6 +48,7 @@ export async function createOneCollection({
   tmbId: string;
   [key: string]: any;
   session?: ClientSession;
+  tagInfo: TagItemType[];
 }) {
   const [collection] = await MongoDatasetCollection.create(
     [
@@ -65,6 +68,7 @@ export async function createOneCollection({
 
         fileId,
         adFileId,
+        tagInfo,
         rawLink,
         externalFileId,
         externalFileUrl,

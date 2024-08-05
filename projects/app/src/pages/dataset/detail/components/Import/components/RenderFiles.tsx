@@ -7,9 +7,13 @@ import {
   Tr,
   Th,
   Td,
+  Tag,
+  TagLabel,
   Tbody,
   Progress,
-  IconButton
+  IconButton,
+  HStack,
+  useDisclosure
 } from '@chakra-ui/react';
 import { ImportSourceItemType } from '@/web/core/dataset/type.d';
 import MyIcon from '@fastgpt/web/components/common/Icon';
@@ -17,8 +21,11 @@ import { useTranslation } from 'next-i18next';
 import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import dynamic from 'next/dynamic';
 import { useI18n } from '@/web/context/I18n';
+import { FormTagValues } from '@fastgpt/global/core/tag/type';
 
 const PreviewRawText = dynamic(() => import('./PreviewRawText'));
+
+const SelectTagModal = dynamic(() => import('../../SelectTagModal'));
 
 export const RenderUploadFiles = ({
   files,
@@ -32,6 +39,21 @@ export const RenderUploadFiles = ({
   const { t } = useTranslation();
   const { fileT } = useI18n();
   const [previewFile, setPreviewFile] = useState<ImportSourceItemType>();
+  const [tagFile, setTagFile] = useState<ImportSourceItemType>();
+
+  const {
+    isOpen: isOpenTagModal,
+    onOpen: onOpenTagModal,
+    onClose: onCloseTagModal
+  } = useDisclosure();
+
+  const onSubmit = (result: FormTagValues) => {
+    if (tagFile) {
+      setFiles((state) =>
+        state.map((file) => (file.id === tagFile.id ? { ...file, tagInfo: result.values } : file))
+      );
+    }
+  };
 
   return files.length > 0 ? (
     <>
@@ -41,6 +63,9 @@ export const RenderUploadFiles = ({
             <Tr bg={'myGray.100'} mb={2}>
               <Th borderLeftRadius={'md'} borderBottom={'none'} py={4}>
                 {fileT('File Name')}
+              </Th>
+              <Th borderLeftRadius={'md'} borderBottom={'none'} py={4}>
+                标签
               </Th>
               <Th borderBottom={'none'} py={4}>
                 {t('core.dataset.import.Upload file progress')}
@@ -60,6 +85,18 @@ export const RenderUploadFiles = ({
                   <Flex alignItems={'center'}>
                     <MyIcon name={item.icon as any} w={'16px'} mr={1} />
                     {item.sourceName}
+                  </Flex>
+                </Td>
+                <Td>
+                  <Flex alignItems={'center'}>
+                    <HStack spacing={2}>
+                      {item.tagInfo?.map((tag, index) => (
+                        <Tag key={index} variant="solid" colorScheme="primary" borderRadius="full">
+                          {/* <TagLabel>{tag.tagValue}</TagLabel> */}
+                          {tag.tagValue}
+                        </Tag>
+                      ))}
+                    </HStack>
                   </Flex>
                 </Td>
                 <Td>
@@ -105,6 +142,18 @@ export const RenderUploadFiles = ({
                           setFiles((state) => state.filter((file) => file.id !== item.id));
                         }}
                       />
+
+                      <IconButton
+                        variant={'grayDanger'}
+                        size={'sm'}
+                        icon={<MyIcon name={'tag'} w={'14px'} />}
+                        aria-label={'标记'}
+                        onClick={() => {
+                          //弹框出现
+                          onOpenTagModal();
+                          setTagFile(item);
+                        }}
+                      />
                     </Flex>
                   )}
                 </Td>
@@ -115,6 +164,14 @@ export const RenderUploadFiles = ({
       </TableContainer>
       {!!previewFile && (
         <PreviewRawText previewSource={previewFile} onClose={() => setPreviewFile(undefined)} />
+      )}
+      {isOpenTagModal && (
+        <SelectTagModal
+          onClose={onCloseTagModal}
+          isOpen={isOpenTagModal}
+          onSubmit={onSubmit}
+          selectTags={tagFile?.tagInfo}
+        />
       )}
     </>
   ) : null;

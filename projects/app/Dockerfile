@@ -5,6 +5,11 @@ WORKDIR /app
 ARG proxy
 
 RUN [ -z "$proxy" ] || sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+#设置淘宝镜像
+RUN npm config set registry https://registry.npmmirror.com/
+
+
 RUN apk add --no-cache libc6-compat && npm install -g pnpm@8.6.0
 # if proxy exists, set proxy
 RUN [ -z "$proxy" ] || pnpm config set registry https://registry.npmmirror.com
@@ -32,6 +37,9 @@ COPY ./projects/app ./projects/app
 COPY --from=mainDeps /app/projects/app/node_modules ./projects/app/node_modules
 
 RUN [ -z "$proxy" ] || sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories
+
+#设置淘宝镜像
+RUN npm config set registry https://registry.npmmirror.com/
 
 RUN apk add --no-cache libc6-compat && npm install -g pnpm@8.6.0
 

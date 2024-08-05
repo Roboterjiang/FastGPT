@@ -21,7 +21,7 @@ export const postAidongUploadFiles = (
   data: FormData,
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) =>
-  POST<string>('/aidong/kbqa/upload_and_vectorize', data, {
+  POST<string>('/aidong/kbqa/upload', data, {
     timeout: 600000,
     onUploadProgress,
     headers: {

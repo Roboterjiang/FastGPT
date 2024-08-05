@@ -18,24 +18,29 @@ const Tools = () => {
       label: '我的知识库',
       link: '/dataset/list'
     },
-    ...(feConfigs?.show_git
-      ? [
-          {
-            icon: 'common/gitLight',
-            label: 'GitHub 地址',
-            link: 'https://github.com/labring/FastGPT'
-          }
-        ]
-      : []),
-    ...(feConfigs?.docUrl
-      ? [
-          {
-            icon: 'common/courseLight',
-            label: '使用文档',
-            link: getDocPath('/docs/intro')
-          }
-        ]
-      : []),
+    {
+      icon: 'core/tag/tagLight',
+      label: '标签管理',
+      link: '/tag'
+    },
+    // ...(feConfigs?.show_git
+    //   ? [
+    //       {
+    //         icon: 'common/gitLight',
+    //         label: 'GitHub 地址',
+    //         link: 'https://github.com/labring/FastGPT'
+    //       }
+    //     ]
+    //   : []),
+    // ...(feConfigs?.docUrl
+    //   ? [
+    //       {
+    //         icon: 'common/courseLight',
+    //         label: '使用文档',
+    //         link: getDocPath('/docs/intro')
+    //       }
+    //     ]
+    //   : []),
     ...(feConfigs?.show_pay
       ? [
           {

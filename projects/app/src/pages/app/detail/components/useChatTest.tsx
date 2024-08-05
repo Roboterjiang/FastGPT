@@ -37,9 +37,9 @@ export const useChatTest = ({
   const startChat = useMemoizedFn(
     async ({ chatList, controller, generatingMessage, variables }: StartChatFnProps) => {
       /* get histories */
-      let historyMaxLen = getMaxHistoryLimitFromNodes(nodes);
+      //   let historyMaxLen = getMaxHistoryLimitFromNodes(nodes);
 
-      const history = chatList.slice(-historyMaxLen - 2, -2);
+      //   const history = chatList.slice(-historyMaxLen - 2, -2);
 
       console.log('爱动创建应用node', nodes);
 
@@ -52,7 +52,19 @@ export const useChatTest = ({
         kb_ids = datasetInfos.map((x) => x.kb_id);
       }
       const prompt = chatList[chatList.length - 2].value;
-      console.log('爱动prompt', prompt);
+
+      const startIndex = chatList.length - 2;
+      // 计算需要截取的起始索引，确保不会产生负数索引
+      const endIndex = Math.max(startIndex - 10, 0);
+      // 获取从倒数第二条数据往前的11条数据
+      const sliceResult = chatList.slice(endIndex, startIndex + 1);
+      const history =
+        chatList.length > 2
+          ? sliceResult.map((item) => ({
+              content: item.value[0].text?.content,
+              role: item.obj == 'Human' ? 'user' : 'assistant'
+            }))
+          : [];
 
       // 流请求，获取数据
       const { responseText, responseData } = await adStreamFetch({

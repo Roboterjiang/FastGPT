@@ -108,7 +108,7 @@ const LoginForm = ({ setPageType, loginSuccess }: Props) => {
         </FormControl>
         {feConfigs?.docUrl && (
           <Flex alignItems={'center'} mt={7} fontSize={'sm'}>
-            {t('support.user.login.Policy tip')}
+            {/* {t('support.user.login.Policy tip')}
             <Link
               ml={1}
               href={getDocPath('/docs/agreement/terms/')}
@@ -124,7 +124,7 @@ const LoginForm = ({ setPageType, loginSuccess }: Props) => {
               color={'primary.500'}
             >
               {t('support.user.login.Privacy')}
-            </Link>
+            </Link> */}
           </Flex>
         )}
 

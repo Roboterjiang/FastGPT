@@ -25,6 +25,7 @@ type TrainingFiledType = {
   priceTip: string;
   uploadRate: number;
   chunkSizeField?: ChunkSizeFieldType;
+  docType?: string;
 };
 type DatasetImportContextType = {
   importSource: ImportDataSourceEnum;
@@ -45,6 +46,7 @@ export type ImportFormType = {
   customSplitChar: string;
   qaPrompt: string;
   webSelector: string;
+  lang?: string;
 };
 
 export const DatasetImportContext = createContext<DatasetImportContextType>({
@@ -153,12 +155,13 @@ const DatasetImportContextProvider = ({ children }: { children: React.ReactNode 
 
   const processParamsForm = useForm<ImportFormType>({
     defaultValues: {
-      mode: TrainingModeEnum.chunk,
+      mode: TrainingModeEnum.general,
       way: ImportProcessWayEnum.auto,
       embeddingChunkSize: vectorModel?.defaultToken || 512,
       customSplitChar: '',
       qaPrompt: Prompt_AgentQA.description,
-      webSelector: ''
+      webSelector: '',
+      lang: 'ch'
     }
   });
 
@@ -213,6 +216,51 @@ const DatasetImportContextProvider = ({ children }: { children: React.ReactNode 
         price: agentModel?.charsPointsPrice
       }),
       uploadRate: 30
+    },
+    [TrainingModeEnum.general]: {
+      chunkOverlapRatio: 0,
+      maxChunkSize: 8000,
+      minChunkSize: 3000,
+      autoChunkSize: agentModel.maxContext * 0.55 || 6000,
+      chunkSize: agentModel.maxContext * 0.55 || 6000,
+      showChunkInput: false,
+      showPromptInput: true,
+      charsPointsPrice: agentModel.charsPointsPrice,
+      priceTip: t('core.dataset.import.QA Estimated Price Tips', {
+        price: agentModel?.charsPointsPrice
+      }),
+      uploadRate: 30,
+      docType: 'general '
+    },
+    [TrainingModeEnum.error_code]: {
+      chunkOverlapRatio: 0,
+      maxChunkSize: 8000,
+      minChunkSize: 3000,
+      autoChunkSize: agentModel.maxContext * 0.55 || 6000,
+      chunkSize: agentModel.maxContext * 0.55 || 6000,
+      showChunkInput: false,
+      showPromptInput: true,
+      charsPointsPrice: agentModel.charsPointsPrice,
+      priceTip: t('core.dataset.import.QA Estimated Price Tips', {
+        price: agentModel?.charsPointsPrice
+      }),
+      uploadRate: 30,
+      docType: 'error_code '
+    },
+    [TrainingModeEnum.diagram]: {
+      chunkOverlapRatio: 0,
+      maxChunkSize: 8000,
+      minChunkSize: 3000,
+      autoChunkSize: agentModel.maxContext * 0.55 || 6000,
+      chunkSize: agentModel.maxContext * 0.55 || 6000,
+      showChunkInput: false,
+      showPromptInput: true,
+      charsPointsPrice: agentModel.charsPointsPrice,
+      priceTip: t('core.dataset.import.QA Estimated Price Tips', {
+        price: agentModel?.charsPointsPrice
+      }),
+      uploadRate: 30,
+      docType: 'diagram '
     }
   };
   const selectModelStaticParam = modeStaticParams[mode];
@@ -290,9 +338,9 @@ const DatasetImportContextProvider = ({ children }: { children: React.ReactNode 
         borderColor={'borderColor.low'}
         borderRadius={'md'}
       >
-        {/* <Box maxW={['100%', '900px']} mx={'auto'}>
+        <Box maxW={['100%', '900px']} mx={'auto'}>
           <MyStep />
-        </Box> */}
+        </Box>
       </Box>
       {children}
     </DatasetImportContext.Provider>

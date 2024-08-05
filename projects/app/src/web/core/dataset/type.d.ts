@@ -2,6 +2,7 @@ import type { PushDatasetDataChunkProps } from '@fastgpt/global/core/dataset/api
 import { TrainingModeEnum } from '@fastgpt/global/core/dataset/constants';
 import { ImportProcessWayEnum } from './constants';
 import { UseFormReturn } from 'react-hook-form';
+import { TagItemType, SelectTagFormValues } from '@fastgpt/global/core/tag/type';
 
 export type ImportSourceItemType = {
   id: string;
@@ -30,6 +31,8 @@ export type ImportSourceItemType = {
   // external file
   externalFileUrl?: string;
   externalFileId?: string;
+
+  tagInfo?: TagItemType[];
 };
 
 export type ImportSourceParamsType = UseFormReturn<

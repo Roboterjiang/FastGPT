@@ -1229,7 +1229,8 @@
         "Plugin": "插件",
         "Store": "应用市场",
         "Studio": "工作台",
-        "Tools": "工具"
+        "Tools": "工具",
+        "Tag": "标签"
     },
     "permission": {
         "Collaborator": "协作者",

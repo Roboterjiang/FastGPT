@@ -63,16 +63,16 @@ const Preview = ({ showPreviewChunks }: { showPreviewChunks: boolean }) => {
                             </Flex>
                           ),
                           onClick: () => setPreviewRawTextSource(source)
-                        },
-                        {
-                          label: (
-                            <Flex alignItems={'center'}>
-                              <MyIcon name={'core/dataset/splitLight'} w={'14px'} mr={2} />
-                              {t('core.dataset.import.Preview chunks')}
-                            </Flex>
-                          ),
-                          onClick: () => setPreviewChunkSource(source)
                         }
+                        // {
+                        //   label: (
+                        //     <Flex alignItems={'center'}>
+                        //       <MyIcon name={'core/dataset/splitLight'} w={'14px'} mr={2} />
+                        //       {t('core.dataset.import.Preview chunks')}
+                        //     </Flex>
+                        //   ),
+                        //   onClick: () => setPreviewChunkSource(source)
+                        // }
                       ]
                     }
                   ]}
