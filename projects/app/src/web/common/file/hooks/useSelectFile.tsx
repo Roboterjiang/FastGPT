@@ -27,7 +27,7 @@ export const useSelectFile = (props?: {
           onChange={(e) => {
             const files = e.target.files;
             if (!files || files?.length === 0) return;
-
+            console.log('爱动选择文件', files);
             let fileList = Array.from(files);
             if (fileList.length > maxCount) {
               toast({
@@ -37,6 +37,9 @@ export const useSelectFile = (props?: {
               fileList = fileList.slice(0, maxCount);
             }
             onSelect(fileList, openSign.current);
+            if (SelectFileDom.current) {
+              SelectFileDom.current.value = '';
+            }
           }}
         />
       </Box>

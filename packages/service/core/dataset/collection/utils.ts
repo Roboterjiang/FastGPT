@@ -187,22 +187,22 @@ export const reloadCollectionChunks = async ({
     return Promise.reject('Training model error');
   })();
 
-  await MongoDatasetTraining.insertMany(
-    chunks.map((item, i) => ({
-      teamId: col.teamId,
-      tmbId,
-      datasetId: col.datasetId._id,
-      collectionId: col._id,
-      billId,
-      mode: col.trainingType,
-      prompt: '',
-      model,
-      q: item,
-      a: '',
-      chunkIndex: i
-    })),
-    { session }
-  );
+  //   await MongoDatasetTraining.insertMany(
+  //     chunks.map((item, i) => ({
+  //       teamId: col.teamId,
+  //       tmbId,
+  //       datasetId: col.datasetId._id,
+  //       collectionId: col._id,
+  //       billId,
+  //       mode: col.trainingType,
+  //       prompt: '',
+  //       model,
+  //       q: item,
+  //       a: '',
+  //       chunkIndex: i
+  //     })),
+  //     { session }
+  //   );
 
   // update raw text
   await MongoDatasetCollection.findByIdAndUpdate(

@@ -189,11 +189,11 @@ export async function delCollectionAndRelatedSources({
   const collectionIds = collections.map((item) => String(item._id));
 
   // delete training data
-  await MongoDatasetTraining.deleteMany({
-    teamId,
-    datasetIds: { $in: datasetIds },
-    collectionId: { $in: collectionIds }
-  });
+  //   await MongoDatasetTraining.deleteMany({
+  //     teamId,
+  //     datasetIds: { $in: datasetIds },
+  //     collectionId: { $in: collectionIds }
+  //   });
 
   /* file and imgs */
   await delCollectionRelatedSource({ collections, session });
@@ -214,5 +214,5 @@ export async function delCollectionAndRelatedSources({
   );
 
   // no session delete: delete files, vector data
-  await deleteDatasetDataVector({ teamId, datasetIds, collectionIds });
+  //   await deleteDatasetDataVector({ teamId, datasetIds, collectionIds });
 }

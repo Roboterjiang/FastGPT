@@ -66,17 +66,17 @@ export async function insertData2Dataset({
   indexes = indexes.slice(0, 6);
 
   // insert to vector store
-  const result = await Promise.all(
-    indexes.map((item) =>
-      insertDatasetDataVector({
-        query: item.text,
-        model: getVectorModel(model),
-        teamId,
-        datasetId,
-        collectionId
-      })
-    )
-  );
+  //   const result = await Promise.all(
+  //     indexes.map((item) =>
+  //       insertDatasetDataVector({
+  //         query: item.text,
+  //         model: getVectorModel(model),
+  //         teamId,
+  //         datasetId,
+  //         collectionId
+  //       })
+  //     )
+  //   );
 
   // create mongo data
   const [{ _id }] = await MongoDatasetData.create(
@@ -91,8 +91,8 @@ export async function insertData2Dataset({
         fullTextToken: jiebaSplit({ text: qaStr }),
         chunkIndex,
         indexes: indexes?.map((item, i) => ({
-          ...item,
-          dataId: result[i].insertId
+          ...item
+          //   dataId: result[i].insertId
         }))
       }
     ],
@@ -100,8 +100,8 @@ export async function insertData2Dataset({
   );
 
   return {
-    insertId: _id,
-    tokens: result.reduce((acc, cur) => acc + cur.tokens, 0)
+    insertId: _id
+    // tokens: result.reduce((acc, cur) => acc + cur.tokens, 0)
   };
 }
 

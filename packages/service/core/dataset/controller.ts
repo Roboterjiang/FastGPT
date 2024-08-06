@@ -86,10 +86,10 @@ export async function delDatasetRelevantData({
   ).lean();
 
   // delete training data
-  await MongoDatasetTraining.deleteMany({
-    teamId,
-    datasetId: { $in: datasetIds }
-  });
+  //   await MongoDatasetTraining.deleteMany({
+  //     teamId,
+  //     datasetId: { $in: datasetIds }
+  //   });
 
   // image and file
   await delCollectionRelatedSource({ collections, session });
@@ -107,5 +107,5 @@ export async function delDatasetRelevantData({
   );
 
   // no session delete: delete files, vector data
-  await deleteDatasetDataVector({ teamId, datasetIds });
+  //   await deleteDatasetDataVector({ teamId, datasetIds });
 }

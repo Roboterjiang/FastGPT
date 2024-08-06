@@ -97,6 +97,9 @@ const FileSelector = ({
           const results = formatFiles.concat(state).slice(0, maxCount);
           return results;
         });
+
+        let totalUploadFiles = 0;
+
         try {
           // upload file
           await Promise.all(
@@ -128,12 +131,21 @@ const FileSelector = ({
                     : item
                 )
               );
+              totalUploadFiles++;
             })
           );
         } catch (error) {
           console.log(error);
         }
-        onFinishSelect();
+        if (totalUploadFiles == files.length) {
+          //文件上传成功
+          onFinishSelect();
+        } else {
+          toast({
+            status: 'error',
+            title: '文件上传失败，请删除文件重新上传'
+          });
+        }
       }
     }
   });
@@ -143,6 +155,7 @@ const FileSelector = ({
     const fileNames = files.map((item: any) => item.file.name);
     const tempFileNames = selectFileNames.concat(fileNames);
     const finalNames = tempFileNames.concat(serverNames);
+    console.log('finalNames', finalNames);
     const uniqueNames = new Set(finalNames);
     return finalNames.length !== uniqueNames.size;
   };
@@ -150,8 +163,8 @@ const FileSelector = ({
   const selectFileCallback = useCallback(
     async (files: SelectFileItemType[]) => {
       const result = await getAdDatasetsDocs(userInfo._id, kb_id);
-      if (result && result.length > 0) {
-        let serverFilesNames = result.map((item: any) => item[1]);
+      if (result && result.data && result.data.length > 0) {
+        let serverFilesNames = result.data.map((item: any) => item.file_name);
         //新增爱动判断，文件名不可以重复
         if (hasDuplicates(selectFiles, files, serverFilesNames)) {
           toast({

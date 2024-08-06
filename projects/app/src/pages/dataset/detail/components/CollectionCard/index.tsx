@@ -494,39 +494,51 @@ const CollectionCard = () => {
                                   onOpenTagModal();
                                   setCurrentCollection(collection);
                                 }
-                              },
-                              {
-                                label: (
-                                  <Flex alignItems={'center'}>
-                                    <MyIcon
-                                      mr={1}
-                                      name={'delete'}
-                                      w={'14px'}
-                                      _hover={{ color: 'red.600' }}
-                                    />
-                                    <Box>{t('common.Delete')}</Box>
-                                  </Flex>
-                                ),
-                                type: 'danger',
-                                onClick: () =>
-                                  openDeleteConfirm(
-                                    async () => {
-                                      console.log('爱动删除collection', collection);
-                                      const result = await delAdDatasetDocs(
-                                        userInfo._id,
-                                        router.query.kb_id,
-                                        collection.adFileId
-                                      );
-                                      if (result && result.status == 'success') {
-                                        onDelCollection(collection._id);
-                                      }
-                                    },
-                                    undefined,
-                                    collection.type === DatasetCollectionTypeEnum.folder
-                                      ? t('dataset.collections.Confirm to delete the folder')
-                                      : t('dataset.Confirm to delete the file')
-                                  )()
                               }
+                            ]
+                          },
+                          {
+                            children: [
+                              ...(collection.status != 1
+                                ? [
+                                    {
+                                      label: (
+                                        <Flex alignItems={'center'}>
+                                          <MyIcon
+                                            mr={1}
+                                            name={'delete'}
+                                            w={'14px'}
+                                            _hover={{ color: 'red.600' }}
+                                          />
+                                          <Box>{t('common.Delete')}</Box>
+                                        </Flex>
+                                      ),
+                                      type: 'danger',
+                                      onClick: () =>
+                                        openDeleteConfirm(
+                                          async () => {
+                                            const result = await delAdDatasetDocs(
+                                              userInfo._id,
+                                              router.query.kb_id,
+                                              collection.adFileId
+                                            );
+                                            if (result && result.status == 'success') {
+                                              onDelCollection(collection._id);
+                                            } else {
+                                              toast({
+                                                status: 'error',
+                                                title: result.message ? result.message : '删除失败'
+                                              });
+                                            }
+                                          },
+                                          undefined,
+                                          collection.type === DatasetCollectionTypeEnum.folder
+                                            ? t('dataset.collections.Confirm to delete the folder')
+                                            : t('dataset.Confirm to delete the file')
+                                        )()
+                                    }
+                                  ]
+                                : [])
                             ]
                           }
                         ]}

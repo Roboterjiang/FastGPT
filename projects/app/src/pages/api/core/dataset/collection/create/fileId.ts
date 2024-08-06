@@ -59,10 +59,10 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
   });
 
   // 3. auth limit
-  await checkDatasetLimit({
-    teamId,
-    insertLen: predictDataLimitLength(trainingType, chunks)
-  });
+  //   await checkDatasetLimit({
+  //     teamId,
+  //     insertLen: predictDataLimitLength(trainingType, chunks)
+  //   });
 
   await mongoSessionRun(async (session) => {
     // 4. create collection
@@ -91,35 +91,35 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
     });
 
     // 5. create training bill
-    const { billId } = await createTrainingUsage({
-      teamId,
-      tmbId,
-      appName: filename,
-      billSource: UsageSourceEnum.training,
-      vectorModel: getVectorModel(dataset.vectorModel)?.name,
-      agentModel: getLLMModel(dataset.agentModel)?.name,
-      session
-    });
+    // const { billId } = await createTrainingUsage({
+    //   teamId,
+    //   tmbId,
+    //   appName: filename,
+    //   billSource: UsageSourceEnum.training,
+    //   vectorModel: getVectorModel(dataset.vectorModel)?.name,
+    //   agentModel: getLLMModel(dataset.agentModel)?.name,
+    //   session
+    // });
 
     console.log('爱动加入索引队列');
 
     // 6. insert to training queue
-    await pushDataListToTrainingQueue({
-      teamId,
-      tmbId,
-      datasetId: dataset._id,
-      collectionId,
-      agentModel: dataset.agentModel,
-      vectorModel: dataset.vectorModel,
-      trainingMode: trainingType,
-      prompt: qaPrompt,
-      billId,
-      data: chunks.map((item, index) => ({
-        ...item,
-        chunkIndex: index
-      })),
-      session
-    });
+    // await pushDataListToTrainingQueue({
+    //   teamId,
+    //   tmbId,
+    //   datasetId: dataset._id,
+    //   collectionId,
+    //   agentModel: dataset.agentModel,
+    //   vectorModel: dataset.vectorModel,
+    //   trainingMode: trainingType,
+    //   prompt: qaPrompt,
+    //   billId,
+    //   data: chunks.map((item, index) => ({
+    //     ...item,
+    //     chunkIndex: index
+    //   })),
+    //   session
+    // });
 
     // 7. remove related image ttl
     await MongoImage.updateMany(

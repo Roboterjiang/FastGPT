@@ -15,6 +15,7 @@ const InputDataModal = dynamic(() => import('@/pages/dataset/detail/components/I
 export type AdminMarkType = {
   dataId?: string;
   datasetId?: string;
+  kb_id?: string;
   collectionId?: string;
   q: string;
   a?: string;
@@ -71,7 +72,11 @@ const SelectMarkCollection = ({
                         if (item.type === DatasetTypeEnum.folder) {
                           setParentId(item._id);
                         } else {
-                          setAdminMarkData({ ...adminMarkData, datasetId: item._id });
+                          setAdminMarkData({
+                            ...adminMarkData,
+                            datasetId: item._id,
+                            kb_id: item.kb_id
+                          });
                         }
                       }}
                     >
@@ -99,6 +104,7 @@ const SelectMarkCollection = ({
       {adminMarkData.datasetId && (
         <SelectCollections
           datasetId={adminMarkData.datasetId}
+          kb_id={adminMarkData.kb_id}
           type={'collection'}
           title={t('dataset.collections.Select One Collection To Store')}
           onClose={onClose}

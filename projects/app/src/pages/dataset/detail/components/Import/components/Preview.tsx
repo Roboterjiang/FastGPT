@@ -41,7 +41,14 @@ const Preview = ({ showPreviewChunks }: { showPreviewChunks: boolean }) => {
             <Box mx={1} flex={'1 0 0'} w={0} className="textEllipsis">
               {source.sourceName}
             </Box>
-            {showPreviewChunks && (
+            <IconButton
+              icon={<MyIcon name={'common/viewLight'} w={'14px'} p={2} />}
+              aria-label={''}
+              size={'sm'}
+              variant={'whitePrimary'}
+              onClick={() => setPreviewRawTextSource(source)}
+            />
+            {/* {showPreviewChunks && (
               <Box fontSize={'xs'} color={'myGray.600'}>
                 <MyMenu
                   Button={
@@ -78,7 +85,7 @@ const Preview = ({ showPreviewChunks }: { showPreviewChunks: boolean }) => {
                   ]}
                 />
               </Box>
-            )}
+            )} */}
           </Flex>
         ))}
       </Box>

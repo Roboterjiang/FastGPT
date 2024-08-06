@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
   try {
     await connectToDatabase();
     await authCert({ req, authToken: true });
-    startTrainingQueue();
+    // startTrainingQueue();
   } catch (error) {}
   jsonRes(res);
 }

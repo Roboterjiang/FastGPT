@@ -12,11 +12,7 @@ type GetVectorProps = {
 
 // text to vector
 export async function getVectorsByText({ model, input, type }: GetVectorProps) {
-    //爱动向量化结果直接返回
-    return Promise.reject({
-        code: 500,
-        message: 'input is empty'
-      });
+  //爱动向量化结果直接返回
   if (!input) {
     return Promise.reject({
       code: 500,

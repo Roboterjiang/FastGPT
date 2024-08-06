@@ -153,9 +153,9 @@ async function handler(req: NextApiRequest) {
     }))
   );
 
-  if (data.find((item) => item.trainingAmount > 0)) {
-    startTrainingQueue();
-  }
+  //   if (data.find((item) => item.trainingAmount > 0)) {
+  //     startTrainingQueue();
+  //   }
 
   // count collections
   return {

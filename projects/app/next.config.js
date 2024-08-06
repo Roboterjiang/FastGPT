@@ -8,7 +8,7 @@ const nextConfig = {
     i18n,
     output: 'standalone',
     reactStrictMode: isDev ? false : true,
-    // compress: false, //compress设置为true,会导致流式输出不正常
+    compress: false, //compress设置为true,会导致流式输出不正常
     webpack(config, { isServer, nextRuntime }) {
         Object.assign(config.resolve.alias, {
             '@mongodb-js/zstd': false,
@@ -97,14 +97,13 @@ const nextConfig = {
         ],
         outputFileTracingRoot: path.join(__dirname, '../../')
     },
-    // async rewrites() { //默认30s超时
-    //     return [
-    //         //接口请求 前缀带上/api-text/
-    //         // { source: '/api/aidong/kbqa/dbs', destination: `http://180.100.206.221:8180/kbqa/dbs` },
-    //         { source: '/api/aidong/:path*', destination: `http://180.100.206.221:8180/:path*` }
+    async rewrites() { //正式服务器不可使用这个配置，这个配置默认30s超时
+        return isDev ? [
+            //接口请求 前缀带上/api-text/
+            { source: '/api/aidong/:path*', destination: `http://180.100.206.221:8180/:path*` }
 
-    //     ]
-    // },
+        ] : []
+    },
     typescript: {
         // 关闭构建时的类型检查
         ignoreBuildErrors: true,

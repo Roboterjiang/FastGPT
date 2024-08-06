@@ -14,11 +14,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
       authToken: true
     });
 
-    jsonRes<FeTeamPlanStatusType>(res, {
-      data: await getTeamPlanStatus({
-        teamId
-      })
-    });
+    // jsonRes<FeTeamPlanStatusType>(res, {
+    //   data: await getTeamPlanStatus({
+    //     teamId
+    //   })
+    // });
+    jsonRes(res, { data: {} });
   } catch (err) {
     jsonRes(res, {
       code: 500,

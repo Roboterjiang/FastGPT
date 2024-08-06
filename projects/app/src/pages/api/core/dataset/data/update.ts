@@ -31,20 +31,23 @@ async function handler(req: NextApiRequest) {
     insertLen: 1
   });
 
-  const { tokens } = await updateData2Dataset({
-    dataId: id,
-    q,
-    a,
-    indexes,
-    model: vectorModel
-  });
+  //   const { tokens } = await updateData2Dataset({
+  //     dataId: id,
+  //     q,
+  //     a,
+  //     indexes,
+  //     model: vectorModel
+  //   });
 
-  pushGenerateVectorUsage({
-    teamId,
-    tmbId,
-    tokens,
-    model: vectorModel
-  });
+  //   pushGenerateVectorUsage({
+  //     teamId,
+  //     tmbId,
+  //     tokens,
+  //     model: vectorModel
+  //   });
+  return {
+    success: true
+  };
 }
 
 export default NextAPI(handler);

@@ -41,7 +41,7 @@ export const useChatTest = ({
 
       //   const history = chatList.slice(-historyMaxLen - 2, -2);
 
-      console.log('爱动创建应用node', nodes);
+      //   console.log('爱动创建应用node', nodes);
 
       //根据appId 获取知识库id
 

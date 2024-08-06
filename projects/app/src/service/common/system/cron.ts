@@ -9,7 +9,7 @@ import { getScheduleTriggerApp } from '@/service/core/app/utils';
 
 const setTrainingQueueCron = () => {
   setCron('*/1 * * * *', () => {
-    startTrainingQueue();
+    // startTrainingQueue();
   });
 };
 

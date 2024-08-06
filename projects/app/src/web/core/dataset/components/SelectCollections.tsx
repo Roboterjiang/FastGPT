@@ -15,7 +15,10 @@ import { useContextSelector } from 'use-context-selector';
 import { DatasetPageContext } from '../context/datasetPageContext';
 import EmptyTip from '@fastgpt/web/components/common/EmptyTip';
 
+import { useUserStore } from '@/web/support/user/useUserStore';
+
 const SelectCollections = ({
+  kb_id,
   datasetId,
   type,
   defaultSelectedId = [],
@@ -27,6 +30,7 @@ const SelectCollections = ({
   max = 1,
   CustomFooter
 }: {
+  kb_id: string;
   datasetId: string;
   type: 'folder' | 'collection';
   onClose: () => void;
@@ -49,8 +53,12 @@ const SelectCollections = ({
 
   useQuery(['loadDatasetDetail', datasetId], () => loadDatasetDetail(datasetId));
 
+  const { userInfo } = useUserStore();
+
   const { data, isLoading } = useQuery(['getDatasetCollections', parentId], () =>
     getDatasetCollections({
+      kb_id,
+      user_id: userInfo?._id,
       datasetId,
       parentId,
       selectFolder: type === 'folder',
