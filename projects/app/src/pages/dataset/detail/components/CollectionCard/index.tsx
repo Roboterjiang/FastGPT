@@ -437,7 +437,7 @@ const CollectionCard = () => {
                           {
                             children: [
                               //索引进行中不可删除
-                              ...(collection.status != 1
+                              ...(collection.status != 1 //默认值为1
                                 ? [
                                     {
                                       label: (
@@ -499,7 +499,7 @@ const CollectionCard = () => {
                           },
                           {
                             children: [
-                              ...(collection.status != 1
+                              ...(collection.status != 9
                                 ? [
                                     {
                                       label: (
