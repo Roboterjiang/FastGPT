@@ -62,6 +62,7 @@ export type LinkCreateDatasetCollectionParams = ApiCreateDatasetCollectionParams
 };
 export type FileIdCreateDatasetCollectionParams = ApiCreateDatasetCollectionParams & {
   fileId: string;
+  fileName: string;
   adFileId?: string;
   tagInfo?: TagItemType[];
 };

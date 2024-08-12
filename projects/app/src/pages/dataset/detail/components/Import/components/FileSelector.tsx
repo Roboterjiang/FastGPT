@@ -52,7 +52,7 @@ const FileSelector = ({
   const { toast } = useToast();
   const { feConfigs } = useSystemStore();
 
-  const maxCount = feConfigs?.uploadFileMaxAmount || 1000;
+  const maxCount = feConfigs?.uploadFileMaxAmount || 50;
   const maxSize = (feConfigs?.uploadFileMaxSize || 1024) * 1024 * 1024;
 
   const { userInfo } = useUserStore();

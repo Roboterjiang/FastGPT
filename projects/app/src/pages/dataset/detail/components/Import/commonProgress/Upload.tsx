@@ -82,12 +82,13 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
           parentId,
           trainingType: TrainingModeEnum.chunk,
           datasetId: datasetDetail._id,
-          chunkSize,
-          chunkSplitter: customSplitChar,
-          qaPrompt,
+          chunkSize: 512,
+          chunkSplitter: '',
+          qaPrompt: '',
           name: item.sourceName,
           adFileId: item.dbFileId,
-          tagInfo: item.tagInfo
+          tagInfo: item.tagInfo,
+          fileName: item.sourceName
         };
         if (importSource === ImportDataSourceEnum.fileLocal && item.dbFileId) {
           await postCreateDatasetFileCollection({
@@ -95,7 +96,7 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
             fileId: item.dbFileId
           });
           //创建成功后，对单个文件进行向量化
-          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, serverFileId, lang);
+          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, item.dbFileId, lang);
         } else if (importSource === ImportDataSourceEnum.fileLink && item.link) {
           await postCreateDatasetLinkCollection({
             ...commonParams,

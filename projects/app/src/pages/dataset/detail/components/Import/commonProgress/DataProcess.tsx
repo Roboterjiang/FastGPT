@@ -97,8 +97,7 @@ function DataProcess({ showPreviewChunks = true }: { showPreviewChunks: boolean 
           <Box fontSize={'md'}>{t('core.dataset.import.Data process params')}</Box>
         </Flex>
 
-        <Flex mt={4} alignItems={'center'}>
-          {/* <FormLabel flex={'0 0 100px'}>{t('core.dataset.import.Training mode')}</FormLabel> */}
+        {/* <Flex mt={4} alignItems={'center'}>
           <FormLabel flex={'0 0 100px'}>文档类型</FormLabel>
           <LeftRadio
             list={trainingModeList.map(([key, value]) => ({
@@ -114,7 +113,7 @@ function DataProcess({ showPreviewChunks = true }: { showPreviewChunks: boolean 
             display={'flex'}
             flexWrap={'wrap'}
           />
-        </Flex>
+        </Flex> */}
         <Flex mt={6} alignItems={'center'}>
           {/* <FormLabel flex={'0 0 100px'}>{t('core.dataset.import.Training mode')}</FormLabel> */}
           <FormLabel flex={'0 0 100px'}>语言</FormLabel>

@@ -50,8 +50,8 @@ const FileLocal = ({
   return (
     <>
       {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} doc_type={doc_type} />}
-      {/* {activeStep === 1 && <DataProcess showPreviewChunks={true} />} */}
-      {activeStep === 1 && <Upload kb_id={kb_id} />}
+      {activeStep === 1 && <DataProcess showPreviewChunks={false} />}
+      {activeStep === 2 && <Upload kb_id={kb_id} />}
     </>
   );
 };
@@ -94,7 +94,7 @@ const SelectFile = React.memo(function SelectFile({
 
   const newFileType =
     doc_type === 'video'
-      ? '.mp4'
+      ? '.mp4, .rm, .rmvb, .3gp, .avi, .wmv'
       : '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx, .jpg, .jpeg, .png, .gif, .webp, .bmp, .svg';
 
   return (
