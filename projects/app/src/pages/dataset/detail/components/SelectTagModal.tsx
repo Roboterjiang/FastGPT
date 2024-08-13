@@ -125,7 +125,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
                 <Controller
                   name="values"
                   control={control}
-                  rules={{ required: '请选择标签' }}
+                  //   rules={{ required: '请选择标签' }}
                   render={({ field }) => (
                     <Select
                       defaultValue={selectTags?.map((tag) => ({
