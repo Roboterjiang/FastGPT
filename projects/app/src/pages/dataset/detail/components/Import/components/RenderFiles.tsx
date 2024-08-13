@@ -13,7 +13,9 @@ import {
   Progress,
   IconButton,
   HStack,
-  useDisclosure
+  useDisclosure,
+  Button,
+  Box
 } from '@chakra-ui/react';
 import { ImportSourceItemType } from '@/web/core/dataset/type.d';
 import MyIcon from '@fastgpt/web/components/common/Icon';
@@ -41,6 +43,8 @@ export const RenderUploadFiles = ({
   const [previewFile, setPreviewFile] = useState<ImportSourceItemType>();
   const [tagFile, setTagFile] = useState<ImportSourceItemType>();
 
+  const [selectFileIds, setSelectFileIds] = useState<string[]>();
+
   const {
     isOpen: isOpenTagModal,
     onOpen: onOpenTagModal,
@@ -53,11 +57,27 @@ export const RenderUploadFiles = ({
         state.map((file) => (file.id === tagFile.id ? { ...file, tagInfo: result.values } : file))
       );
     }
+    if (selectFileIds && selectFileIds.length > 0) {
+      setFiles((state) =>
+        state.map((file) =>
+          selectFileIds?.includes(file.id) ? { ...file, tagInfo: result.values } : file
+        )
+      );
+    }
+  };
+
+  const batchSetTag = () => {
+    onOpenTagModal();
+    setTagFile(undefined);
+    setSelectFileIds(files.map((file) => file.id));
   };
 
   return files.length > 0 ? (
     <>
       <TableContainer mt={5}>
+        <Box textAlign={'right'} mb={4}>
+          <Button onClick={batchSetTag}>批量设置标签</Button>
+        </Box>
         <Table variant={'simple'} fontSize={'sm'} draggable={false}>
           <Thead draggable={false}>
             <Tr bg={'myGray.100'} mb={2}>
@@ -92,7 +112,6 @@ export const RenderUploadFiles = ({
                     <HStack spacing={2}>
                       {item.tagInfo?.map((tag, index) => (
                         <Tag key={index} variant="solid" colorScheme="primary" borderRadius="full">
-                          {/* <TagLabel>{tag.tagValue}</TagLabel> */}
                           {tag.tagValue}
                         </Tag>
                       ))}
@@ -152,6 +171,7 @@ export const RenderUploadFiles = ({
                           //弹框出现
                           onOpenTagModal();
                           setTagFile(item);
+                          setSelectFileIds(undefined);
                         }}
                       />
                     </Flex>
