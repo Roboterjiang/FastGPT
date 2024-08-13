@@ -178,7 +178,7 @@ const FileSelector = ({
     const fileNames = files.map((item: any) => item.file.name);
     const tempFileNames = selectFileNames.concat(fileNames);
     const finalNames = tempFileNames.concat(serverNames);
-    console.log('finalNames', finalNames);
+    console.log('爱动finalNames', finalNames);
     const uniqueNames = new Set(finalNames);
     return finalNames.length !== uniqueNames.size;
   };

@@ -170,7 +170,7 @@ const ChatController = ({
             </MyTooltip>
           );
         })()}
-      {!!onMark && (
+      {/* {!!onMark && (
         <MyTooltip label={t('core.chat.Mark')}>
           <MyIcon
             {...controlIconStyle}
@@ -179,7 +179,7 @@ const ChatController = ({
             onClick={onMark}
           />
         </MyTooltip>
-      )}
+      )} */}
       {chat.obj === ChatRoleEnum.AI && (
         <>
           {!!onCloseUserLike && chat.userGoodFeedback && (

@@ -27,7 +27,6 @@ export const useSelectFile = (props?: {
           onChange={(e) => {
             const files = e.target.files;
             if (!files || files?.length === 0) return;
-            console.log('爱动选择文件', files);
             let fileList = Array.from(files);
             if (fileList.length > maxCount) {
               toast({
