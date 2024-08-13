@@ -1,5 +1,14 @@
 import React, { useCallback, useRef } from 'react';
-import { Box, Flex, MenuButton, Button, Link, useTheme, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  MenuButton,
+  Button,
+  Link,
+  useTheme,
+  useDisclosure,
+  Toast
+} from '@chakra-ui/react';
 import {
   getDatasetCollectionPathById,
   postDatasetCollection,
@@ -31,17 +40,23 @@ import { ImportDataSourceEnum } from '@fastgpt/global/core/dataset/constants';
 import { useContextSelector } from 'use-context-selector';
 import { CollectionPageContext } from './Context';
 import { DatasetPageContext } from '@/web/core/dataset/context/datasetPageContext';
-import { TagItemType } from '@fastgpt/global/core/tag/type';
+
+import { useToast } from '@fastgpt/web/hooks/useToast';
 
 const FileSourceSelector = dynamic(() => import('../Import/components/FileSourceSelector'));
 
-//动态引入ChooseTagModal
-const ChooseTagModal = dynamic(() => import('../SelectTagModal'));
-
-const Header = ({}: {}) => {
+const Header = ({
+  selectedItems,
+  showTagModal
+}: {
+  selectedItems: string[];
+  showTagModal: () => void;
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { setLoading } = useSystemStore();
+
+  const { toast } = useToast();
   const datasetDetail = useContextSelector(DatasetPageContext, (v) => v.datasetDetail);
 
   const router = useRouter();
@@ -79,13 +94,6 @@ const Header = ({}: {}) => {
     onClose: onCloseFileSourceSelector
   } = useDisclosure();
 
-  //标签弹窗
-  const {
-    isOpen: isOpenTagModal,
-    onOpen: onOpenTagModal,
-    onClose: onCloseTagModal
-  } = useDisclosure();
-
   const { mutate: onCreateCollection } = useRequest({
     mutationFn: async ({
       name,
@@ -121,10 +129,6 @@ const Header = ({}: {}) => {
     successToast: t('common.Create Success'),
     errorToast: t('common.Create Failed')
   });
-
-  const onSubmit = (result: TagItemType[]) => {
-    console.log('提交result', result);
-  };
 
   return (
     <Flex px={[2, 6]} alignItems={'flex-start'} h={'35px'}>
@@ -206,103 +210,131 @@ const Header = ({}: {}) => {
       {datasetDetail.permission.hasWritePer && (
         <>
           {datasetDetail?.type === DatasetTypeEnum.dataset && (
-            <MyMenu
-              offset={[0, 5]}
-              Button={
-                <MenuButton
-                  _hover={{
-                    color: 'primary.500'
-                  }}
-                  fontSize={['sm', 'md']}
-                >
-                  <Flex
-                    alignItems={'center'}
-                    px={5}
-                    py={2}
-                    borderRadius={'md'}
-                    cursor={'pointer'}
-                    bg={'primary.500'}
-                    overflow={'hidden'}
-                    color={'white'}
-                    h={['28px', '35px']}
+            <>
+              <MyMenu
+                offset={[0, 5]}
+                Button={
+                  <MenuButton
+                    _hover={{
+                      color: 'primary.500'
+                    }}
+                    fontSize={['sm', 'md']}
                   >
-                    <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
-                    <Box>{t('dataset.collections.Create And Import')}</Box>
-                  </Flex>
-                </MenuButton>
-              }
-              menuList={[
-                {
-                  children: [
-                    {
-                      label: <Flex>通用文档</Flex>,
-                      onClick: () => {
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.fileLocal,
-                            doc_type: 'general'
-                          }
-                        });
-                      }
-                    },
-                    {
-                      label: <Flex>故障码</Flex>,
-                      onClick: () => {
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.fileLocal,
-                            doc_type: 'error_code'
-                          }
-                        });
-                      }
-                    },
-                    {
-                      label: <Flex>图表</Flex>,
-                      onClick: () => {
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.fileLocal,
-                            doc_type: 'diagram'
-                          }
-                        });
-                      }
-                    },
-                    {
-                      label: <Flex>车辆外观</Flex>,
-                      onClick: () => {
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.fileLocal,
-                            doc_type: 'forklift_appearance'
-                          }
-                        });
-                      }
-                    },
-                    {
-                      label: <Flex>视频</Flex>,
-                      onClick: () => {
-                        router.replace({
-                          query: {
-                            ...router.query,
-                            currentTab: TabEnum.import,
-                            source: ImportDataSourceEnum.fileLocal,
-                            doc_type: 'video'
-                          }
-                        });
-                      }
-                    }
-                  ]
+                    <Flex
+                      alignItems={'center'}
+                      px={5}
+                      py={2}
+                      borderRadius={'md'}
+                      cursor={'pointer'}
+                      bg={'primary.500'}
+                      overflow={'hidden'}
+                      color={'white'}
+                      h={['28px', '35px']}
+                    >
+                      <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
+                      <Box>{t('dataset.collections.Create And Import')}</Box>
+                    </Flex>
+                  </MenuButton>
                 }
-              ]}
-            />
+                menuList={[
+                  {
+                    children: [
+                      {
+                        label: <Flex>通用文档</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'general'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>故障码</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'error_code'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>图表</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'diagram'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>车辆外观</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'forklift_appearance'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>视频</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'video'
+                            }
+                          });
+                        }
+                      }
+                    ]
+                  }
+                ]}
+              />
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
+                onClick={() => {
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    showTagModal();
+                  }
+                }}
+              >
+                <Box>批量设置标签</Box>
+              </Flex>
+            </>
           )}
           {datasetDetail?.type === DatasetTypeEnum.websiteDataset && (
             <>
@@ -429,9 +461,6 @@ const Header = ({}: {}) => {
       )}
       <EditCreateVirtualFileModal iconSrc={'modal/manualDataset'} closeBtnText={''} />
       {isOpenFileSourceSelector && <FileSourceSelector onClose={onCloseFileSourceSelector} />}
-      {isOpenTagModal && (
-        <ChooseTagModal onClose={onCloseTagModal} isOpen={isOpenTagModal} onSubmit={onSubmit} />
-      )}
     </Flex>
   );
 };

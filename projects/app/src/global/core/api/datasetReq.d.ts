@@ -32,6 +32,12 @@ export type UpdateDatasetCollectionParams = {
   tagInfo?: TagItemType[];
 };
 
+export type BatchUpdateDatasetCollectionTag = {
+  idList: string[];
+  parentId?: string;
+  tagInfo?: TagItemType[];
+};
+
 /* ==== data ===== */
 export type GetDatasetDataListProps = RequestPaging & {
   searchText?: string;

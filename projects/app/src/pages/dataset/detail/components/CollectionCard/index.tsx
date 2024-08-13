@@ -20,7 +20,8 @@ import {
   putDatasetCollectionById,
   postLinkCollectionSync,
   delAdDatasetDocs,
-  vectorizeAdDatasetsDocs
+  vectorizeAdDatasetsDocs,
+  batchUpdateDatasetCollectionTags
 } from '@/web/core/dataset/api';
 import { useQuery } from '@tanstack/react-query';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
@@ -239,6 +240,21 @@ const CollectionCard = () => {
     );
   };
 
+  const { mutate: batchUpdateCollectionTag, isLoading: batchUpdateTagLoading } = useRequest({
+    mutationFn: ({ idList, tagInfo }: { idList: string[]; tagInfo: TagItemType[] }) => {
+      return batchUpdateDatasetCollectionTags({
+        idList,
+        tagInfo
+      });
+    },
+    onSuccess() {
+      getData(pageNum);
+    },
+
+    successToast: '标签批量设置成功',
+    errorToast: '标签批量设置失败'
+  });
+
   const onSubmit = (result: FormTagValues) => {
     if (currentCollection) {
       //更新数据库中的tagInfo  updateDatasetCollectionTagInfo
@@ -247,13 +263,22 @@ const CollectionCard = () => {
         tagInfo: result.values
       });
     }
+    if (selectedItems && selectedItems.length > 0) {
+      //更新数据库中的tagInfo
+      batchUpdateCollectionTag({ idList: selectedItems, tagInfo: result.values });
+    }
+  };
+
+  const showTagModal = () => {
+    setCurrentCollection(undefined);
+    onOpenTagModal();
   };
 
   return (
-    <MyBox isLoading={isLoading} h={'100%'} py={[2, 4]}>
+    <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'100%'} py={[2, 4]}>
       <Flex ref={BoxRef} flexDirection={'column'} py={[1, 3]} h={'100%'}>
         {/* header */}
-        <Header />
+        <Header selectedItems={selectedItems} showTagModal={showTagModal} />
 
         {/* collection table */}
         <TableContainer
@@ -491,6 +516,7 @@ const CollectionCard = () => {
                                 ),
                                 type: 'primary',
                                 onClick: () => {
+                                  setValue('selectedItems', []);
                                   onOpenTagModal();
                                   setCurrentCollection(collection);
                                 }
