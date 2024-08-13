@@ -209,7 +209,6 @@ function List() {
                       }
                     });
                   } else {
-                    console.log('爱动dataset', dataset);
                     router.push({
                       pathname: '/dataset/detail',
                       query: {
