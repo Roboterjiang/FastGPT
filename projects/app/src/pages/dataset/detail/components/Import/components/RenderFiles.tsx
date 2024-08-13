@@ -13,7 +13,10 @@ import {
   Progress,
   IconButton,
   HStack,
-  useDisclosure
+  useDisclosure,
+  Button,
+  Box,
+  Checkbox
 } from '@chakra-ui/react';
 import { ImportSourceItemType } from '@/web/core/dataset/type.d';
 import MyIcon from '@fastgpt/web/components/common/Icon';
@@ -41,6 +44,8 @@ export const RenderUploadFiles = ({
   const [previewFile, setPreviewFile] = useState<ImportSourceItemType>();
   const [tagFile, setTagFile] = useState<ImportSourceItemType>();
 
+  const [selectFileIds, setSelectFileIds] = useState<string[]>([]);
+
   const {
     isOpen: isOpenTagModal,
     onOpen: onOpenTagModal,
@@ -48,19 +53,53 @@ export const RenderUploadFiles = ({
   } = useDisclosure();
 
   const onSubmit = (result: FormTagValues) => {
+    console.log('result', result);
     if (tagFile) {
       setFiles((state) =>
         state.map((file) => (file.id === tagFile.id ? { ...file, tagInfo: result.values } : file))
       );
+    }
+    if (selectFileIds && selectFileIds.length > 0) {
+      setFiles((state) =>
+        state.map((file) =>
+          selectFileIds?.includes(file.id) ? { ...file, tagInfo: result.values } : file
+        )
+      );
+    }
+  };
+
+  const batchSetTag = () => {
+    onOpenTagModal();
+    setTagFile(undefined);
+    if (selectFileIds.length === 0) {
+      setSelectFileIds(files.map((file) => file.id));
+    }
+  };
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectFileIds(files.map((item) => item.id));
+    } else {
+      setSelectFileIds([]);
     }
   };
 
   return files.length > 0 ? (
     <>
       <TableContainer mt={5}>
+        <Box textAlign={'right'} mb={4}>
+          <Button onClick={batchSetTag}>批量设置标签</Button>
+        </Box>
         <Table variant={'simple'} fontSize={'sm'} draggable={false}>
           <Thead draggable={false}>
             <Tr bg={'myGray.100'} mb={2}>
+              <Th py={4}>
+                <Checkbox
+                  isChecked={files.length > 0 && selectFileIds.length === files.length}
+                  isIndeterminate={selectFileIds.length > 0 && selectFileIds.length < files.length}
+                  onChange={handleSelectAll}
+                />
+              </Th>
               <Th borderLeftRadius={'md'} borderBottom={'none'} py={4}>
                 {fileT('File Name')}
               </Th>
@@ -82,6 +121,17 @@ export const RenderUploadFiles = ({
             {files.map((item) => (
               <Tr key={item.id}>
                 <Td>
+                  <Checkbox
+                    isChecked={selectFileIds.includes(item.id)}
+                    onChange={(e) => {
+                      const newValue = e.target.checked
+                        ? [...selectFileIds, item.id]
+                        : selectFileIds.filter((id: string) => id !== item.id);
+                      setSelectFileIds(newValue);
+                    }}
+                  />
+                </Td>
+                <Td>
                   <Flex alignItems={'center'}>
                     <MyIcon name={item.icon as any} w={'16px'} mr={1} />
                     {item.sourceName}
@@ -92,7 +142,6 @@ export const RenderUploadFiles = ({
                     <HStack spacing={2}>
                       {item.tagInfo?.map((tag, index) => (
                         <Tag key={index} variant="solid" colorScheme="primary" borderRadius="full">
-                          {/* <TagLabel>{tag.tagValue}</TagLabel> */}
                           {tag.tagValue}
                         </Tag>
                       ))}
@@ -152,6 +201,7 @@ export const RenderUploadFiles = ({
                           //弹框出现
                           onOpenTagModal();
                           setTagFile(item);
+                          setSelectFileIds([]);
                         }}
                       />
                     </Flex>
