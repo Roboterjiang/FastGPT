@@ -26,6 +26,8 @@ type AppListContextType = {
   paths: ParentTreePathItemType[];
   onUpdateApp: (id: string, data: AppUpdateParams) => Promise<any>;
   setMoveAppId: React.Dispatch<React.SetStateAction<string | undefined>>;
+  searchKey: string;
+  setSearchKey: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const AppListContext = createContext<AppListContextType>({
@@ -43,7 +45,11 @@ export const AppListContext = createContext<AppListContextType>({
   setMoveAppId: function (value: React.SetStateAction<string | undefined>): void {
     throw new Error('Function not implemented.');
   },
-  appType: 'ALL'
+  appType: 'ALL',
+  searchKey: '',
+  setSearchKey: function (value: React.SetStateAction<string>): void {
+    throw new Error('Function not implemented.');
+  }
 });
 
 const AppListContextProvider = ({ children }: { children: ReactNode }) => {
@@ -53,6 +59,8 @@ const AppListContextProvider = ({ children }: { children: ReactNode }) => {
     parentId?: string | null;
     type: AppTypeEnum;
   };
+
+  const [searchKey, setSearchKey] = useState('');
 
   const {
     data = [],
@@ -68,12 +76,12 @@ const AppListContextProvider = ({ children }: { children: ReactNode }) => {
         return [AppTypeEnum.folder, type];
       })();
 
-      return getMyApps({ parentId, type: formatType });
+      return getMyApps({ parentId, type: formatType, searchKey });
     },
     {
       manual: false,
       refreshOnWindowFocus: true,
-      refreshDeps: [parentId, type]
+      refreshDeps: [searchKey, parentId, type]
     }
   );
 
@@ -133,7 +141,9 @@ const AppListContextProvider = ({ children }: { children: ReactNode }) => {
     folderDetail,
     paths,
     onUpdateApp,
-    setMoveAppId
+    setMoveAppId,
+    searchKey,
+    setSearchKey
   };
   return (
     <AppListContext.Provider value={contextValue}>
