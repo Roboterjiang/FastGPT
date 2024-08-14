@@ -141,7 +141,13 @@ export const RenderUploadFiles = ({
                   <Flex alignItems={'center'}>
                     <HStack spacing={2}>
                       {item.tagInfo?.map((tag, index) => (
-                        <Tag key={index} variant="solid" colorScheme="primary" borderRadius="full">
+                        <Tag
+                          size={'sm'}
+                          key={index}
+                          variant="solid"
+                          colorScheme="primary"
+                          borderRadius="full"
+                        >
                           {tag.tagValue}
                         </Tag>
                       ))}
