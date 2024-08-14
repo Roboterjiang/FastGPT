@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
-import { Box, Flex, Image, Button, useDisclosure } from '@chakra-ui/react';
+import React, { useState, useMemo } from 'react';
+import {
+  Box,
+  Flex,
+  Image,
+  Button,
+  useDisclosure,
+  Input,
+  InputGroup,
+  InputLeftElement
+} from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import PageContainer from '@/components/PageContainer';
 import { useTranslation } from 'next-i18next';
@@ -32,6 +41,8 @@ import {
 } from '@/web/core/dataset/api/collaborator';
 import { on } from 'events';
 
+import { useI18n } from '@/web/context/I18n';
+
 const EditFolderModal = dynamic(
   () => import('@fastgpt/web/components/common/MyModal/EditFolderModal')
 );
@@ -41,6 +52,9 @@ const CreateModal = dynamic(() => import('./component/CreateModal'));
 const Dataset = () => {
   const { isPc } = useSystemStore();
   const { t } = useTranslation();
+
+  const { datasetT } = useI18n();
+
   const router = useRouter();
   const { parentId } = router.query as { parentId: string };
 
@@ -54,11 +68,33 @@ const Dataset = () => {
     folderDetail,
     setEditedDataset,
     setMoveDatasetId,
-    onDelDataset
+    onDelDataset,
+    searchKey,
+    setSearchKey
   } = useContextSelector(DatasetsContext, (v) => v);
   const { userInfo } = useUserStore();
 
   const [editFolderData, setEditFolderData] = useState<EditFolderFormType>();
+
+  const RenderSearchInput = useMemo(
+    () => (
+      <InputGroup maxW={['auto', '250px']} height={'36px'}>
+        <InputLeftElement h={'full'} alignItems={'center'} display={'flex'}>
+          <MyIcon name={'common/searchLight'} w={'1rem'} />
+        </InputLeftElement>
+        <Input
+          value={searchKey}
+          size={'md'}
+          h={'36px'}
+          onChange={(e) => setSearchKey(e.target.value)}
+          placeholder={datasetT('Search dataset')}
+          maxLength={30}
+          bg={'white'}
+        />
+      </InputGroup>
+    ),
+    [searchKey, setSearchKey]
+  );
 
   const {
     isOpen: isOpenCreateModal,
@@ -92,49 +128,14 @@ const Dataset = () => {
                 });
               }}
             />
+            {isPc && RenderSearchInput}
             {userInfo?.team?.permission.hasWritePer && (
-              <Button variant={'primary'} px="0" onClick={onOpenCreateModal}>
+              <Button ml={3} variant={'primary'} px="0" onClick={onOpenCreateModal}>
                 <Flex alignItems={'center'} px={'20px'}>
                   <AddIcon mr={2} />
                   <Box>{t('common.Create New')}</Box>
                 </Flex>
               </Button>
-              //   <MyMenu
-              //     offset={[-30, 5]}
-              //     width={120}
-              //     Button={
-              //       <Button variant={'primary'} px="0">
-              //         <Flex alignItems={'center'} px={'20px'}>
-              //           <AddIcon mr={2} />
-              //           <Box>{t('common.Create New')}</Box>
-              //         </Flex>
-              //       </Button>
-              //     }
-              //     menuList={[
-              //       {
-              //         children: [
-              //           {
-              //             label: (
-              //               <Flex>
-              //                 <MyIcon name={FolderIcon} w={'20px'} mr={1} />
-              //                 {t('Folder')}
-              //               </Flex>
-              //             ),
-              //             onClick: () => setEditFolderData({})
-              //           },
-              //           {
-              //             label: (
-              //               <Flex>
-              //                 <Image src={'/imgs/workflow/db.png'} alt={''} w={'20px'} mr={1} />
-              //                 {t('core.dataset.Dataset')}
-              //               </Flex>
-              //             ),
-              //             onClick: onOpenCreateModal
-              //           }
-              //         ]
-              //       }
-              //     ]}
-              //   />
             )}
           </Flex>
           <Box flexGrow={1}>
