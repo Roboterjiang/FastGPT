@@ -112,7 +112,12 @@ const SelectFile = React.memo(function SelectFile({
       />
 
       {/* render files */}
-      <RenderUploadFiles files={selectFiles} setFiles={setSelectFiles} showPreviewContent />
+      <RenderUploadFiles
+        files={selectFiles}
+        kb_id={kb_id}
+        setFiles={setSelectFiles}
+        showPreviewContent
+      />
 
       <Box textAlign={'right'} mt={5}>
         <Button isDisabled={successFiles.length === 0 || uploading} onClick={onclickNext}>

@@ -173,12 +173,10 @@ const FileSelector = ({
     }
   });
 
-  const hasDuplicates = (selectFiles: any, files: any, serverNames: any) => {
-    const selectFileNames = selectFiles.map((item: any) => item.file.name);
+  const hasDuplicates = (files: any, serverNames: any) => {
     const fileNames = files.map((item: any) => item.file.name);
-    const tempFileNames = selectFileNames.concat(fileNames);
-    const finalNames = tempFileNames.concat(serverNames);
-    console.log('爱动finalNames', finalNames);
+    const finalNames = fileNames.concat(serverNames);
+    // console.log('爱动finalNames', finalNames);
     const uniqueNames = new Set(finalNames);
     return finalNames.length !== uniqueNames.size;
   };
@@ -189,7 +187,7 @@ const FileSelector = ({
       if (result && result.data && result.data.length > 0) {
         let serverFilesNames = result.data.map((item: any) => item.file_name);
         //新增爱动判断，文件名不可以重复
-        if (hasDuplicates(selectFiles, files, serverFilesNames)) {
+        if (hasDuplicates(files, serverFilesNames)) {
           toast({
             status: 'warning',
             title: '知识库中所有的文件名都不可重复'
