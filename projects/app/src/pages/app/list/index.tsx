@@ -1,5 +1,13 @@
-import React, { useCallback, useState } from 'react';
-import { Box, Flex, Button, useDisclosure } from '@chakra-ui/react';
+import React, { useCallback, useState, useMemo } from 'react';
+import {
+  Box,
+  Flex,
+  Button,
+  useDisclosure,
+  Input,
+  InputGroup,
+  InputLeftElement
+} from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
 import { serviceSideProps } from '@/web/common/utils/i18n';
 import { useUserStore } from '@/web/support/user/useUserStore';
@@ -33,6 +41,7 @@ import type { CreateAppType } from './components/CreateModal';
 import { AppTypeEnum } from '@fastgpt/global/core/app/constants';
 import MyBox from '@fastgpt/web/components/common/MyBox';
 import LightRowTabs from '@fastgpt/web/components/common/Tabs/LightRowTabs';
+import MyIcon from '@fastgpt/web/components/common/Icon';
 
 const CreateModal = dynamic(() => import('./components/CreateModal'));
 const EditFolderModal = dynamic(
@@ -54,7 +63,9 @@ const MyApps = () => {
     onUpdateApp,
     setMoveAppId,
     isFetchingApps,
-    folderDetail
+    folderDetail,
+    searchKey,
+    setSearchKey
   } = useContextSelector(AppListContext, (v) => v);
   const { userInfo } = useUserStore();
 
@@ -83,13 +94,28 @@ const MyApps = () => {
     errorToast: 'Error'
   });
 
+  const RenderSearchInput = useMemo(
+    () => (
+      <InputGroup maxW={['auto', '250px']} height={'36px'}>
+        <InputLeftElement h={'full'} alignItems={'center'} display={'flex'}>
+          <MyIcon name={'common/searchLight'} w={'1rem'} />
+        </InputLeftElement>
+        <Input
+          value={searchKey}
+          size={'md'}
+          h={'36px'}
+          onChange={(e) => setSearchKey(e.target.value)}
+          placeholder={appT('Search app')}
+          maxLength={30}
+          bg={'white'}
+        />
+      </InputGroup>
+    ),
+    [searchKey, setSearchKey, appT]
+  );
+
   return (
-    <MyBox
-      display={'flex'}
-      flexDirection={'column'}
-      isLoading={myApps.length === 0 && isFetchingApps}
-      h={'100%'}
-    >
+    <Flex flexDirection={'column'} h={'100%'}>
       {paths.length > 0 && (
         <Box pt={[4, 6]} pl={3}>
           <FolderPath
@@ -154,10 +180,14 @@ const MyApps = () => {
                 });
               }}
             />
+            <Box flex={1} />
+
+            {isPc && RenderSearchInput}
 
             {userInfo?.team.permission.hasWritePer &&
               folderDetail?.type !== AppTypeEnum.httpPlugin && (
                 <Button
+                  ml={3}
                   variant={'primary'}
                   leftIcon={<AddIcon />}
                   onClick={() => {
@@ -166,58 +196,12 @@ const MyApps = () => {
                 >
                   <Box>{t('common.Create New')}</Box>
                 </Button>
-
-                // <MyMenu
-                //   iconSize="1.5rem"
-                //   Button={
-                //     <Button variant={'primary'} leftIcon={<AddIcon />}>
-                //       <Box>{t('common.Create New')}</Box>
-                //     </Button>
-                //   }
-                //   menuList={[
-                //     {
-                //       children: [
-                //         {
-                //           icon: 'core/app/simpleBot',
-                //           label: appT('type.Simple bot'),
-                //           description: appT('type.Create simple bot tip'),
-                //           onClick: () => setCreateAppType(AppTypeEnum.simple)
-                //         },
-                //         {
-                //           icon: 'core/app/type/workflowFill',
-                //           label: appT('type.Workflow bot'),
-                //           description: appT('type.Create workflow tip'),
-                //           onClick: () => setCreateAppType(AppTypeEnum.workflow)
-                //         },
-                //         {
-                //           icon: 'core/app/type/pluginFill',
-                //           label: appT('type.Plugin'),
-                //           description: appT('type.Create one plugin tip'),
-                //           onClick: () => setCreateAppType(AppTypeEnum.plugin)
-                //         },
-                //         {
-                //           icon: 'core/app/type/httpPluginFill',
-                //           label: appT('type.Http plugin'),
-                //           description: appT('type.Create http plugin tip'),
-                //           onClick: onOpenCreateHttpPlugin
-                //         }
-                //       ]
-                //     },
-                //     {
-                //       children: [
-                //         {
-                //           icon: FolderIcon,
-                //           label: t('Folder'),
-                //           onClick: () => setEditFolder({})
-                //         }
-                //       ]
-                //     }
-                //   ]}
-                // />
               )}
           </Flex>
-
-          <List />
+          {!isPc && <Box mt={2}>{RenderSearchInput}</Box>}
+          <MyBox flex={'1 0 0'} isLoading={myApps.length === 0 && isFetchingApps}>
+            <List />
+          </MyBox>
         </Box>
         {!!folderDetail && isPc && (
           <Box pt={[4, 6]} pr={[4, 6]}>
@@ -282,7 +266,7 @@ const MyApps = () => {
         <CreateModal type={createAppType} onClose={() => setCreateAppType(undefined)} />
       )}
       {isOpenCreateHttpPlugin && <HttpEditModal onClose={onCloseCreateHttpPlugin} />}
-    </MyBox>
+    </Flex>
   );
 };
 
