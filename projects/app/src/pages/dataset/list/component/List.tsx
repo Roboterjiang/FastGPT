@@ -209,7 +209,6 @@ function List() {
                       }
                     });
                   } else {
-                    console.log('爱动dataset', dataset);
                     router.push({
                       pathname: '/dataset/detail',
                       query: {
@@ -254,50 +253,50 @@ function List() {
                         </Box>
                       }
                       menuList={[
-                        {
-                          children: [
-                            // {
-                            //   icon: 'edit',
-                            //   label: commonT('dataset.Edit Info'),
-                            //   onClick: () =>
-                            //     setEditedDataset({
-                            //       id: dataset._id,
-                            //       name: dataset.name,
-                            //       intro: dataset.intro,
-                            //       avatar: dataset.avatar
-                            //     })
-                            // },
-                            // {
-                            //   icon: 'common/file/move',
-                            //   label: t('Move'),
-                            //   onClick: () => setMoveDatasetId(dataset._id)
-                            // },
-                            // ...(dataset.permission.hasManagePer
-                            //   ? [
-                            //       {
-                            //         icon: 'support/team/key',
-                            //         label: t('permission.Permission'),
-                            //         onClick: () => setEditPerDatasetIndex(index)
-                            //       }
-                            //     ]
-                            //   : [])
-                          ]
-                        },
-                        ...(dataset.type != DatasetTypeEnum.folder
-                          ? [
-                              {
-                                children: [
-                                  {
-                                    icon: 'export',
-                                    label: t('Export'),
-                                    onClick: () => {
-                                      exportDataset(dataset);
-                                    }
-                                  }
-                                ]
-                              }
-                            ]
-                          : []),
+                        // {
+                        //   children: [
+                        // {
+                        //   icon: 'edit',
+                        //   label: commonT('dataset.Edit Info'),
+                        //   onClick: () =>
+                        //     setEditedDataset({
+                        //       id: dataset._id,
+                        //       name: dataset.name,
+                        //       intro: dataset.intro,
+                        //       avatar: dataset.avatar
+                        //     })
+                        // },
+                        // {
+                        //   icon: 'common/file/move',
+                        //   label: t('Move'),
+                        //   onClick: () => setMoveDatasetId(dataset._id)
+                        // },
+                        // ...(dataset.permission.hasManagePer
+                        //   ? [
+                        //       {
+                        //         icon: 'support/team/key',
+                        //         label: t('permission.Permission'),
+                        //         onClick: () => setEditPerDatasetIndex(index)
+                        //       }
+                        //     ]
+                        //   : [])
+                        //   ]
+                        // },
+                        // ...(dataset.type != DatasetTypeEnum.folder
+                        //   ? [
+                        //       {
+                        //         children: [
+                        //           {
+                        //             icon: 'export',
+                        //             label: t('Export'),
+                        //             onClick: () => {
+                        //               exportDataset(dataset);
+                        //             }
+                        //           }
+                        //         ]
+                        //       }
+                        //     ]
+                        //   : []),
                         ...(dataset.permission.hasManagePer
                           ? [
                               {

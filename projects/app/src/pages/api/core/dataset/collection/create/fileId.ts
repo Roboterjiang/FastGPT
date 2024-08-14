@@ -31,6 +31,7 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
     chunkSplitter,
     qaPrompt,
     tagInfo,
+    fileName,
     ...body
   } = req.body;
 
@@ -45,18 +46,18 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
   });
 
   // 1. read file
-  const { rawText, filename } = await readFileContentFromMongo({
-    teamId,
-    bucketName: BucketNameEnum.dataset,
-    fileId
-  });
+  //   const { rawText, filename } = await readFileContentFromMongo({
+  //     teamId,
+  //     bucketName: BucketNameEnum.dataset,
+  //     fileId
+  //   });
   // 2. split chunks
-  const chunks = rawText2Chunks({
-    rawText,
-    chunkLen: chunkSize,
-    overlapRatio: trainingType === TrainingModeEnum.chunk ? 0.2 : 0,
-    customReg: chunkSplitter ? [chunkSplitter] : []
-  });
+  //   const chunks = rawText2Chunks({
+  //     rawText,
+  //     chunkLen: chunkSize,
+  //     overlapRatio: trainingType === TrainingModeEnum.chunk ? 0.2 : 0,
+  //     customReg: chunkSplitter ? [chunkSplitter] : []
+  //   });
 
   // 3. auth limit
   //   await checkDatasetLimit({
@@ -71,8 +72,8 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
       teamId,
       tmbId,
       type: DatasetCollectionTypeEnum.file,
-      name: filename,
-      fileId,
+      name: fileName,
+      //   fileId,
       adFileId,
       tagInfo,
       metadata: {
@@ -85,8 +86,8 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
       chunkSplitter,
       qaPrompt,
 
-      hashRawText: hashStr(rawText),
-      rawTextLength: rawText.length,
+      //   hashRawText: hashStr(rawText),
+      //   rawTextLength: rawText.length,
       session
     });
 
@@ -101,7 +102,7 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
     //   session
     // });
 
-    console.log('爱动加入索引队列');
+    // console.log('爱动加入索引队列');
 
     // 6. insert to training queue
     // await pushDataListToTrainingQueue({

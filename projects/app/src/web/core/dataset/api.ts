@@ -11,7 +11,8 @@ import type {
 import type {
   GetDatasetCollectionsProps,
   GetDatasetDataListProps,
-  UpdateDatasetCollectionParams
+  UpdateDatasetCollectionParams,
+  BatchUpdateDatasetCollectionTag
 } from '@/global/core/api/datasetReq.d';
 import type {
   CreateDatasetCollectionParams,
@@ -222,3 +223,7 @@ export const vectorizeAdDatasetsDocs = (
   adFileId: string,
   lang: string
 ) => POST(`/aidong/kbqa/emb_kb`, { user_id: 'user' + user_id, kb_id, file_ids: [adFileId], lang });
+
+export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollectionTag) => {
+  return POST(`/core/dataset/collection/batchUpdateTag`, data);
+};

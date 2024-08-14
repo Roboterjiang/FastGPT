@@ -36,13 +36,21 @@ const Upload = dynamic(() => import('../commonProgress/Upload'));
 
 const fileType = '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx';
 
-const FileLocal = ({ datasetId, kb_id }: { datasetId: string; kb_id: string }) => {
+const FileLocal = ({
+  datasetId,
+  kb_id,
+  doc_type
+}: {
+  datasetId: string;
+  kb_id: string;
+  doc_type: string;
+}) => {
   const activeStep = useContextSelector(DatasetImportContext, (v) => v.activeStep);
 
   return (
     <>
-      {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} />}
-      {activeStep === 1 && <DataProcess showPreviewChunks={true} />}
+      {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} doc_type={doc_type} />}
+      {activeStep === 1 && <DataProcess showPreviewChunks={false} />}
       {activeStep === 2 && <Upload kb_id={kb_id} />}
     </>
   );
@@ -52,10 +60,12 @@ export default React.memo(FileLocal);
 
 const SelectFile = React.memo(function SelectFile({
   datasetId,
-  kb_id
+  kb_id,
+  doc_type
 }: {
   datasetId: string;
   kb_id: string;
+  doc_type: string;
 }) {
   //   console.log('爱动SelectFile', datasetId + '---' + kb_id);
   const { t } = useTranslation();
@@ -82,10 +92,16 @@ const SelectFile = React.memo(function SelectFile({
     goToNext();
   }, [goToNext]);
 
+  const newFileType =
+    doc_type === 'video'
+      ? '.mp4, .rm, .rmvb, .3gp, .avi, .wmv'
+      : '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx, .jpg, .jpeg, .png, .gif, .webp, .bmp, .svg';
+
   return (
     <Box>
       <FileSelector
-        fileType={fileType}
+        fileType={newFileType}
+        doc_type={doc_type}
         selectFiles={selectFiles}
         setSelectFiles={setSelectFiles}
         datasetId={datasetId}
