@@ -37,7 +37,7 @@ import {
   DatasetStatusEnum,
   DatasetCollectionSyncResultMap
 } from '@fastgpt/global/core/dataset/constants';
-import { getCollectionIcon } from '@fastgpt/global/core/dataset/utils';
+import { getCollectionIcon, getDocType } from '@fastgpt/global/core/dataset/utils';
 import { TabEnum } from '../../index';
 import dynamic from 'next/dynamic';
 import { useDrag } from '@/web/common/hooks/useDrag';
@@ -306,6 +306,7 @@ const CollectionCard = () => {
                 </Th>
                 <Th py={4}>#</Th>
                 <Th py={4}>{t('common.Name')}</Th>
+                <Th py={4}>{'文档类型'}</Th>
                 <Th py={4}>标签</Th>
                 <Th py={4}>{t('core.dataset.Sync Time')}</Th>
                 <Th py={4}>{t('common.Status')}</Th>
@@ -383,6 +384,7 @@ const CollectionCard = () => {
                       </MyTooltip>
                     </Flex>
                   </Td>
+                  <Td w={'50px'}>{getDocType(collection.doc_type)}</Td>
                   <Td>{getTagInfo(collection)}</Td>
                   <Td>{dayjs(collection.updateTime).format('YYYY/MM/DD HH:mm')}</Td>
                   <Td>

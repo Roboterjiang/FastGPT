@@ -101,6 +101,7 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
         item.trainingAmount = findItem.status == 'green' ? 0 : 5;
         //表示向量化状态  1进行中 2.成功  3.失败
         item.status = findItem.status == 'green' ? 2 : findItem.status == 'red' ? 3 : 1;
+        item.doc_type = findItem.doc_type;
       }
     });
   }
