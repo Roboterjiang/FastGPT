@@ -232,7 +232,7 @@ const CollectionCard = () => {
     return (
       <HStack spacing={2}>
         {collection.tagInfo?.map((tag, index) => (
-          <Tag key={index} variant="solid" colorScheme="primary" borderRadius="full">
+          <Tag size={'sm'} key={index} variant="solid" colorScheme="primary" borderRadius="full">
             {tag.tagValue}
           </Tag>
         ))}
