@@ -15,10 +15,14 @@ import { DatasetDefaultPermissionVal } from '@fastgpt/global/support/permission/
 import { ParentIdType } from '@fastgpt/global/common/parentFolder/type';
 import { parseParentIdInMongo } from '@fastgpt/global/common/parentFolder/utils';
 
-export type GetDatasetListBody = { parentId: ParentIdType; type?: DatasetTypeEnum };
+export type GetDatasetListBody = {
+  parentId: ParentIdType;
+  searchKey?: string;
+  type?: DatasetTypeEnum;
+};
 
 async function handler(req: NextApiRequest) {
-  const { parentId, type } = req.body as GetDatasetListBody;
+  const { parentId, type, searchKey } = req.body as GetDatasetListBody;
   // 凭证校验
   const {
     teamId,
@@ -31,12 +35,27 @@ async function handler(req: NextApiRequest) {
     per: ReadPermissionVal
   });
 
-  const [myDatasets, rpList] = await Promise.all([
-    MongoDataset.find({
+  const findDataSetQuery = (() => {
+    const searchMatch = searchKey
+      ? {
+          $or: [
+            { name: { $regex: searchKey, $options: 'i' } },
+            { intro: { $regex: searchKey, $options: 'i' } }
+          ]
+        }
+      : {};
+
+    return {
       teamId,
+      ...(type && Array.isArray(type) && { type: { $in: type } }),
+      ...(type && { type }),
       ...parseParentIdInMongo(parentId),
-      ...(type && { type })
-    })
+      ...searchMatch
+    };
+  })();
+
+  const [myDatasets, rpList] = await Promise.all([
+    MongoDataset.find(findDataSetQuery)
       .sort({
         updateTime: -1
       })
