@@ -59,11 +59,11 @@ export const getDocType = (docType: string) => {
     case 'general':
       return '通用文档';
     case 'error_code':
-      return '通故障码用文档';
+      return '故障码';
     case 'diagram':
       return '图表';
-    case 'forklift_appearance':
-      return '车辆外观';
+    case 'appearance':
+      return '外观';
     case 'video':
       return '视频';
 

@@ -279,14 +279,14 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>车辆外观</Flex>,
+                        label: <Flex>外观</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
                               ...router.query,
                               currentTab: TabEnum.import,
                               source: ImportDataSourceEnum.fileLocal,
-                              doc_type: 'forklift_appearance'
+                              doc_type: 'appearance'
                             }
                           });
                         }
