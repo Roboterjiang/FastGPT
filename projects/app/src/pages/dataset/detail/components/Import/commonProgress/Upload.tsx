@@ -96,7 +96,7 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
             fileId: item.dbFileId
           });
           //创建成功后，对单个文件进行向量化
-          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, item.dbFileId, lang);
+          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, [item.dbFileId]);
         } else if (importSource === ImportDataSourceEnum.fileLink && item.link) {
           await postCreateDatasetLinkCollection({
             ...commonParams,

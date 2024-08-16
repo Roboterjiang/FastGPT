@@ -10,18 +10,8 @@ import { RenderUploadFiles } from '../components/RenderFiles';
 import { useContextSelector } from 'use-context-selector';
 import { DatasetImportContext } from '../Context';
 
-import { useRequest } from '@fastgpt/web/hooks/useRequest';
-import { uploadFile2AidongDB, uploadFile2DB } from '@/web/common/file/controller';
-import { formatFileSize } from '@fastgpt/global/common/file/tools';
-import { getFileIcon } from '@fastgpt/global/common/file/icon';
-import { useUserStore } from '@/web/support/user/useUserStore';
-import { BucketNameEnum } from '@fastgpt/global/common/file/constants';
 import { useRouter } from 'next/router';
 import { useToast } from '@fastgpt/web/hooks/useToast';
-
-import { postCreateDatasetFileCollection, vectorizeAdDatasetsDocs } from '@/web/core/dataset/api';
-
-import { TabEnum } from '../../../index';
 
 export type SelectFileItemType = {
   fileId: string;
