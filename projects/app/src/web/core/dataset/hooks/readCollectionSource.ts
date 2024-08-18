@@ -32,3 +32,30 @@ export function getCollectionSourceAndOpen(collectionId: string) {
     setLoading(false);
   };
 }
+
+export function getAdCollectionSourceAndOpen(fileUrl: string) {
+  const { toast } = useToast();
+  const { t } = useTranslation();
+  const { setLoading } = useSystemStore();
+
+  return async () => {
+    try {
+      setLoading(true);
+
+      if (!fileUrl) {
+        throw new Error('No file found');
+      }
+      if (fileUrl.startsWith('/')) {
+        window.open(`${location.origin}${fileUrl}`, '_blank');
+      } else {
+        window.open(fileUrl, '_blank');
+      }
+    } catch (error) {
+      toast({
+        title: getErrText(error, t('error.fileNotFound')),
+        status: 'error'
+      });
+    }
+    setLoading(false);
+  };
+}

@@ -105,14 +105,6 @@ const ChatItem = ({
             if (!source && chat.value.length > 1) return null;
 
             if (
-              chat.responseData &&
-              chat.responseData.length > 0 &&
-              chat.responseData[0].imageList
-            ) {
-              const imageStrchat = chat.responseData[0].imageList.join('');
-              source = source + imageStrchat;
-            }
-            if (
               isLastChild &&
               !isChatting &&
               questionGuides.length > 0 &&

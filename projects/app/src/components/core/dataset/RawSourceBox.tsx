@@ -2,7 +2,10 @@ import React, { useMemo } from 'react';
 import { Box, BoxProps } from '@chakra-ui/react';
 import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import { useTranslation } from 'next-i18next';
-import { getCollectionSourceAndOpen } from '@/web/core/dataset/hooks/readCollectionSource';
+import {
+  getCollectionSourceAndOpen,
+  getAdCollectionSourceAndOpen
+} from '@/web/core/dataset/hooks/readCollectionSource';
 import { getSourceNameIcon } from '@fastgpt/global/core/dataset/utils';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import { useI18n } from '@/web/context/I18n';
@@ -12,6 +15,7 @@ type Props = BoxProps & {
   collectionId: string;
   sourceId?: string;
   canView?: boolean;
+  fileUrl?: string;
 };
 
 const RawSourceBox = ({
@@ -19,6 +23,7 @@ const RawSourceBox = ({
   collectionId,
   sourceName = '',
   canView = true,
+  fileUrl,
   ...props
 }: Props) => {
   const { t } = useTranslation();
@@ -27,7 +32,8 @@ const RawSourceBox = ({
   const canPreview = !!sourceId && canView;
 
   const icon = useMemo(() => getSourceNameIcon({ sourceId, sourceName }), [sourceId, sourceName]);
-  const read = getCollectionSourceAndOpen(collectionId);
+  //   const read = getCollectionSourceAndOpen(collectionId);
+  const read = getAdCollectionSourceAndOpen(fileUrl || '');
 
   return (
     <MyTooltip

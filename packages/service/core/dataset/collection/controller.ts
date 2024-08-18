@@ -30,7 +30,7 @@ export async function createOneCollection({
   chunkSplitter,
   qaPrompt,
 
-  fileId,
+  //   fileId,
   adFileId,
   tagInfo,
   rawLink,
@@ -66,7 +66,7 @@ export async function createOneCollection({
         chunkSplitter,
         qaPrompt,
 
-        fileId,
+        // fileId,
         adFileId,
         tagInfo,
         rawLink,
@@ -143,16 +143,16 @@ export const delCollectionRelatedSource = async ({
 
   if (!teamId) return Promise.reject('teamId is not exist');
 
-  const fileIdList = collections.map((item) => item?.fileId || '').filter(Boolean);
+  //   const fileIdList = collections.map((item) => item?.adFileId || '').filter(Boolean);
   const relatedImageIds = collections
     .map((item) => item?.metadata?.relatedImgId || '')
     .filter(Boolean);
 
   // delete files
-  await delFileByFileIdList({
-    bucketName: BucketNameEnum.dataset,
-    fileIdList
-  });
+  //   await delFileByFileIdList({
+  //     bucketName: BucketNameEnum.dataset,
+  //     fileIdList
+  //   });
   // delete images
   await delImgByRelatedId({
     teamId,

@@ -10,18 +10,8 @@ import { RenderUploadFiles } from '../components/RenderFiles';
 import { useContextSelector } from 'use-context-selector';
 import { DatasetImportContext } from '../Context';
 
-import { useRequest } from '@fastgpt/web/hooks/useRequest';
-import { uploadFile2AidongDB, uploadFile2DB } from '@/web/common/file/controller';
-import { formatFileSize } from '@fastgpt/global/common/file/tools';
-import { getFileIcon } from '@fastgpt/global/common/file/icon';
-import { useUserStore } from '@/web/support/user/useUserStore';
-import { BucketNameEnum } from '@fastgpt/global/common/file/constants';
 import { useRouter } from 'next/router';
 import { useToast } from '@fastgpt/web/hooks/useToast';
-
-import { postCreateDatasetFileCollection, vectorizeAdDatasetsDocs } from '@/web/core/dataset/api';
-
-import { TabEnum } from '../../../index';
 
 export type SelectFileItemType = {
   fileId: string;
@@ -36,14 +26,22 @@ const Upload = dynamic(() => import('../commonProgress/Upload'));
 
 const fileType = '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx';
 
-const FileLocal = ({ datasetId, kb_id }: { datasetId: string; kb_id: string }) => {
+const FileLocal = ({
+  datasetId,
+  kb_id,
+  doc_type
+}: {
+  datasetId: string;
+  kb_id: string;
+  doc_type: string;
+}) => {
   const activeStep = useContextSelector(DatasetImportContext, (v) => v.activeStep);
 
   return (
     <>
-      {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} />}
-      {activeStep === 1 && <DataProcess showPreviewChunks={true} />}
-      {activeStep === 2 && <Upload kb_id={kb_id} />}
+      {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} doc_type={doc_type} />}
+      {/* {activeStep === 1 && <DataProcess showPreviewChunks={false} />} */}
+      {activeStep === 1 && <Upload kb_id={kb_id} />}
     </>
   );
 };
@@ -52,10 +50,12 @@ export default React.memo(FileLocal);
 
 const SelectFile = React.memo(function SelectFile({
   datasetId,
-  kb_id
+  kb_id,
+  doc_type
 }: {
   datasetId: string;
   kb_id: string;
+  doc_type: string;
 }) {
   //   console.log('爱动SelectFile', datasetId + '---' + kb_id);
   const { t } = useTranslation();
@@ -82,10 +82,16 @@ const SelectFile = React.memo(function SelectFile({
     goToNext();
   }, [goToNext]);
 
+  const newFileType =
+    doc_type === 'video'
+      ? '.mp4, .rm, .rmvb, .3gp, .avi, .wmv'
+      : '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx, .jpg, .jpeg, .png, .gif, .webp, .bmp, .svg';
+
   return (
     <Box>
       <FileSelector
-        fileType={fileType}
+        fileType={newFileType}
+        doc_type={doc_type}
         selectFiles={selectFiles}
         setSelectFiles={setSelectFiles}
         datasetId={datasetId}
@@ -96,7 +102,12 @@ const SelectFile = React.memo(function SelectFile({
       />
 
       {/* render files */}
-      <RenderUploadFiles files={selectFiles} setFiles={setSelectFiles} showPreviewContent />
+      <RenderUploadFiles
+        files={selectFiles}
+        kb_id={kb_id}
+        setFiles={setSelectFiles}
+        showPreviewContent
+      />
 
       <Box textAlign={'right'} mt={5}>
         <Button isDisabled={successFiles.length === 0 || uploading} onClick={onclickNext}>

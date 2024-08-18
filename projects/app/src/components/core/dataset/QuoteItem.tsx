@@ -225,6 +225,7 @@ const QuoteItem = ({
               sourceName={quoteItem.sourceName}
               sourceId={quoteItem.sourceId}
               canView={canViewSource}
+              fileUrl={quoteItem.fileUrl}
             />
             <Box flex={1} />
             {quoteItem.id && (

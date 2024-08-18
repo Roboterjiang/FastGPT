@@ -84,7 +84,7 @@ const FormLayout = ({ children, setPageType, pageType }: Props) => {
         </Flex>
         <Box ml={3} fontSize={['2xl', '3xl']} fontWeight={'bold'}>
           {/* {feConfigs?.systemTitle} */}
-          中力GPT
+          KION-GPT
         </Box>
       </Flex>
       {children}

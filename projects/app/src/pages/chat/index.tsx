@@ -102,12 +102,15 @@ const Chat = ({
         data: {
           question: prompts?.find((x) => x.role === 'user')?.content,
           messages: prompts,
-          history,
           variables,
           appId,
           chatId: completionChatId,
+          history,
           user_id: 'user' + userInfo?._id,
           kb_ids: kb_ids
+          // history:[],
+          // user_id:"user66b1847b62eafd837ec06e5d",
+          // kb_ids:['kb3f6ac6bf38e74d76b84455843f70d054']
         },
         onMessage: generatingMessage,
         abortCtrl: controller

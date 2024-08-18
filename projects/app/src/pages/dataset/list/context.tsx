@@ -36,6 +36,8 @@ export type DatasetContextType = {
   editedDataset?: EditResourceInfoFormType;
   setEditedDataset: (data?: EditResourceInfoFormType) => void;
   onDelDataset: (id: string, kb_id: string) => Promise<void>;
+  searchKey: string;
+  setSearchKey: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const DatasetsContext = createContext<DatasetContextType>({
@@ -48,7 +50,11 @@ export const DatasetsContext = createContext<DatasetContextType>({
   folderDetail: {} as any,
   editedDataset: {} as any,
   setEditedDataset: () => {},
-  onDelDataset: () => Promise.resolve()
+  onDelDataset: () => Promise.resolve(),
+  searchKey: '',
+  setSearchKey: function (value: React.SetStateAction<string>): void {
+    throw new Error('Function not implemented.');
+  }
 });
 
 function DatasetContextProvider({ children }: { children: React.ReactNode }) {
@@ -58,6 +64,8 @@ function DatasetContextProvider({ children }: { children: React.ReactNode }) {
 
   const { parentId = null } = router.query as { parentId?: string | null };
   const { myDatasets, loadMyDatasets } = useDatasetStore();
+
+  const [searchKey, setSearchKey] = useState('');
 
   const { data: folderDetail, runAsync: refetchFolderDetail } = useRequest2(
     () => (parentId ? getDatasetById(parentId) : Promise.resolve(undefined)),
@@ -87,10 +95,10 @@ function DatasetContextProvider({ children }: { children: React.ReactNode }) {
   );
 
   const { runAsync: refetchDatasets, loading: isFetchingDatasets } = useRequest2(
-    () => loadMyDatasets(parentId ?? undefined),
+    () => loadMyDatasets(parentId ?? undefined, searchKey ?? undefined),
     {
       manual: false,
-      refreshDeps: [parentId]
+      refreshDeps: [searchKey, parentId]
     }
   );
 
@@ -131,7 +139,9 @@ function DatasetContextProvider({ children }: { children: React.ReactNode }) {
     folderDetail,
     editedDataset,
     setEditedDataset,
-    onDelDataset
+    onDelDataset,
+    searchKey,
+    setSearchKey
   };
 
   return (

@@ -29,6 +29,7 @@ const FileSelector = ({
   selectFiles,
   datasetId,
   kb_id,
+  doc_type,
   setSelectFiles,
   onStartSelect,
   onFinishSelect,
@@ -39,6 +40,7 @@ const FileSelector = ({
   selectFiles: ImportSourceItemType[];
   datasetId: string;
   kb_id: string;
+  doc_type: string;
   setSelectFiles: React.Dispatch<React.SetStateAction<ImportSourceItemType[]>>;
   onStartSelect: () => void;
   onFinishSelect: () => void;
@@ -50,7 +52,7 @@ const FileSelector = ({
   const { toast } = useToast();
   const { feConfigs } = useSystemStore();
 
-  const maxCount = feConfigs?.uploadFileMaxAmount || 1000;
+  const maxCount = feConfigs?.uploadFileMaxAmount || 50;
   const maxSize = (feConfigs?.uploadFileMaxSize || 1024) * 1024 * 1024;
 
   const { userInfo } = useUserStore();
@@ -104,9 +106,27 @@ const FileSelector = ({
           // upload file
           await Promise.all(
             files.map(async ({ fileId, file }) => {
-              const uploadFileId = await uploadFile2DB({
-                file,
-                bucketName: BucketNameEnum.dataset,
+              //   const uploadFileId = await uploadFile2DB({
+              //     file,
+              //     bucketName: BucketNameEnum.dataset,
+              //     percentListen: (e) => {
+              //       setSelectFiles((state) =>
+              //         state.map((item) =>
+              //           item.id === fileId
+              //             ? {
+              //                 ...item,
+              //                 uploadedFileRate: e
+              //               }
+              //             : item
+              //         )
+              //       );
+              //     }
+              //   });
+              const uploadInfo = await uploadFile2AidongDB({
+                kb_id: kb_id,
+                user_id: userInfo._id,
+                file: file,
+                doc_type: doc_type,
                 percentListen: (e) => {
                   setSelectFiles((state) =>
                     state.map((item) =>
@@ -120,18 +140,21 @@ const FileSelector = ({
                   );
                 }
               });
-              setSelectFiles((state) =>
-                state.map((item) =>
-                  item.id === fileId
-                    ? {
-                        ...item,
-                        dbFileId: uploadFileId,
-                        isUploading: false
-                      }
-                    : item
-                )
-              );
-              totalUploadFiles++;
+              if (uploadInfo.data && uploadInfo.data.length > 0) {
+                const serverFileId = uploadInfo.data[0].file_id;
+                setSelectFiles((state) =>
+                  state.map((item) =>
+                    item.id === fileId
+                      ? {
+                          ...item,
+                          dbFileId: serverFileId,
+                          isUploading: false
+                        }
+                      : item
+                  )
+                );
+                totalUploadFiles++;
+              }
             })
           );
         } catch (error) {
@@ -150,12 +173,10 @@ const FileSelector = ({
     }
   });
 
-  const hasDuplicates = (selectFiles: any, files: any, serverNames: any) => {
-    const selectFileNames = selectFiles.map((item: any) => item.file.name);
+  const hasDuplicates = (files: any, serverNames: any) => {
     const fileNames = files.map((item: any) => item.file.name);
-    const tempFileNames = selectFileNames.concat(fileNames);
-    const finalNames = tempFileNames.concat(serverNames);
-    console.log('finalNames', finalNames);
+    const finalNames = fileNames.concat(serverNames);
+    // console.log('爱动finalNames', finalNames);
     const uniqueNames = new Set(finalNames);
     return finalNames.length !== uniqueNames.size;
   };
@@ -166,7 +187,7 @@ const FileSelector = ({
       if (result && result.data && result.data.length > 0) {
         let serverFilesNames = result.data.map((item: any) => item.file_name);
         //新增爱动判断，文件名不可以重复
-        if (hasDuplicates(selectFiles, files, serverFilesNames)) {
+        if (hasDuplicates(files, serverFilesNames)) {
           toast({
             status: 'warning',
             title: '知识库中所有的文件名都不可重复'

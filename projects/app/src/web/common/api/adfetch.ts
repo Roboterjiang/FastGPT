@@ -40,7 +40,6 @@ export const adStreamFetch = ({
 
     // response data
     let responseText = '';
-    let responseImageList: string[] = [];
     let responseQueue: (
       | { event: SseResponseEventEnum.fastAnswer | SseResponseEventEnum.answer; text: string }
       | {
@@ -197,13 +196,16 @@ export const adStreamFetch = ({
                   sourceId: x.file_id,
                   collectionId: x.file_id,
                   a: x.content,
-                  q: x.retrieval_query
+                  q: x.retrieval_query,
+                  fileUrl: x.file
                 };
               });
               parseJson.source_documents.forEach((x) => {
-                if (x.image) {
-                  const tempdata = 'data:image/png;base64,' + x.image;
-                  responseImageList.push(`<img src="${tempdata}" />`);
+                if (x.file) {
+                  responseQueue.push({
+                    event: aidongEvent,
+                    text: `[${x.file_name}](${x.file})`
+                  });
                 }
               });
               responseData = [
@@ -211,7 +213,6 @@ export const adStreamFetch = ({
                   nodeId: new Date().getTime() + '',
                   moduleName: '知识库检索',
                   moduleType: FlowNodeTypeEnum.datasetSearchNode,
-                  imageList: responseImageList,
                   quoteList
                 }
               ];

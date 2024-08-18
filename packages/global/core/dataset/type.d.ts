@@ -178,6 +178,7 @@ export type DatasetDataItemType = {
   indexes: DatasetDataIndexItemType[];
   isOwner: boolean;
   canWrite: boolean;
+  fileUrl?: string;
 };
 
 /* --------------- file ---------------------- */

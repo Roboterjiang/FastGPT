@@ -1,9 +1,21 @@
 import React, { useCallback, useRef } from 'react';
-import { Box, Flex, MenuButton, Button, Link, useTheme, useDisclosure } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  MenuButton,
+  Button,
+  Link,
+  useTheme,
+  useDisclosure,
+  Toast
+} from '@chakra-ui/react';
 import {
   getDatasetCollectionPathById,
   postDatasetCollection,
-  putDatasetCollectionById
+  putDatasetCollectionById,
+  batchDelAdDatasetDocs,
+  batchDelDatasetCollectionByIds,
+  vectorizeAdDatasetsDocs
 } from '@/web/core/dataset/api';
 import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
@@ -31,20 +43,32 @@ import { ImportDataSourceEnum } from '@fastgpt/global/core/dataset/constants';
 import { useContextSelector } from 'use-context-selector';
 import { CollectionPageContext } from './Context';
 import { DatasetPageContext } from '@/web/core/dataset/context/datasetPageContext';
-import { TagItemType } from '@fastgpt/global/core/tag/type';
+import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
+import { useToast } from '@fastgpt/web/hooks/useToast';
+import { useUserStore } from '@/web/support/user/useUserStore';
 
 const FileSourceSelector = dynamic(() => import('../Import/components/FileSourceSelector'));
 
-//动态引入ChooseTagModal
-const ChooseTagModal = dynamic(() => import('../SelectTagModal'));
-
-const Header = ({}: {}) => {
+const Header = ({
+  selectedItems,
+  selectFileIds,
+  showTagModal,
+  onBatchDeleteSuccess
+}: {
+  selectedItems: string[];
+  selectFileIds: string[];
+  showTagModal: () => void;
+  onBatchDeleteSuccess: () => void;
+}) => {
   const { t } = useTranslation();
   const theme = useTheme();
   const { setLoading } = useSystemStore();
+
+  const { toast } = useToast();
   const datasetDetail = useContextSelector(DatasetPageContext, (v) => v.datasetDetail);
 
   const router = useRouter();
+  const { userInfo } = useUserStore();
   const { parentId = '' } = router.query as { parentId: string; datasetId: string };
   const { isPc } = useSystemStore();
 
@@ -73,17 +97,22 @@ const Header = ({}: {}) => {
       canEmpty: false
     });
 
+  const { openConfirm: openBatchDeleteConfirm, ConfirmModal: ConfirmBatchDeleteModal } = useConfirm(
+    {
+      content: '确定要批量删除选中文件？',
+      type: 'delete'
+    }
+  );
+
+  const { openConfirm: openBatchEmConfirm, ConfirmModal: ConfirmBatchEmModal } = useConfirm({
+    content: '确定要批量索引选中文件？',
+    type: 'delete'
+  });
+
   const {
     isOpen: isOpenFileSourceSelector,
     onOpen: onOpenFileSourceSelector,
     onClose: onCloseFileSourceSelector
-  } = useDisclosure();
-
-  //标签弹窗
-  const {
-    isOpen: isOpenTagModal,
-    onOpen: onOpenTagModal,
-    onClose: onCloseTagModal
   } = useDisclosure();
 
   const { mutate: onCreateCollection } = useRequest({
@@ -121,10 +150,6 @@ const Header = ({}: {}) => {
     successToast: t('common.Create Success'),
     errorToast: t('common.Create Failed')
   });
-
-  const onSubmit = (result: TagItemType[]) => {
-    console.log('提交result', result);
-  };
 
   return (
     <Flex px={[2, 6]} alignItems={'flex-start'} h={'35px'}>
@@ -206,40 +231,221 @@ const Header = ({}: {}) => {
       {datasetDetail.permission.hasWritePer && (
         <>
           {datasetDetail?.type === DatasetTypeEnum.dataset && (
-            <Box>
-              {/* <Button
-                _hover={{
-                  color: 'primary.500'
-                }}
-                fontSize={['sm', 'md']}
+            <>
+              <MyMenu
+                offset={[0, 5]}
+                Button={
+                  <MenuButton
+                    _hover={{
+                      color: 'primary.500'
+                    }}
+                    fontSize={['sm', 'md']}
+                  >
+                    <Flex
+                      alignItems={'center'}
+                      px={5}
+                      py={2}
+                      borderRadius={'md'}
+                      cursor={'pointer'}
+                      bg={'primary.500'}
+                      overflow={'hidden'}
+                      color={'white'}
+                      h={['28px', '35px']}
+                    >
+                      <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
+                      <Box>{t('dataset.collections.Create And Import')}</Box>
+                    </Flex>
+                  </MenuButton>
+                }
+                menuList={[
+                  {
+                    children: [
+                      {
+                        label: <Flex>通用文档</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'general'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>故障码</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'error_code'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>图表</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'diagram'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>外观</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'appearance'
+                            }
+                          });
+                        }
+                      },
+                      {
+                        label: <Flex>视频</Flex>,
+                        onClick: () => {
+                          router.replace({
+                            query: {
+                              ...router.query,
+                              currentTab: TabEnum.import,
+                              source: ImportDataSourceEnum.fileLocal,
+                              doc_type: 'video'
+                            }
+                          });
+                        }
+                      }
+                    ]
+                  }
+                ]}
+              />
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
                 onClick={() => {
-                  onOpenTagModal();
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    showTagModal();
+                  }
                 }}
               >
-                <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
-                <Box>批量设置tag</Box>
-              </Button> */}
-              <Button
-                ml={4}
-                _hover={{
-                  color: 'primary.500'
-                }}
-                fontSize={['sm', 'md']}
+                <Box>批量设置标签</Box>
+              </Flex>
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
                 onClick={() => {
-                  // onOpenTagModal();
-                  router.replace({
-                    query: {
-                      ...router.query,
-                      currentTab: TabEnum.import,
-                      source: ImportDataSourceEnum.fileLocal
-                    }
-                  });
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    //批量删除
+                    openBatchDeleteConfirm(async () => {
+                      const userId = userInfo?._id || '';
+                      const kb_id = router.query.kb_id || '';
+                      const result = await batchDelAdDatasetDocs(userId, kb_id, selectFileIds);
+                      if (result && result.status == 'success') {
+                        //批量删除collection
+                        await batchDelDatasetCollectionByIds({ ids: selectedItems });
+                        toast({
+                          status: 'success',
+                          title: '批量删除成功'
+                        });
+                        onBatchDeleteSuccess();
+                      } else {
+                        toast({
+                          status: 'error',
+                          title: result.message ? result.message : '删除失败'
+                        });
+                      }
+                    })();
+                  }
                 }}
               >
-                <MyIcon name={'common/importLight'} mr={2} w={'14px'} />
-                <Box>{t('dataset.collections.Create And Import')}</Box>
-              </Button>
-            </Box>
+                <Box>批量删除</Box>
+              </Flex>
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
+                onClick={() => {
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    //批量索引
+
+                    openBatchEmConfirm(async () => {
+                      const userId = userInfo?._id || '';
+                      const kb_id = router.query.kb_id || '';
+                      const result = await vectorizeAdDatasetsDocs(userId, kb_id, selectFileIds);
+                      if (result && result.status == 'success') {
+                        //批量删除collection
+                        toast({
+                          status: 'success',
+                          title: '批量索引成功'
+                        });
+                        onBatchDeleteSuccess();
+                      } else {
+                        toast({
+                          status: 'error',
+                          title: result.message ? result.message : '删除失败'
+                        });
+                      }
+                    })();
+                  }
+                }}
+              >
+                <Box>批量索引</Box>
+              </Flex>
+            </>
           )}
           {datasetDetail?.type === DatasetTypeEnum.websiteDataset && (
             <>
@@ -366,9 +572,8 @@ const Header = ({}: {}) => {
       )}
       <EditCreateVirtualFileModal iconSrc={'modal/manualDataset'} closeBtnText={''} />
       {isOpenFileSourceSelector && <FileSourceSelector onClose={onCloseFileSourceSelector} />}
-      {isOpenTagModal && (
-        <ChooseTagModal onClose={onCloseTagModal} isOpen={isOpenTagModal} onSubmit={onSubmit} />
-      )}
+      <ConfirmBatchDeleteModal />
+      <ConfirmBatchEmModal />
     </Flex>
   );
 };

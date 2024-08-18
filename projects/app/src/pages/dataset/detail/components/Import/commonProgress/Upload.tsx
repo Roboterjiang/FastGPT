@@ -64,76 +64,63 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
           )
         );
         console.log('爱动开始上传文件', item);
-        const uploadInfo = await uploadFile2AidongDB({
-          kb_id: kb_id,
-          user_id: userInfo._id,
-          file: item.file,
-          doc_type: mode
-        });
-
-        if (uploadInfo.status !== 'success') {
-          //上传异常
-          return new Promise((resolve, reject) => reject());
+        const commonParams = {
+          parentId,
+          trainingType: TrainingModeEnum.chunk,
+          datasetId: datasetDetail._id,
+          chunkSize: 512,
+          chunkSplitter: '',
+          qaPrompt: '',
+          name: item.sourceName,
+          adFileId: item.dbFileId,
+          tagInfo: item.tagInfo,
+          fileName: item.sourceName
+        };
+        if (importSource === ImportDataSourceEnum.fileLocal && item.dbFileId) {
+          await postCreateDatasetFileCollection({
+            ...commonParams,
+            fileId: item.dbFileId
+          });
+          //创建成功后，对单个文件进行向量化
+          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, [item.dbFileId]);
+        } else if (importSource === ImportDataSourceEnum.fileLink && item.link) {
+          await postCreateDatasetLinkCollection({
+            ...commonParams,
+            link: item.link,
+            metadata: {
+              webPageSelector: webSelector
+            }
+          });
+        } else if (importSource === ImportDataSourceEnum.fileCustom && item.rawText) {
+          // manual collection
+          await postCreateDatasetTextCollection({
+            ...commonParams,
+            text: item.rawText
+          });
+        } else if (importSource === ImportDataSourceEnum.csvTable && item.dbFileId) {
+          await postCreateDatasetCsvTableCollection({
+            ...commonParams,
+            fileId: item.dbFileId
+          });
+        } else if (importSource === ImportDataSourceEnum.externalFile && item.externalFileUrl) {
+          await postCreateDatasetExternalFileCollection({
+            ...commonParams,
+            externalFileUrl: item.externalFileUrl,
+            externalFileId: item.externalFileId,
+            filename: item.sourceName
+          });
         }
-        if (uploadInfo.data && uploadInfo.data.length > 0) {
-          const serverFileId = uploadInfo.data[0].file_id;
-          // create collection
-          const commonParams = {
-            parentId,
-            trainingType: TrainingModeEnum.chunk,
-            datasetId: datasetDetail._id,
-            chunkSize,
-            chunkSplitter: customSplitChar,
-            qaPrompt,
-            name: item.sourceName,
-            adFileId: serverFileId,
-            tagInfo: item.tagInfo
-          };
-          if (importSource === ImportDataSourceEnum.fileLocal && item.dbFileId) {
-            await postCreateDatasetFileCollection({
-              ...commonParams,
-              fileId: item.dbFileId
-            });
-            //创建成功后，对单个文件进行向量化
-            await vectorizeAdDatasetsDocs(userInfo._id, kb_id, serverFileId, lang);
-          } else if (importSource === ImportDataSourceEnum.fileLink && item.link) {
-            await postCreateDatasetLinkCollection({
-              ...commonParams,
-              link: item.link,
-              metadata: {
-                webPageSelector: webSelector
-              }
-            });
-          } else if (importSource === ImportDataSourceEnum.fileCustom && item.rawText) {
-            // manual collection
-            await postCreateDatasetTextCollection({
-              ...commonParams,
-              text: item.rawText
-            });
-          } else if (importSource === ImportDataSourceEnum.csvTable && item.dbFileId) {
-            await postCreateDatasetCsvTableCollection({
-              ...commonParams,
-              fileId: item.dbFileId
-            });
-          } else if (importSource === ImportDataSourceEnum.externalFile && item.externalFileUrl) {
-            await postCreateDatasetExternalFileCollection({
-              ...commonParams,
-              externalFileUrl: item.externalFileUrl,
-              externalFileId: item.externalFileId,
-              filename: item.sourceName
-            });
-          }
-          setSources((state) =>
-            state.map((source) =>
-              source.id === item.id
-                ? {
-                    ...source,
-                    createStatus: 'finish'
-                  }
-                : source
-            )
-          );
-        }
+        setSources((state) =>
+          state.map((source) =>
+            source.id === item.id
+              ? {
+                  ...source,
+                  createStatus: 'finish'
+                }
+              : source
+          )
+        );
+        // }
       }
     },
     onSuccess() {
