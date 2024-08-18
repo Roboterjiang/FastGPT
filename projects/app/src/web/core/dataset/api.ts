@@ -91,20 +91,16 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
     data
   );
   const aidongResult = await getAdDatasetsDocs(data.user_id, data.kb_id);
-
-  //   console.log('爱动aidongResult', aidongResult);
-
   if (aidongResult && aidongResult.data && result.data.length > 0) {
     result.data.forEach((item) => {
       const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
       if (findItem) {
-        item.trainingAmount = findItem.status == 'green' ? 0 : 5;
         //表示向量化状态  1进行中 2.成功  3.失败
         item.status = findItem.status == 'green' ? 2 : findItem.status == 'red' ? 3 : 1;
+        item.doc_type = findItem.doc_type;
       }
     });
   }
-  //   console.log('爱动fastgptResult', result);
   return new Promise((resolve, reject) => {
     resolve(result);
   });
@@ -138,6 +134,9 @@ export const putDatasetCollectionById = (data: UpdateDatasetCollectionParams) =>
   POST(`/core/dataset/collection/update`, data);
 export const delDatasetCollectionById = (params: { id: string }) =>
   DELETE(`/core/dataset/collection/delete`, params);
+
+export const batchDelDatasetCollectionByIds = (params: { ids: string[] }) =>
+  POST(`/core/dataset/collection/batchDelete`, params);
 export const postLinkCollectionSync = (collectionId: string) =>
   POST<`${DatasetCollectionSyncResultEnum}`>(`/core/dataset/collection/sync/link`, {
     collectionId
@@ -210,6 +209,9 @@ export const insertChatItem2DB = (requestData: any) => POST(`/v1/chat/adcompleti
 export const delAdDatasetDocs = (user_id: string, kb_id: string, adFileId: string) =>
   DELETE(`/aidong/kbqa/docs`, { user_id: 'user' + user_id, kb_id, file_ids: [adFileId] });
 
+export const batchDelAdDatasetDocs = (user_id: string, kb_id: string, file_ids: string[]) =>
+  DELETE(`/aidong/kbqa/docs`, { user_id: 'user' + user_id, kb_id, file_ids: file_ids });
+
 /**获取单个知识库的文档列表 */
 export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
   GET<Object>('/aidong/kbqa/docs', { user_id: 'user' + user_id, kb_id });
@@ -217,12 +219,8 @@ export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
  *
  *向量化指定文件
  *  */
-export const vectorizeAdDatasetsDocs = (
-  user_id: string,
-  kb_id: string,
-  adFileId: string,
-  lang: string
-) => POST(`/aidong/kbqa/emb_kb`, { user_id: 'user' + user_id, kb_id, file_ids: [adFileId], lang });
+export const vectorizeAdDatasetsDocs = (user_id: string, kb_id: string, adFileIds: string[]) =>
+  POST(`/aidong/kbqa/emb_kb`, { user_id: 'user' + user_id, kb_id, file_ids: adFileIds });
 
 export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollectionTag) => {
   return POST(`/core/dataset/collection/batchUpdateTag`, data);

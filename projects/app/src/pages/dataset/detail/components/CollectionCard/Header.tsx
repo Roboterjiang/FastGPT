@@ -12,7 +12,10 @@ import {
 import {
   getDatasetCollectionPathById,
   postDatasetCollection,
-  putDatasetCollectionById
+  putDatasetCollectionById,
+  batchDelAdDatasetDocs,
+  batchDelDatasetCollectionByIds,
+  vectorizeAdDatasetsDocs
 } from '@/web/core/dataset/api';
 import { useQuery } from '@tanstack/react-query';
 import { debounce } from 'lodash';
@@ -40,17 +43,22 @@ import { ImportDataSourceEnum } from '@fastgpt/global/core/dataset/constants';
 import { useContextSelector } from 'use-context-selector';
 import { CollectionPageContext } from './Context';
 import { DatasetPageContext } from '@/web/core/dataset/context/datasetPageContext';
-
+import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
 import { useToast } from '@fastgpt/web/hooks/useToast';
+import { useUserStore } from '@/web/support/user/useUserStore';
 
 const FileSourceSelector = dynamic(() => import('../Import/components/FileSourceSelector'));
 
 const Header = ({
   selectedItems,
-  showTagModal
+  selectFileIds,
+  showTagModal,
+  onBatchDeleteSuccess
 }: {
   selectedItems: string[];
+  selectFileIds: string[];
   showTagModal: () => void;
+  onBatchDeleteSuccess: () => void;
 }) => {
   const { t } = useTranslation();
   const theme = useTheme();
@@ -60,6 +68,7 @@ const Header = ({
   const datasetDetail = useContextSelector(DatasetPageContext, (v) => v.datasetDetail);
 
   const router = useRouter();
+  const { userInfo } = useUserStore();
   const { parentId = '' } = router.query as { parentId: string; datasetId: string };
   const { isPc } = useSystemStore();
 
@@ -87,6 +96,18 @@ const Header = ({
       tip: t('dataset.Manual collection Tip'),
       canEmpty: false
     });
+
+  const { openConfirm: openBatchDeleteConfirm, ConfirmModal: ConfirmBatchDeleteModal } = useConfirm(
+    {
+      content: '确定要批量删除选中文件？',
+      type: 'delete'
+    }
+  );
+
+  const { openConfirm: openBatchEmConfirm, ConfirmModal: ConfirmBatchEmModal } = useConfirm({
+    content: '确定要批量索引选中文件？',
+    type: 'delete'
+  });
 
   const {
     isOpen: isOpenFileSourceSelector,
@@ -279,14 +300,14 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>车辆外观</Flex>,
+                        label: <Flex>外观</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
                               ...router.query,
                               currentTab: TabEnum.import,
                               source: ImportDataSourceEnum.fileLocal,
-                              doc_type: 'forklift_appearance'
+                              doc_type: 'appearance'
                             }
                           });
                         }
@@ -333,6 +354,96 @@ const Header = ({
                 }}
               >
                 <Box>批量设置标签</Box>
+              </Flex>
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
+                onClick={() => {
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    //批量删除
+                    openBatchDeleteConfirm(async () => {
+                      const userId = userInfo?._id || '';
+                      const kb_id = router.query.kb_id || '';
+                      const result = await batchDelAdDatasetDocs(userId, kb_id, selectFileIds);
+                      if (result && result.status == 'success') {
+                        //批量删除collection
+                        await batchDelDatasetCollectionByIds({ ids: selectedItems });
+                        toast({
+                          status: 'success',
+                          title: '批量删除成功'
+                        });
+                        onBatchDeleteSuccess();
+                      } else {
+                        toast({
+                          status: 'error',
+                          title: result.message ? result.message : '删除失败'
+                        });
+                      }
+                    })();
+                  }
+                }}
+              >
+                <Box>批量删除</Box>
+              </Flex>
+
+              <Flex
+                alignItems={'center'}
+                px={5}
+                py={2}
+                ml={3}
+                borderRadius={'md'}
+                cursor={'pointer'}
+                bg={'primary.500'}
+                overflow={'hidden'}
+                color={'white'}
+                h={['28px', '35px']}
+                onClick={() => {
+                  if (selectedItems.length == 0) {
+                    toast({
+                      status: 'warning',
+                      title: '请先选择数据'
+                    });
+                    return;
+                  } else {
+                    //批量索引
+
+                    openBatchEmConfirm(async () => {
+                      const userId = userInfo?._id || '';
+                      const kb_id = router.query.kb_id || '';
+                      const result = await vectorizeAdDatasetsDocs(userId, kb_id, selectFileIds);
+                      if (result && result.status == 'success') {
+                        //批量删除collection
+                        toast({
+                          status: 'success',
+                          title: '批量索引成功'
+                        });
+                        onBatchDeleteSuccess();
+                      } else {
+                        toast({
+                          status: 'error',
+                          title: result.message ? result.message : '删除失败'
+                        });
+                      }
+                    })();
+                  }
+                }}
+              >
+                <Box>批量索引</Box>
               </Flex>
             </>
           )}
@@ -461,6 +572,8 @@ const Header = ({
       )}
       <EditCreateVirtualFileModal iconSrc={'modal/manualDataset'} closeBtnText={''} />
       {isOpenFileSourceSelector && <FileSourceSelector onClose={onCloseFileSourceSelector} />}
+      <ConfirmBatchDeleteModal />
+      <ConfirmBatchEmModal />
     </Flex>
   );
 };

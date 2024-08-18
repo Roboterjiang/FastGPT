@@ -25,6 +25,10 @@ import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import dynamic from 'next/dynamic';
 import { useI18n } from '@/web/context/I18n';
 import { FormTagValues } from '@fastgpt/global/core/tag/type';
+import { useUserStore } from '@/web/support/user/useUserStore';
+import { useToast } from '@fastgpt/web/hooks/useToast';
+
+import { delAdDatasetDocs } from '@/web/core/dataset/api';
 
 const PreviewRawText = dynamic(() => import('./PreviewRawText'));
 
@@ -33,17 +37,20 @@ const SelectTagModal = dynamic(() => import('../../SelectTagModal'));
 export const RenderUploadFiles = ({
   files,
   setFiles,
+  kb_id,
   showPreviewContent
 }: {
   files: ImportSourceItemType[];
   setFiles: React.Dispatch<React.SetStateAction<ImportSourceItemType[]>>;
+  kb_id: string;
   showPreviewContent?: boolean;
 }) => {
   const { t } = useTranslation();
   const { fileT } = useI18n();
+  const { userInfo } = useUserStore();
   const [previewFile, setPreviewFile] = useState<ImportSourceItemType>();
   const [tagFile, setTagFile] = useState<ImportSourceItemType>();
-
+  const { toast } = useToast();
   const [selectFileIds, setSelectFileIds] = useState<string[]>([]);
 
   const {
@@ -53,7 +60,6 @@ export const RenderUploadFiles = ({
   } = useDisclosure();
 
   const onSubmit = (result: FormTagValues) => {
-    console.log('result', result);
     if (tagFile) {
       setFiles((state) =>
         state.map((file) => (file.id === tagFile.id ? { ...file, tagInfo: result.values } : file))
@@ -193,8 +199,17 @@ export const RenderUploadFiles = ({
                         size={'sm'}
                         icon={<MyIcon name={'delete'} w={'14px'} />}
                         aria-label={''}
-                        onClick={() => {
-                          setFiles((state) => state.filter((file) => file.id !== item.id));
+                        onClick={async () => {
+                          //删除文档
+                          const result = await delAdDatasetDocs(userInfo._id, kb_id, item.dbFileId);
+                          if (result && result.status == 'success') {
+                            setFiles((state) => state.filter((file) => file.id !== item.id));
+                          } else {
+                            toast({
+                              status: 'error',
+                              title: '删除数据失败，请重试'
+                            });
+                          }
                         }}
                       />
 

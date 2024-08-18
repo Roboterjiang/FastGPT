@@ -37,7 +37,7 @@ import {
   DatasetStatusEnum,
   DatasetCollectionSyncResultMap
 } from '@fastgpt/global/core/dataset/constants';
-import { getCollectionIcon } from '@fastgpt/global/core/dataset/utils';
+import { getCollectionIcon, getDocType } from '@fastgpt/global/core/dataset/utils';
 import { TabEnum } from '../../index';
 import dynamic from 'next/dynamic';
 import { useDrag } from '@/web/common/hooks/useDrag';
@@ -55,6 +55,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { DatasetCollectionsListItemType } from '@/global/core/dataset/type';
 import { FormTagValues, TagItemType } from '@fastgpt/global/core/tag/type';
 import { ImportSourceItemType } from '@/web/core/dataset/type';
+import { number } from 'echarts';
 
 const Header = dynamic(() => import('./Header'));
 const EmptyCollectionTip = dynamic(() => import('./EmptyCollectionTip'));
@@ -72,11 +73,13 @@ const CollectionCard = () => {
   const { t } = useTranslation();
   const { datasetDetail, loadDatasetDetail } = useContextSelector(DatasetPageContext, (v) => v);
   const [currentCollection, setCurrentCollection] = useState<DatasetCollectionsListItemType>();
+  const [selectFileIds, setSelectFileIds] = useState<string[]>([]);
 
   const { openConfirm: openDeleteConfirm, ConfirmModal: ConfirmDeleteModal } = useConfirm({
     content: t('dataset.Confirm to delete the file'),
     type: 'delete'
   });
+
   const { openConfirm: openSyncConfirm, ConfirmModal: ConfirmSyncModal } = useConfirm({
     content: t('core.dataset.collection.Start Sync Tip')
   });
@@ -108,12 +111,8 @@ const CollectionCard = () => {
       collections.map((collection) => {
         const icon = getCollectionIcon(collection.type, collection.name);
         const status = (() => {
-          //   if (collection.trainingAmount > 0) {
           if (collection.status == 1) {
             return {
-              //   statusText: t('dataset.collections.Collection Embedding', {
-              //     total: collection.trainingAmount
-              //   }),
               statusText: '索引中',
               color: 'myGray.600',
               bg: 'myGray.50',
@@ -186,7 +185,7 @@ const CollectionCard = () => {
   });
 
   const hasTrainingData = useMemo(
-    () => !!formatCollections.find((item) => item.trainingAmount > 0),
+    () => !!formatCollections.find((item) => item.status == 1), //向量化进行中
     [formatCollections]
   );
   const isLoading = useMemo(
@@ -197,7 +196,7 @@ const CollectionCard = () => {
   useQuery(
     ['refreshCollection'],
     () => {
-      getData(1);
+      getData(pageNum);
       if (datasetDetail.status === DatasetStatusEnum.syncing) {
         loadDatasetDetail(datasetDetail._id);
       }
@@ -218,14 +217,19 @@ const CollectionCard = () => {
   const selectedItems = watch('selectedItems');
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //索引进行中的不可选中
+    const collectionIds = formatCollections
+      .filter((item) => item.status != 1)
+      .map((item) => item._id);
     if (e.target.checked) {
-      setValue(
-        'selectedItems',
-        formatCollections.map((item) => item._id)
-      );
+      setValue('selectedItems', collectionIds);
     } else {
       setValue('selectedItems', []);
     }
+    const adFileIds = formatCollections
+      .filter((item) => item.status != 1)
+      .map((item) => item.adFileId);
+    setSelectFileIds(e.target.checked ? adFileIds : []);
   };
 
   const getTagInfo = (collection: DatasetCollectionsListItemType) => {
@@ -278,7 +282,14 @@ const CollectionCard = () => {
     <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'100%'} py={[2, 4]}>
       <Flex ref={BoxRef} flexDirection={'column'} py={[1, 3]} h={'100%'}>
         {/* header */}
-        <Header selectedItems={selectedItems} showTagModal={showTagModal} />
+        <Header
+          selectedItems={selectedItems}
+          showTagModal={showTagModal}
+          selectFileIds={selectFileIds}
+          onBatchDeleteSuccess={() => {
+            getData(pageNum);
+          }}
+        />
 
         {/* collection table */}
         <TableContainer
@@ -306,6 +317,7 @@ const CollectionCard = () => {
                 </Th>
                 <Th py={4}>#</Th>
                 <Th py={4}>{t('common.Name')}</Th>
+                <Th py={4}>{'文档类型'}</Th>
                 <Th py={4}>标签</Th>
                 <Th py={4}>{t('core.dataset.Sync Time')}</Th>
                 <Th py={4}>{t('common.Status')}</Th>
@@ -360,12 +372,17 @@ const CollectionCard = () => {
                       render={({ field }) => (
                         <Checkbox
                           isChecked={field.value.includes(collection._id)}
+                          isDisabled={collection.status == 1}
                           onChange={(e) => {
                             const newValue = e.target.checked
                               ? [...field.value, collection._id]
                               : (field.value as string[]).filter(
                                   (id: string) => id !== collection._id
                                 );
+                            const fileIds = formatCollections
+                              .filter((item) => newValue.includes(item._id))
+                              .map((item) => item.adFileId);
+                            setSelectFileIds(fileIds);
                             setValue('selectedItems', newValue);
                           }}
                         />
@@ -383,6 +400,7 @@ const CollectionCard = () => {
                       </MyTooltip>
                     </Flex>
                   </Td>
+                  <Td w={'50px'}>{getDocType(collection.doc_type)}</Td>
                   <Td>{getTagInfo(collection)}</Td>
                   <Td>{dayjs(collection.updateTime).format('YYYY/MM/DD HH:mm')}</Td>
                   <Td>
@@ -483,13 +501,14 @@ const CollectionCard = () => {
                                             const result = await vectorizeAdDatasetsDocs(
                                               userInfo._id,
                                               router.query.kb_id,
-                                              collection.adFileId
+                                              [collection.adFileId]
                                             );
                                             if (result && result.status == 'success') {
                                               toast({
                                                 status: 'success',
                                                 title: '重新索引请求发送成功'
                                               });
+                                              getData(pageNum);
                                             }
                                           },
                                           undefined,
@@ -525,7 +544,7 @@ const CollectionCard = () => {
                           },
                           {
                             children: [
-                              ...(collection.status != 9
+                              ...(collection.status != 1
                                 ? [
                                     {
                                       label: (

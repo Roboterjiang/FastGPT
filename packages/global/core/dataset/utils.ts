@@ -53,3 +53,21 @@ export const predictDataLimitLength = (mode: TrainingModeEnum, data: any[]) => {
   if (mode === TrainingModeEnum.auto) return data.length * 5;
   return data.length;
 };
+
+export const getDocType = (docType: string) => {
+  switch (docType) {
+    case 'general':
+      return '通用文档';
+    case 'error_code':
+      return '故障码';
+    case 'diagram':
+      return '图表';
+    case 'appearance':
+      return '外观';
+    case 'video':
+      return '视频';
+
+    default:
+      return '';
+  }
+};

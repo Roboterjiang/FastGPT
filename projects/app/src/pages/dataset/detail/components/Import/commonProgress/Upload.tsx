@@ -64,20 +64,6 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
           )
         );
         console.log('爱动开始上传文件', item);
-        // const uploadInfo = await uploadFile2AidongDB({
-        //   kb_id: kb_id,
-        //   user_id: userInfo._id,
-        //   file: item.file,
-        //   doc_type: mode
-        // });
-
-        // if (uploadInfo.status !== 'success') {
-        //   //上传异常
-        //   return new Promise((resolve, reject) => reject());
-        // }
-        // if (uploadInfo.data && uploadInfo.data.length > 0) {
-        //   const serverFileId = uploadInfo.data[0].file_id;
-        // create collection
         const commonParams = {
           parentId,
           trainingType: TrainingModeEnum.chunk,
@@ -96,7 +82,7 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
             fileId: item.dbFileId
           });
           //创建成功后，对单个文件进行向量化
-          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, item.dbFileId, lang);
+          await vectorizeAdDatasetsDocs(userInfo._id, kb_id, [item.dbFileId]);
         } else if (importSource === ImportDataSourceEnum.fileLink && item.link) {
           await postCreateDatasetLinkCollection({
             ...commonParams,
