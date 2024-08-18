@@ -64,20 +64,6 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
           )
         );
         console.log('爱动开始上传文件', item);
-        // const uploadInfo = await uploadFile2AidongDB({
-        //   kb_id: kb_id,
-        //   user_id: userInfo._id,
-        //   file: item.file,
-        //   doc_type: mode
-        // });
-
-        // if (uploadInfo.status !== 'success') {
-        //   //上传异常
-        //   return new Promise((resolve, reject) => reject());
-        // }
-        // if (uploadInfo.data && uploadInfo.data.length > 0) {
-        //   const serverFileId = uploadInfo.data[0].file_id;
-        // create collection
         const commonParams = {
           parentId,
           trainingType: TrainingModeEnum.chunk,

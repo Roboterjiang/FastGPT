@@ -40,8 +40,8 @@ const FileLocal = ({
   return (
     <>
       {activeStep === 0 && <SelectFile datasetId={datasetId} kb_id={kb_id} doc_type={doc_type} />}
-      {activeStep === 1 && <DataProcess showPreviewChunks={false} />}
-      {activeStep === 2 && <Upload kb_id={kb_id} />}
+      {/* {activeStep === 1 && <DataProcess showPreviewChunks={false} />} */}
+      {activeStep === 1 && <Upload kb_id={kb_id} />}
     </>
   );
 };
