@@ -56,7 +56,6 @@ export const delChatRecordById = (data: DeleteChatItemProps) =>
  * 修改历史记录: 标题/置顶
  */
 export const putChatHistory = (data: UpdateHistoryProps) => {
-  console.log('爱动putChatHistory', data);
   return PUT('/core/chat/updateHistory', data);
 };
 

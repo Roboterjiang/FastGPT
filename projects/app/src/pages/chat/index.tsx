@@ -128,11 +128,7 @@ const Chat = ({
       };
       await insertChatItem2DB(requestData);
 
-      console.log('爱动responseData', responseData);
-
       const newTitle = getChatTitleFromChatMessage(GPTMessages2Chats(prompts)[0]);
-
-      console.log('爱动newTitle', newTitle);
 
       // new chat
       if (completionChatId !== chatId) {
