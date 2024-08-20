@@ -191,8 +191,8 @@ const AppCard = ({ showSaveStatus }: { showSaveStatus: boolean }) => {
                   }
                 >
                   {isPublished
-                    ? publishStatusStyle.published.text
-                    : publishStatusStyle.unPublish.text}
+                    ? t(publishStatusStyle.published.text)
+                    : t(publishStatusStyle.unPublish.text)}
                 </MyTag>
               </Flex>
             </MyTooltip>

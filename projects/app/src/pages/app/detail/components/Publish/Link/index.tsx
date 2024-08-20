@@ -152,7 +152,13 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
                     <Th>{item?.limit?.hookUrl ? '✔' : '✖'}</Th>
                   </>
                 )}
-                <Td>{item.lastTime ? formatTimeToChatTime(item.lastTime) : t('common.Un used')}</Td>
+                <Td>
+                  {item.lastTime
+                    ? formatTimeToChatTime(item.lastTime).includes('.')
+                      ? t(formatTimeToChatTime(item.lastTime))
+                      : formatTimeToChatTime(item.lastTime)
+                    : t('common.Un used')}
+                </Td>
                 <Td display={'flex'} alignItems={'center'}>
                   <Button
                     onClick={() => setSelectedLinkData(item as OutLinkSchema)}

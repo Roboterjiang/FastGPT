@@ -215,6 +215,7 @@
         "Start chat": "立即对话",
         "Total chars": "总字数：{{total}}",
         "Total tokens": "总 tokens：{{total}}",
+        "References": "{{total}}条引用",
         "ai": {
             "AI settings": "AI 配置",
             "Ai point price": "AI 积分消耗",
@@ -229,6 +230,12 @@
             }
         },
         "app": {
+            "No data": "还没有应用，快去创建一个吧！",
+            "Edit application information": "应用信息编辑",
+            "Edit information": "编辑信息",
+            "No introduction written": "还没写介绍~",
+            "Unpublished": "未发布",
+            "Published": "已发布",
             "Ai response": "返回 AI 内容",
             "Api request": "API 访问",
             "Api request desc": "通过 API 接入到已有系统中，或企微、飞书等",
@@ -1130,6 +1137,34 @@
         }
     },
     "dataset": {
+        "Collaborators only": "仅协作者",
+        "Batch set tags": "批量设置标签",
+        "Batch delete": "批量删除",
+        "Batch index": "批量索引",
+        "Document type": "文档类型",
+        "Please select data first": "请先选择数据",
+        "Indexing": "索引中",
+        "Indexing failed": "索引失败",
+        "Reindex": "重新索引",
+        "Set tag": "设置标签",
+        "General document": "通用文档",
+        "Error code": "故障码",
+        "Chart": "图表",
+        "Appearance": "外观",
+        "Video": "视频",
+        "Tags batch set successfully": "标签批量设置成功",
+        "Tags set successfully": "标签设置成功",
+        "Tags set failed": "标签设置失败",
+        "Tags batch set failed": "标签批量设置失败",
+        "Confirm to batch index selected files": "确定要批量索引选中文件？",
+        "Confirm to batch delete selected files": "确定要批量删除选中文件？",
+        "Batch indexing successful": "批量索引成功",
+        "Confirm to re-establish index": "确定重新建立索引？",
+        "File upload failed, please delete the file and re-upload": "文件上传失败，请删除文件重新上传",
+        "File uploaded successfully": "文件上传成功，等待索引中",
+        "Batch delete successful": "批量删除成功",
+        "All file names in the knowledge base cannot be duplicated": "知识库中所有的文件名都不可重复",
+        "Open the knowledge base": "打开知识库",
         "Confirm move the folder": "确认移动到该目录",
         "Confirm to delete the data": "确认删除该数据？",
         "Confirm to delete the file": "确认删除该文件及其所有数据？",
@@ -1525,6 +1560,7 @@
         "Quote Prompt Tip": "可以用 {{quote}} 来插入引用内容模板，使用 {{question}} 来插入问题。下面是默认值：\n{{default}}"
     },
     "user": {
+        "Confirm to log out": "确认退出登录?",
         "Account": "账号",
         "Amount of earnings": "收益（￥）",
         "Amount of inviter": "累计邀请人数",
@@ -1633,5 +1669,20 @@
                 "Visitor": "访客"
             }
         }
+    },
+    "tag": {
+        "Added successfully": "新增成功",
+        "Addition failed": "新增失败",
+        "Tag values cannot be duplicated": "标签值不可以重复",
+        "Deletion failed, please try again": "删除失败，请重试",
+        "Delete tag": "确认删除该标签？删除后数据无法恢复，请确认！",
+        "Create new tag": "新建标签",
+        "Tag key": "标签键",
+        "Tag value": "标签值",
+        "Edit tag": "编辑标签",
+        "Please enter tag key": "请输入标签键",
+        "Please enter tag value": "请输入标签值",
+        "Select tag": "选择标签",
+        "Please select tag": "请选择标签"
     }
 }

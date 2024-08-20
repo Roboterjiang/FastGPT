@@ -214,6 +214,7 @@
         "Start chat": "Start chat",
         "Total chars": "Total characters: {{total}}",
         "Total tokens": "Total tokens: {{total}}",
+        "References": "{{total}}references",
         "ai": {
             "AI settings": "AI settings",
             "Ai point price": "AI point consumption",
@@ -228,6 +229,12 @@
             }
         },
         "app": {
+            "No data": "No application yet, go create one!",
+            "Edit application information": "Edit application information",
+            "Edit information": "Edit information",
+            "No introduction written": "No introduction written",
+            "Unpublished": "Unpublished",
+            "Published": "Published",
             "Ai response": "Return AI content",
             "Api request": "API access",
             "Api request desc": "Access existing systems via API, or enterprise WeChat, Lark, etc.",
@@ -1121,6 +1128,34 @@
         }
     },
     "dataset": {
+        "Collaborators only": "Collaborators only",
+        "Batch set tags": "Batch set tags",
+        "Batch delete": "Batch delete",
+        "Batch index": "Batch index",
+        "Document type": "Document type",
+        "Please select data first": "Please select data first",
+        "Indexing": "Indexing",
+        "Indexing failed": "Indexing failed",
+        "Reindex": "Reindex",
+        "Set tag": "Set tag",
+        "General document": "General document",
+        "Error code": "Error code",
+        "Chart": "Chart",
+        "Appearance": "Appearance",
+        "Video": "Video",
+        "Tags batch set successfully": "Tags batch set successfully",
+        "Tags batch set failed": "Tags batch set failed",
+        "Tags set successfully": "Tags set successfully",
+        "Tags set failed": "Tags set failed",
+        "Confirm to batch index selected files": "Confirm to batch index selected files?",
+        "Confirm to batch delete selected files": "Confirm to batch delete selected files?",
+        "Batch indexing successful": "Batch indexing successful",
+        "Confirm to re-establish index": "Confirm to re-establish index？",
+        "File upload failed, please delete the file and re-upload": "File upload failed, please delete the file and re-upload",
+        "File uploaded successfully": "File uploaded successfully, waiting for indexing",
+        "Batch delete successful": "批量删除成功",
+        "All file names in the knowledge base cannot be duplicated": "All file names in the knowledge base cannot be duplicated",
+        "Open the knowledge base": "Open the knowledge base",
         "Confirm move the folder": "Confirm moving to the folder",
         "Confirm to delete the data": "Confirm to delete the data?",
         "Confirm to delete the file": "Confirm to delete the file and all its data?",
@@ -1516,6 +1551,7 @@
         "Quote Prompt Tip": "You can use {{quote}} to insert the quote content template, and use {{question}} to insert the question. Here are the default values:\n{{default}}"
     },
     "user": {
+        "Confirm to log out": "Confirm to log out?",
         "Account": "Account",
         "Amount of earnings": "Earnings (¥)",
         "Amount of inviter": "Total number of invitees",
@@ -1624,5 +1660,20 @@
                 "Visitor": "Visitor"
             }
         }
+    },
+    "tag": {
+        "Added successfully": "Added successfully",
+        "Addition failed": "Addition failed",
+        "Tag values cannot be duplicated": "Tag values cannot be duplicated",
+        "Deletion failed, please try again": "Deletion failed, please try again",
+        "Delete tag": "Confirm delete this tag? Data cannot be recovered after deletion, please confirm!",
+        "Create new tag": "Create new tag",
+        "Tag key": "Tag key",
+        "Tag value": "Tag value",
+        "Edit tag": "Edit tag",
+        "Please enter tag key": "Please enter tag key",
+        "Please enter tag value": "Please enter tag value",
+        "Select tag": "Select tag",
+        "Please select tag": "Please select tag"
     }
 }

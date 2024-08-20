@@ -57,15 +57,15 @@ export const predictDataLimitLength = (mode: TrainingModeEnum, data: any[]) => {
 export const getDocType = (docType: string) => {
   switch (docType) {
     case 'general':
-      return '通用文档';
+      return 'dataset.General document';
     case 'error_code':
-      return '故障码';
+      return 'dataset.Error code';
     case 'diagram':
-      return '图表';
+      return 'dataset.Chart';
     case 'appearance':
-      return '外观';
+      return 'dataset.Appearance';
     case 'video':
-      return '视频';
+      return 'dataset.Video';
 
     default:
       return '';
