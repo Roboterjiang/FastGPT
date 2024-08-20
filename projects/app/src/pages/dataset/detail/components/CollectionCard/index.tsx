@@ -85,7 +85,7 @@ const CollectionCard = () => {
   });
   //重新向量化弹框
   const { openConfirm: openEmConfirm, ConfirmModal: ConfirmEmdModal } = useConfirm({
-    content: '确定重新建立索引？'
+    content: t('dataset.Confirm to re-establish index')
   });
 
   const { onOpenModal: onOpenEditTitleModal, EditModal: EditTitleModal } = useEditTitle({
@@ -113,14 +113,14 @@ const CollectionCard = () => {
         const status = (() => {
           if (collection.status == 1) {
             return {
-              statusText: '索引中',
+              statusText: t('dataset.Indexing'),
               color: 'myGray.600',
               bg: 'myGray.50',
               borderColor: 'borderColor.low'
             };
           } else if (collection.status == 3) {
             return {
-              statusText: '索引失败',
+              statusText: t('dataset.Indexing failed'),
               color: 'red.600',
               bg: 'red.50',
               borderColor: 'red.300'
@@ -154,8 +154,8 @@ const CollectionCard = () => {
       getData(pageNum);
     },
 
-    successToast: '标签设置成功',
-    errorToast: '标签设置失败'
+    successToast: t('dataset.Tags set successfully'),
+    errorToast: t('dataset.Tags set failed')
   });
   const { mutate: onDelCollection, isLoading: isDeleting } = useRequest({
     mutationFn: (collectionId: string) => {
@@ -255,8 +255,8 @@ const CollectionCard = () => {
       getData(pageNum);
     },
 
-    successToast: '标签批量设置成功',
-    errorToast: '标签批量设置失败'
+    successToast: t('dataset.Tags batch set successfully'),
+    errorToast: t('dataset.Tags batch set failed')
   });
 
   const onSubmit = (result: FormTagValues) => {
@@ -317,8 +317,8 @@ const CollectionCard = () => {
                 </Th>
                 <Th py={4}>#</Th>
                 <Th py={4}>{t('common.Name')}</Th>
-                <Th py={4}>{'文档类型'}</Th>
-                <Th py={4}>标签</Th>
+                <Th py={4}>{t('dataset.Document type')}</Th>
+                <Th py={4}>{t('navbar.Tag')}</Th>
                 <Th py={4}>{t('core.dataset.Sync Time')}</Th>
                 <Th py={4}>{t('common.Status')}</Th>
                 <Th py={4} />
@@ -400,7 +400,7 @@ const CollectionCard = () => {
                       </MyTooltip>
                     </Flex>
                   </Td>
-                  <Td w={'50px'}>{getDocType(collection.doc_type)}</Td>
+                  <Td w={'50px'}>{t(getDocType(collection.doc_type))}</Td>
                   <Td>{getTagInfo(collection)}</Td>
                   <Td>{dayjs(collection.updateTime).format('YYYY/MM/DD HH:mm')}</Td>
                   <Td>
@@ -491,7 +491,7 @@ const CollectionCard = () => {
                                             w={'14px'}
                                             _hover={{ color: 'red.600' }}
                                           />
-                                          <Box>{'重新索引'}</Box>
+                                          <Box>{t('dataset.Reindex')}</Box>
                                         </Flex>
                                       ),
                                       type: 'primary',
@@ -530,7 +530,7 @@ const CollectionCard = () => {
                                       w={'14px'}
                                       _hover={{ color: 'red.600' }}
                                     />
-                                    <Box>设置标签</Box>
+                                    <Box>{t('dataset.Set tag')}</Box>
                                   </Flex>
                                 ),
                                 type: 'primary',

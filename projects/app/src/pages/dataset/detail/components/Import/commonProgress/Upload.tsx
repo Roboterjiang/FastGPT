@@ -125,7 +125,7 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
     },
     onSuccess() {
       toast({
-        title: '文件上传成功，等待索引中',
+        title: t('dataset.File uploaded successfully'),
         status: 'success'
       });
 

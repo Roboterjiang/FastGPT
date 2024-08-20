@@ -35,7 +35,7 @@ export const PermissionTypeMap = {
   },
   [PermissionTypeEnum.clbPrivate]: {
     iconLight: 'support/permission/privateLight',
-    label: '仅协作者'
+    label: 'dataset.Collaborators only'
   }
 };
 

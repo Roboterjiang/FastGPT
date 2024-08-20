@@ -18,6 +18,7 @@ import { useForm, SubmitHandler, Controller } from 'react-hook-form';
 import Select from 'react-select';
 import { getConfigTagListByUid } from '@/web/core/tag/api';
 import { TagItemType, FormTagValues } from '@fastgpt/global/core/tag/type';
+import { useTranslation } from 'next-i18next';
 
 interface SelectTagModalProps {
   isOpen: boolean;
@@ -44,6 +45,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
   } = useForm<FormTagValues>();
   const [tags, setTags] = useState<TagItemType[]>([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (isOpen) {
@@ -90,7 +92,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
     <Modal isOpen={isOpen} onClose={handleClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>选择标签</ModalHeader>
+        <ModalHeader>{t('tag.Select tag')}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {loading ? (
@@ -141,7 +143,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
                           })
                         )
                       }
-                      placeholder="请选择标签"
+                      placeholder={t('tag.Please select tag')}
                       theme={customTheme}
                     />
                   )}
@@ -153,10 +155,10 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
         </ModalBody>
         <ModalFooter>
           <Button mr={3} onClick={handleFormSubmit}>
-            确定
+            {t('common.Confirm')}
           </Button>
           <Button variant="ghost" onClick={handleClose}>
-            取消
+            {t('common.Cancel')}
           </Button>
         </ModalFooter>
       </ModalContent>

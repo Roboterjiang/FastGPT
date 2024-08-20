@@ -40,8 +40,10 @@ import { TagItemType } from '@fastgpt/global/core/tag/type';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
 
 import MyBox from '@fastgpt/web/components/common/MyBox';
+import { useTranslation } from 'next-i18next';
 
 const TagInfo: React.FC = () => {
+  const { t } = useTranslation();
   const [tags, setTags] = useState<TagItemType[]>([]);
   const [isTagModalOpen, setTagModalOpen] = useState(false);
   const [isEditTag, setIsEditTag] = useState(false);
@@ -94,8 +96,8 @@ const TagInfo: React.FC = () => {
       let id = await postCreateConfigTag(data);
       return { id, tagKey: data.tagKey, tagValue: data.tagValue };
     },
-    successToast: '新增成功',
-    errorToast: '新增失败',
+    successToast: t('tag.Added successfully'),
+    errorToast: t('tag.Addition failed'),
     onSuccess(result: TagItemType) {
       setTags([...tags, result]);
       resetTag();
@@ -109,8 +111,8 @@ const TagInfo: React.FC = () => {
       let result = await putConfigTagById(data);
       return result;
     },
-    successToast: '新增成功',
-    errorToast: '新增失败',
+    successToast: t('tag.Added successfully'),
+    errorToast: t('tag.Addition failed'),
     onSuccess(result: TagItemType) {
       setTags([...tags, result]);
       resetTag();
@@ -123,7 +125,7 @@ const TagInfo: React.FC = () => {
   const addTag: SubmitHandler<TagItemType> = ({ tagKey, tagValue }) => {
     if (tags.some((tag) => tag.tagValue === tagValue)) {
       toast({
-        title: '标签值不可以重复',
+        title: t('tag.Tag values cannot be duplicated'),
         status: 'warning',
         duration: 3000,
         isClosable: true
@@ -154,12 +156,12 @@ const TagInfo: React.FC = () => {
             .catch(() => {
               toast({
                 status: 'error',
-                title: '删除失败，请重试'
+                title: t('tag.Deletion failed, please try again')
               });
             });
         }),
       undefined,
-      '确认删除该标签？删除后数据无法恢复，请确认！'
+      t('tag.Delete tag')
     )();
   };
 
@@ -168,7 +170,7 @@ const TagInfo: React.FC = () => {
       <VStack spacing={5} align="stretch">
         <Flex alignItems={'center'}>
           <Box flex={1} className="textlg" letterSpacing={1} fontSize={'24px'} fontWeight={'bold'}>
-            标签
+            {t('navbar.Tag')}
           </Box>
           <Button
             ml={4}
@@ -179,15 +181,15 @@ const TagInfo: React.FC = () => {
             onClick={() => openTagModal(false, '')}
           >
             <AddIcon mr={2} />
-            <Box>新建标签</Box>
+            <Box>{t('tag.Create new tag')}</Box>
           </Button>
         </Flex>
         <Table variant="simple" mt={5}>
           <Thead>
             <Tr>
-              <Th>标签键</Th>
-              <Th>标签值</Th>
-              <Th>操作</Th>
+              <Th>{t('tag.Tag key')}</Th>
+              <Th>{t('tag.Tag value')}</Th>
+              <Th>{t('common.Action')}</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -220,29 +222,29 @@ const TagInfo: React.FC = () => {
       <Modal isOpen={isTagModalOpen} onClose={closeTagModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{isEditTag ? '编辑标签' : '新增标签'}</ModalHeader>
+          <ModalHeader>{isEditTag ? t('tag.Edit tag') : t('tag.Create new tag')}</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleTagSubmit(isEditTag ? editTag : addTag)}>
               <FormControl isInvalid={!!tagErrors.tagKey}>
-                <FormLabel>标签键</FormLabel>
+                <FormLabel>{t('tag.Tag key')}</FormLabel>
                 <Input
-                  placeholder="请输入标签键"
+                  placeholder={t('tag.Please enter tag key')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagKey : ''
                   }
-                  {...registerTag('tagKey', { required: '请输入标签键' })}
+                  {...registerTag('tagKey', { required: t('tag.Please enter tag key') })}
                 />
                 <FormErrorMessage>{tagErrors.tagKey && tagErrors.tagKey.message}</FormErrorMessage>
               </FormControl>
               <FormControl isInvalid={!!tagErrors.tagValue} mt={4}>
-                <FormLabel>标签值</FormLabel>
+                <FormLabel>{t('tag.Tag value')}</FormLabel>
                 <Input
-                  placeholder="请输入标签值"
+                  placeholder={t('tag.Please enter tag value')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagValue : ''
                   }
-                  {...registerTag('tagValue', { required: '请输入标签值' })}
+                  {...registerTag('tagValue', { required: t('tag.Please enter tag value') })}
                 />
                 <FormErrorMessage>
                   {tagErrors.tagValue && tagErrors.tagValue.message}
@@ -257,10 +259,10 @@ const TagInfo: React.FC = () => {
               isLoading={creating || editLoading}
               onClick={handleTagSubmit(isEditTag ? editTag : addTag)}
             >
-              确定
+              {t('common.Confirm')}
             </Button>
             <Button variant="ghost" onClick={closeTagModal}>
-              取消
+              {t('common.Cancel')}
             </Button>
           </ModalFooter>
         </ModalContent>

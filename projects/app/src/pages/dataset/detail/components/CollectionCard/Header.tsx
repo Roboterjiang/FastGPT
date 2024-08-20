@@ -99,13 +99,13 @@ const Header = ({
 
   const { openConfirm: openBatchDeleteConfirm, ConfirmModal: ConfirmBatchDeleteModal } = useConfirm(
     {
-      content: '确定要批量删除选中文件？',
+      content: t('dataset.Confirm to batch delete selected files'),
       type: 'delete'
     }
   );
 
   const { openConfirm: openBatchEmConfirm, ConfirmModal: ConfirmBatchEmModal } = useConfirm({
-    content: '确定要批量索引选中文件？',
+    content: t('dataset.Confirm to batch index selected files'),
     type: 'delete'
   });
 
@@ -261,7 +261,7 @@ const Header = ({
                   {
                     children: [
                       {
-                        label: <Flex>通用文档</Flex>,
+                        label: <Flex>{t('dataset.General document')}</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
@@ -274,7 +274,7 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>故障码</Flex>,
+                        label: <Flex>{t('dataset.Error code')}</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
@@ -287,7 +287,7 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>图表</Flex>,
+                        label: <Flex>{t('dataset.Chart')}</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
@@ -300,7 +300,7 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>外观</Flex>,
+                        label: <Flex>{t('dataset.Appearance')}</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
@@ -313,7 +313,7 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>视频</Flex>,
+                        label: <Flex>{t('dataset.Video')}</Flex>,
                         onClick: () => {
                           router.replace({
                             query: {
@@ -345,7 +345,7 @@ const Header = ({
                   if (selectedItems.length == 0) {
                     toast({
                       status: 'warning',
-                      title: '请先选择数据'
+                      title: t('dataset.Please select data first')
                     });
                     return;
                   } else {
@@ -353,7 +353,7 @@ const Header = ({
                   }
                 }}
               >
-                <Box>批量设置标签</Box>
+                <Box>{t('dataset.Batch set tags')}</Box>
               </Flex>
 
               <Flex
@@ -371,7 +371,7 @@ const Header = ({
                   if (selectedItems.length == 0) {
                     toast({
                       status: 'warning',
-                      title: '请先选择数据'
+                      title: t('dataset.Please select data first')
                     });
                     return;
                   } else {
@@ -385,20 +385,20 @@ const Header = ({
                         await batchDelDatasetCollectionByIds({ ids: selectedItems });
                         toast({
                           status: 'success',
-                          title: '批量删除成功'
+                          title: t('dataset.Batch delete successful')
                         });
                         onBatchDeleteSuccess();
                       } else {
                         toast({
                           status: 'error',
-                          title: result.message ? result.message : '删除失败'
+                          title: result.message ? result.message : t('common.Delete Failed')
                         });
                       }
                     })();
                   }
                 }}
               >
-                <Box>批量删除</Box>
+                <Box>{t('dataset.Batch delete')}</Box>
               </Flex>
 
               <Flex
@@ -416,7 +416,7 @@ const Header = ({
                   if (selectedItems.length == 0) {
                     toast({
                       status: 'warning',
-                      title: '请先选择数据'
+                      title: t('dataset.Please select data first')
                     });
                     return;
                   } else {
@@ -430,20 +430,20 @@ const Header = ({
                         //批量删除collection
                         toast({
                           status: 'success',
-                          title: '批量索引成功'
+                          title: t('dataset.Batch indexing successful')
                         });
                         onBatchDeleteSuccess();
                       } else {
                         toast({
                           status: 'error',
-                          title: result.message ? result.message : '删除失败'
+                          title: result.message ? result.message : t('common.Delete Failed')
                         });
                       }
                     })();
                   }
                 }}
               >
-                <Box>批量索引</Box>
+                <Box>{t('dataset.Batch index')}</Box>
               </Flex>
             </>
           )}

@@ -166,7 +166,7 @@ const FileSelector = ({
         } else {
           toast({
             status: 'error',
-            title: '文件上传失败，请删除文件重新上传'
+            title: t('dataset.File upload failed, please delete the file and re-upload')
           });
         }
       }
@@ -190,7 +190,7 @@ const FileSelector = ({
         if (hasDuplicates(files, serverFilesNames)) {
           toast({
             status: 'warning',
-            title: '知识库中所有的文件名都不可重复'
+            title: t('dataset.All file names in the knowledge base cannot be duplicated')
           });
           return;
         }

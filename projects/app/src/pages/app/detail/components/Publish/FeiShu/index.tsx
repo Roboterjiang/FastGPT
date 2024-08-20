@@ -107,7 +107,11 @@ const FeiShu = ({ appId }: { appId: string }) => {
                   </>
                 )}
                 <Td>
-                  {item.lastTime ? t(formatTimeToChatTime(item.lastTime)) : t('common.Un used')}
+                  {item.lastTime
+                    ? formatTimeToChatTime(item.lastTime).includes('.')
+                      ? t(formatTimeToChatTime(item.lastTime))
+                      : formatTimeToChatTime(item.lastTime)
+                    : t('common.Un used')}
                 </Td>
                 <Td display={'flex'} alignItems={'center'}>
                   <MyMenu

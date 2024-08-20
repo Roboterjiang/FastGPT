@@ -94,7 +94,7 @@ export const RenderUploadFiles = ({
     <>
       <TableContainer mt={5}>
         <Box textAlign={'right'} mb={4}>
-          <Button onClick={batchSetTag}>批量设置标签</Button>
+          <Button onClick={batchSetTag}>{t('dataset.Batch set tags')}</Button>
         </Box>
         <Table variant={'simple'} fontSize={'sm'} draggable={false}>
           <Thead draggable={false}>

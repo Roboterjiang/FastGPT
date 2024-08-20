@@ -153,7 +153,9 @@ const ResponseTags = ({
                 cursor={'pointer'}
                 onClick={() => setQuoteModalData({ rawSearch: quoteList })}
               >
-                {quoteList.length}条引用
+                {t('core.References', {
+                  total: quoteList.length
+                })}
               </MyTag>
             </MyTooltip>
           )}
