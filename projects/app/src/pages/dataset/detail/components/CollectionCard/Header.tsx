@@ -427,7 +427,6 @@ const Header = ({
                       const kb_id = router.query.kb_id || '';
                       const result = await vectorizeAdDatasetsDocs(userId, kb_id, selectFileIds);
                       if (result && result.status == 'success') {
-                        //批量删除collection
                         toast({
                           status: 'success',
                           title: '批量索引成功'
@@ -436,7 +435,7 @@ const Header = ({
                       } else {
                         toast({
                           status: 'error',
-                          title: result.message ? result.message : '删除失败'
+                          title: result.message ? result.message : '批量索引失败'
                         });
                       }
                     })();

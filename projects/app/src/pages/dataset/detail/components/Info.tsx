@@ -2,7 +2,7 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Box, Flex, Button, IconButton, Input, Textarea, HStack } from '@chakra-ui/react';
 import { DeleteIcon } from '@chakra-ui/icons';
-import { delDatasetById } from '@/web/core/dataset/api';
+import { delDatasetById, renameDataset } from '@/web/core/dataset/api';
 import { useSelectFile } from '@/web/common/file/hooks/useSelectFile';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
 import { useForm } from 'react-hook-form';
@@ -35,6 +35,7 @@ import {
   postUpdateDatasetCollaborators,
   deleteDatasetCollaborators
 } from '@/web/core/dataset/api/collaborator';
+import { useUserStore } from '@/web/support/user/useUserStore';
 
 const Info = ({ datasetId }: { datasetId: string }) => {
   const { t } = useTranslation();
@@ -50,6 +51,8 @@ const Info = ({ datasetId }: { datasetId: string }) => {
   const { setValue, register, handleSubmit, watch } = useForm<DatasetItemType>({
     defaultValues: datasetDetail
   });
+
+  const { userInfo } = useUserStore();
 
   const avatar = watch('avatar');
   const vectorModel = watch('vectorModel');
@@ -88,11 +91,21 @@ const Info = ({ datasetId }: { datasetId: string }) => {
   });
 
   const { mutate: onclickSave, isLoading: isSaving } = useRequest({
-    mutationFn: (data: DatasetItemType) => {
-      return updateDataset({
-        id: datasetId,
-        ...data
-      });
+    mutationFn: async (data: DatasetItemType) => {
+      const kb_id = router.query.kb_id;
+      const kb_name = data.name;
+      const user_id = userInfo?._id;
+      const result = await renameDataset(user_id, kb_id, kb_name);
+      if (result && result.status === 'success') {
+        return updateDataset({
+          id: datasetId,
+          ...data
+        });
+      } else {
+        return new Promise((resolve, reject) => {
+          reject('rename failed');
+        });
+      }
     },
     successToast: t('common.Update Success'),
     errorToast: t('common.Update Failed')

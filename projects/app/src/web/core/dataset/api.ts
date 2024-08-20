@@ -225,3 +225,13 @@ export const vectorizeAdDatasetsDocs = (user_id: string, kb_id: string, adFileId
 export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollectionTag) => {
   return POST(`/core/dataset/collection/batchUpdateTag`, data);
 };
+
+/**
+ * 重命名知识库
+ * @param user_id
+ * @param kb_id
+ * @param kb_name
+ * @returns
+ */
+export const renameDataset = (user_id: string, kb_id: string, kb_name: string) =>
+  POST(`/aidong/kbqa/rename_kb`, { user_id: 'user' + user_id, kb_id, kb_name });
