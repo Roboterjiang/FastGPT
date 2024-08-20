@@ -202,7 +202,9 @@ const ListItem = () => {
                   fontSize={'xs'}
                   color={'myGray.500'}
                 >
-                  <Box className={'textEllipsis2'}>{app.intro || '还没写介绍~'}</Box>
+                  <Box className={'textEllipsis2'}>
+                    {app.intro || t('core.app.No introduction written')}
+                  </Box>
                 </Box>
                 <Flex
                   h={'24px'}
@@ -233,7 +235,11 @@ const ListItem = () => {
                     {isPc && (
                       <HStack spacing={0.5} className="time">
                         <MyIcon name={'history'} w={'0.85rem'} color={'myGray.400'} />
-                        <Box color={'myGray.500'}>{formatTimeToChatTime(app.updateTime)}</Box>
+                        <Box color={'myGray.500'}>
+                          {formatTimeToChatTime(app.updateTime).includes('.')
+                            ? t(formatTimeToChatTime(app.updateTime))
+                            : formatTimeToChatTime(app.updateTime)}
+                        </Box>
                       </HStack>
                     )}
                     {app.permission.hasManagePer && (
@@ -252,7 +258,7 @@ const ListItem = () => {
                               children: [
                                 {
                                   icon: 'edit',
-                                  label: '编辑信息',
+                                  label: t('core.app.Edit information'),
                                   onClick: () => {
                                     if (app.type === AppTypeEnum.httpPlugin) {
                                       setEditHttpPlugin({
@@ -350,14 +356,14 @@ const ListItem = () => {
         })}
       </Grid>
 
-      {myApps.length === 0 && <EmptyTip text={'还没有应用，快去创建一个吧！'} pt={'30vh'} />}
+      {myApps.length === 0 && <EmptyTip text={t('core.app.No data')} pt={'30vh'} />}
 
       <DelConfirmModal />
       <ConfirmCopyModal />
       {!!editedApp && (
         <EditResourceModal
           {...editedApp}
-          title="应用信息编辑"
+          title={t('core.app.Edit application information')}
           onClose={() => {
             setEditedApp(undefined);
           }}

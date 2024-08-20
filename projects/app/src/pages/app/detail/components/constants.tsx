@@ -20,11 +20,11 @@ export const workflowBoxStyles: FlexProps = {
 export const publishStatusStyle = {
   unPublish: {
     colorSchema: 'adora' as any,
-    text: '未发布'
+    text: 'core.app.Unpublished'
   },
   published: {
     colorSchema: 'green' as any,
-    text: '已发布'
+    text: 'core.app.Published'
   }
 };
 

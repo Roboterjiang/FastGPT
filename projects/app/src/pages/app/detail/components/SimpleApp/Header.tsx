@@ -113,8 +113,8 @@ const Header = ({
                   }
                 >
                   {isPublished
-                    ? publishStatusStyle.published.text
-                    : publishStatusStyle.unPublish.text}
+                    ? t(publishStatusStyle.published.text)
+                    : t(publishStatusStyle.unPublish.text)}
                 </MyTag>
                 <IconButton
                   mr={[2, 4]}

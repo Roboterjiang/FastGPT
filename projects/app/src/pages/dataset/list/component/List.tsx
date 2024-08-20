@@ -169,7 +169,9 @@ function List() {
               label={
                 <Flex flexDirection={'column'} alignItems={'center'}>
                   <Box fontSize={'xs'} color={'myGray.500'}>
-                    {dataset.type === DatasetTypeEnum.folder ? '打开文件夹' : '打开知识库'}
+                    {dataset.type === DatasetTypeEnum.folder
+                      ? t('common.folder.Open folder')
+                      : t('dataset.Open the knowledge base')}
                   </Box>
                 </Flex>
               }
