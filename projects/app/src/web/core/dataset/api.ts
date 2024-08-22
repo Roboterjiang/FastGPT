@@ -90,13 +90,30 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
     `/core/dataset/collection/list`,
     data
   );
+
+  const getStatusType = (status: string) => {
+    switch (status) {
+      case 'yellow':
+        return 1;
+      case 'green':
+        return 2;
+      case 'red':
+        return 3;
+      case 'gray':
+        return 4;
+      default:
+        return 4;
+    }
+  };
+
+  //过滤数据
   const aidongResult = await getAdDatasetsDocs(data.user_id, data.kb_id);
   if (aidongResult && aidongResult.data && result.data.length > 0) {
     result.data.forEach((item) => {
       const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
       if (findItem) {
-        //表示向量化状态  1进行中 2.成功  3.失败
-        item.status = findItem.status == 'green' ? 2 : findItem.status == 'red' ? 3 : 1;
+        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
+        item.status = getStatusType(findItem.status);
         item.doc_type = findItem.doc_type;
       }
     });

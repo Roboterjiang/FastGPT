@@ -106,6 +106,7 @@ const CollectionCard = () => {
   const { dragStartId, setDragStartId, dragTargetId, setDragTargetId } = useDrag();
 
   // Ad file status icon
+  //   1进行中 2.成功  3.失败 4.未索引
   const formatCollections = useMemo(
     () =>
       collections.map((collection) => {
@@ -114,9 +115,16 @@ const CollectionCard = () => {
           if (collection.status == 1) {
             return {
               statusText: t('dataset.Indexing'),
-              color: 'myGray.600',
-              bg: 'myGray.50',
-              borderColor: 'borderColor.low'
+              color: 'yellow.400',
+              bg: 'yellow.50',
+              borderColor: 'yellow.300'
+            };
+          } else if (collection.status == 2) {
+            return {
+              statusText: t('core.dataset.collection.status.active'),
+              color: 'green.600',
+              bg: 'green.50',
+              borderColor: 'green.300'
             };
           } else if (collection.status == 3) {
             return {
@@ -127,10 +135,10 @@ const CollectionCard = () => {
             };
           }
           return {
-            statusText: t('core.dataset.collection.status.active'),
-            color: 'green.600',
-            bg: 'green.50',
-            borderColor: 'green.300'
+            statusText: t('dataset.Not indexed'),
+            color: 'myGray.600',
+            bg: 'myGray.50',
+            borderColor: 'borderColor.low'
           };
         })();
 
