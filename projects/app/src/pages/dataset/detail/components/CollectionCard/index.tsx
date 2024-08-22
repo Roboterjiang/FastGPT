@@ -393,7 +393,7 @@ const CollectionCard = () => {
                   <Td minW={'150px'} maxW={['200px', '300px']} draggable>
                     <Flex alignItems={'center'}>
                       <MyIcon name={collection.icon as any} w={'16px'} mr={2} />
-                      <MyTooltip label={t('common.folder.Drag Tip')} shouldWrapChildren={false}>
+                      <MyTooltip label={collection.name} shouldWrapChildren={false}>
                         <Box color={'myGray.900'} className="textEllipsis">
                           {collection.name}
                         </Box>
