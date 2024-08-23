@@ -90,7 +90,6 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
     `/core/dataset/collection/list`,
     data
   );
-
   const getStatusType = (status: string) => {
     switch (status) {
       case 'yellow':
@@ -105,19 +104,22 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
         return 4;
     }
   };
-
   //过滤数据
-  const aidongResult = await getAdDatasetsDocs(data.user_id, data.kb_id);
-  if (aidongResult && aidongResult.data && result.data.length > 0) {
-    result.data.forEach((item) => {
-      const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
-      if (findItem) {
-        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
-        item.status = getStatusType(findItem.status);
-        item.doc_type = findItem.doc_type;
-      }
-    });
+  if (result && result.data && result.data.length > 0) {
+    const file_ids = result.data.map((item) => item.adFileId);
+    const aidongResult = await getAdDatasetsDocs1(file_ids);
+    if (aidongResult && aidongResult.data) {
+      result.data.forEach((item) => {
+        const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
+        if (findItem) {
+          //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
+          item.status = getStatusType(findItem.status);
+          item.doc_type = findItem.doc_type;
+        }
+      });
+    }
   }
+
   return new Promise((resolve, reject) => {
     resolve(result);
   });
@@ -232,6 +234,10 @@ export const batchDelAdDatasetDocs = (user_id: string, kb_id: string, file_ids: 
 /**获取单个知识库的文档列表 */
 export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
   GET<Object>('/aidong/kbqa/docs', { user_id: 'user' + user_id, kb_id });
+
+export const getAdDatasetsDocs1 = (file_ids: string[]) =>
+  POST<Object>('/aidong/kbqa/doc_details', { file_ids });
+
 /**
  *
  *向量化指定文件
@@ -252,3 +258,7 @@ export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollect
  */
 export const renameDataset = (user_id: string, kb_id: string, kb_name: string) =>
   POST(`/aidong/kbqa/rename_kb`, { user_id: 'user' + user_id, kb_id, kb_name });
+
+export const checkDuplicateByNames = (user_id: string, kb_id: string, file_names: string[]) => {
+  return POST(`/aidong/kbqa/doc_exists`, { user_id: 'user' + user_id, kb_id, file_names });
+};
