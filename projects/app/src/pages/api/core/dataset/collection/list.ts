@@ -19,7 +19,8 @@ async function handler(req: NextApiRequest) {
     parentId = null,
     searchText = '',
     selectFolder = false,
-    simple = false
+    simple = false,
+    filterStatus = ''
   } = req.body as GetDatasetCollectionsProps;
   searchText = searchText?.replace(/'/g, '');
   pageSize = Math.min(pageSize, 30);

@@ -64,7 +64,6 @@ const Header = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { setLoading } = useSystemStore();
-  const [filter, setFilter] = useState('所有');
 
   const { toast } = useToast();
   const datasetDetail = useContextSelector(DatasetPageContext, (v) => v.datasetDetail);
@@ -75,8 +74,16 @@ const Header = ({
   const { isPc } = useSystemStore();
 
   const lastSearch = useRef('');
-  const { searchText, setSearchText, total, getData, pageNum, onOpenWebsiteModal } =
-    useContextSelector(CollectionPageContext, (v) => v);
+  const {
+    searchText,
+    setSearchText,
+    filterStatus,
+    setFilterStatus,
+    total,
+    getData,
+    pageNum,
+    onOpenWebsiteModal
+  } = useContextSelector(CollectionPageContext, (v) => v);
 
   // change search
   const debounceRefetch = useCallback(
@@ -153,8 +160,9 @@ const Header = ({
     errorToast: t('common.Create Failed')
   });
 
-  const handleFilterChange = (event) => {
-    setFilter(event.target.value);
+  const handleFilterChange = (event: any) => {
+    setFilterStatus(event.target.value);
+    debounceRefetch();
   };
 
   return (
@@ -195,11 +203,15 @@ const Header = ({
             }}
           />
           {/* 1索引中 2.已就绪  3.失败 4.未索引 */}
-          {/* <Select w={['100%', '250px']} h={'36px'} ml={3} value={filter}
+          {/* <Select 
+                        colorScheme={'red'}
+                        w={['100%', '250px']} h={'36px'} 
+                        ml={3} 
+                        value={filterStatus}
                         onChange={handleFilterChange} placeholder='请选择'>
+                        <option value="4">{t('dataset.Not indexed')}</option>
                         <option value="1">{t('dataset.Indexing')}</option>
                         <option value="2">{t('core.dataset.collection.status.active')}</option>
-                        <option value="4">{t('dataset.Not indexed')}</option>
                         <option value="3">{t('dataset.Indexing failed')}</option>
                     </Select> */}
         </Flex>
@@ -307,6 +319,7 @@ const Header = ({
                   }
                 ]}
               />
+
               <Flex
                 alignItems={'center'}
                 px={5}

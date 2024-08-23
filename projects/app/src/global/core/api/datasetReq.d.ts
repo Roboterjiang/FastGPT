@@ -23,6 +23,7 @@ export type GetDatasetCollectionsProps = RequestPaging & {
   selectFolder?: boolean;
   kb_id?: string;
   user_id?: string;
+  filterStatus?: string;
 };
 
 export type UpdateDatasetCollectionParams = {
