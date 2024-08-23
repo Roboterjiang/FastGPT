@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -7,7 +7,8 @@ import {
   Link,
   useTheme,
   useDisclosure,
-  Toast
+  Toast,
+  Select
 } from '@chakra-ui/react';
 import {
   getDatasetCollectionPathById,
@@ -63,6 +64,7 @@ const Header = ({
   const { t } = useTranslation();
   const theme = useTheme();
   const { setLoading } = useSystemStore();
+  const [filter, setFilter] = useState('所有');
 
   const { toast } = useToast();
   const datasetDetail = useContextSelector(DatasetPageContext, (v) => v.datasetDetail);
@@ -151,45 +153,13 @@ const Header = ({
     errorToast: t('common.Create Failed')
   });
 
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
   return (
     <Flex px={[2, 6]} alignItems={'flex-start'} h={'35px'}>
-      <Box flex={1}>
-        <ParentPath
-          paths={paths.map((path, i) => ({
-            parentId: path.parentId,
-            parentName: i === paths.length - 1 ? `${path.parentName}` : path.parentName
-          }))}
-          FirstPathDom={
-            <>
-              <Box fontWeight={'bold'} fontSize={['sm', 'md']}>
-                {t(DatasetTypeMap[datasetDetail?.type]?.collectionLabel)}({total})
-              </Box>
-              {datasetDetail?.websiteConfig?.url && (
-                <Flex fontSize={'sm'}>
-                  {t('core.dataset.website.Base Url')}:
-                  <Link
-                    href={datasetDetail.websiteConfig.url}
-                    target="_blank"
-                    mr={2}
-                    textDecoration={'underline'}
-                    color={'primary.600'}
-                  >
-                    {datasetDetail.websiteConfig.url}
-                  </Link>
-                </Flex>
-              )}
-            </>
-          }
-          onClick={(e) => {
-            router.replace({
-              query: {
-                ...router.query,
-                parentId: e
-              }
-            });
-          }}
-        />
-      </Box>
+      <Box flex={1}></Box>
 
       {/* search input */}
       {isPc && (
@@ -224,6 +194,14 @@ const Header = ({
               }
             }}
           />
+          {/* 1索引中 2.已就绪  3.失败 4.未索引 */}
+          {/* <Select w={['100%', '250px']} h={'36px'} ml={3} value={filter}
+                        onChange={handleFilterChange} placeholder='请选择'>
+                        <option value="1">{t('dataset.Indexing')}</option>
+                        <option value="2">{t('core.dataset.collection.status.active')}</option>
+                        <option value="4">{t('dataset.Not indexed')}</option>
+                        <option value="3">{t('dataset.Indexing failed')}</option>
+                    </Select> */}
         </Flex>
       )}
 
@@ -329,7 +307,6 @@ const Header = ({
                   }
                 ]}
               />
-
               <Flex
                 alignItems={'center'}
                 px={5}
