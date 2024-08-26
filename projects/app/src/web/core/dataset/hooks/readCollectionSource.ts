@@ -15,7 +15,9 @@ export function getCollectionSourceAndOpen(collectionId: string) {
       const { value: url } = await getCollectionSource(collectionId);
 
       if (!url) {
-        throw new Error('No file found');
+        setLoading(false);
+        return;
+        // throw new Error('No file found');
       }
 
       if (url.startsWith('/')) {
@@ -42,8 +44,12 @@ export function getAdCollectionSourceAndOpen(fileUrl: string) {
     try {
       setLoading(true);
 
+      console.log('getAdCollectionSourceAndOpen', fileUrl);
+
       if (!fileUrl) {
-        throw new Error('No file found');
+        setLoading(false);
+        return;
+        // throw new Error('No file found');
       }
       if (fileUrl.startsWith('/')) {
         window.open(`${location.origin}${fileUrl}`, '_blank');
