@@ -32,6 +32,8 @@ type CollectionPageContextType = {
   setSearchText: Dispatch<SetStateAction<string>>;
   filterStatus: string;
   setFilterStatus: Dispatch<SetStateAction<string>>;
+  docType: string;
+  setDocType: Dispatch<SetStateAction<string>>;
 };
 
 export const CollectionPageContext = createContext<CollectionPageContextType>({
@@ -58,6 +60,10 @@ export const CollectionPageContext = createContext<CollectionPageContextType>({
   },
   filterStatus: '',
   setFilterStatus: function (value: SetStateAction<string>): void {
+    throw new Error('Function not implemented.');
+  },
+  docType: '',
+  setDocType: function (value: SetStateAction<string>): void {
     throw new Error('Function not implemented.');
   }
 });
@@ -105,6 +111,7 @@ const CollectionPageContextProvider = ({ children }: { children: ReactNode }) =>
   // collection list
   const [searchText, setSearchText] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
+  const [docType, setDocType] = useState('');
   const {
     data: collections,
     Pagination,
@@ -117,6 +124,7 @@ const CollectionPageContextProvider = ({ children }: { children: ReactNode }) =>
     api: getDatasetCollections,
     pageSize: 20,
     params: {
+      docType,
       filterStatus,
       datasetId,
       parentId,
@@ -134,6 +142,8 @@ const CollectionPageContextProvider = ({ children }: { children: ReactNode }) =>
   const contextValue: CollectionPageContextType = {
     openWebSyncConfirm: openWebSyncConfirm(onUpdateDatasetWebsiteConfig),
     onOpenWebsiteModal,
+    docType,
+    setDocType,
     filterStatus,
     setFilterStatus,
     searchText,

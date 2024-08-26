@@ -24,6 +24,7 @@ export type GetDatasetCollectionsProps = RequestPaging & {
   kb_id?: string;
   user_id?: string;
   filterStatus?: string;
+  docType?: string;
 };
 
 export type UpdateDatasetCollectionParams = {

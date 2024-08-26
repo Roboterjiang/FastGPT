@@ -1139,6 +1139,7 @@
     "dataset": {
         "Collaborators only": "仅协作者",
         "Batch set tags": "批量设置标签",
+        "Batch operation": "批量操作",
         "Batch delete": "批量删除",
         "Batch index": "批量索引",
         "Document type": "文档类型",
@@ -1153,6 +1154,7 @@
         "Chart": "图表",
         "Appearance": "外观",
         "Video": "视频",
+        "Reset": "重置",
         "Tags batch set successfully": "标签批量设置成功",
         "Tags set successfully": "标签设置成功",
         "Tags set failed": "标签设置失败",

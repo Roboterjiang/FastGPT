@@ -86,10 +86,15 @@ export const postSearchText = (data: SearchTestProps) =>
 
 /* ============================= collections ==================================== */
 export const getDatasetCollections = async (data: GetDatasetCollectionsProps) => {
-  const result = await POST<PagingData<DatasetCollectionsListItemType>>(
-    `/core/dataset/collection/list`,
-    data
-  );
+  let finalResult = {
+    pageNum: 1,
+    pageSize: 20,
+    data: [],
+    total: 0
+  };
+  const user_id = data.user_id;
+  const kb_id = data.kb_id;
+
   const getStatusType = (status: string) => {
     switch (status) {
       case 'yellow':
@@ -104,24 +109,55 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
         return 4;
     }
   };
-  //过滤数据
-  if (result && result.data && result.data.length > 0) {
-    const file_ids = result.data.map((item) => item.adFileId);
-    const aidongResult = await getAdDatasetsDocs1(file_ids);
-    if (aidongResult && aidongResult.data) {
-      result.data.forEach((item) => {
-        const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
-        if (findItem) {
-          //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
-          item.status = getStatusType(findItem.status);
-          item.doc_type = findItem.doc_type;
-        }
-      });
-    }
-  }
 
+  const getColorStatus = (status: string | undefined) => {
+    switch (status) {
+      case '1':
+        return 'yellow';
+      case '2':
+        return 'green';
+      case '3':
+        return 'red';
+      case '4':
+        return 'gray';
+      default:
+        return '';
+    }
+  };
+
+  const status = getColorStatus(data.filterStatus);
+
+  const aidongResult = await getPageAdDatasetsDocs(
+    user_id,
+    kb_id,
+    data.pageNum,
+    status,
+    data.docType,
+    data.searchText
+  );
+  if (aidongResult && aidongResult.data) {
+    const adFileIds = aidongResult.data.map((x) => x.file_id);
+    const result = await POST<PagingData<DatasetCollectionsListItemType>>(
+      `/core/dataset/collection/filterList`,
+      { datasetId: data.datasetId, adFileIds: adFileIds }
+    );
+    result.data.forEach((item) => {
+      const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
+      if (findItem) {
+        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
+        item.status = getStatusType(findItem.status);
+        item.doc_type = findItem.doc_type;
+      }
+    });
+    finalResult = {
+      pageNum: data.pageNum,
+      pageSize: 20,
+      data: result.data,
+      total: aidongResult.pagination.total
+    };
+  }
   return new Promise((resolve, reject) => {
-    resolve(result);
+    resolve(finalResult);
   });
 };
 export const getDatasetCollectionPathById = (parentId: string) =>
@@ -231,11 +267,39 @@ export const delAdDatasetDocs = (user_id: string, kb_id: string, adFileId: strin
 export const batchDelAdDatasetDocs = (user_id: string, kb_id: string, file_ids: string[]) =>
   DELETE(`/aidong/kbqa/docs`, { user_id: 'user' + user_id, kb_id, file_ids: file_ids });
 
-/**获取单个知识库的文档列表 */
-export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
-  GET<Object>('/aidong/kbqa/docs', { user_id: 'user' + user_id, kb_id });
+/**获取单个知识库的文档列表-分页 */
+export const getPageAdDatasetsDocs = (
+  user_id: string | undefined,
+  kb_id: string | undefined,
+  page: number,
+  status: string | undefined,
+  doc_type: string | undefined,
+  file_name: string | undefined
+) => {
+  const postData = {
+    user_id: 'user' + user_id,
+    kb_id,
+    size: 20,
+    page
+  };
+  if (status) {
+    postData.status = status;
+  }
+  if (doc_type) {
+    postData.doc_type = doc_type;
+  }
+  if (file_name) {
+    postData.file_name = file_name;
+  }
+  return GET<Object>('/aidong/kbqa/docs', postData);
+};
 
-export const getAdDatasetsDocs1 = (file_ids: string[]) =>
+/**
+ * 活动单个知识库文档列表
+ * @param file_ids
+ * @returns
+ */
+export const getAdDatasetsDocs = (file_ids: string[]) =>
   POST<Object>('/aidong/kbqa/doc_details', { file_ids });
 
 /**

@@ -1130,6 +1130,7 @@
     "dataset": {
         "Collaborators only": "Collaborators only",
         "Batch set tags": "Batch set tags",
+        "Batch operation": "Batch operation",
         "Batch delete": "Batch delete",
         "Batch index": "Batch index",
         "Document type": "Document type",
@@ -1144,6 +1145,7 @@
         "Chart": "Chart",
         "Appearance": "Appearance",
         "Video": "Video",
+        "Reset": "Reset",
         "Tags batch set successfully": "Tags batch set successfully",
         "Tags batch set failed": "Tags batch set failed",
         "Tags set successfully": "Tags set successfully",
