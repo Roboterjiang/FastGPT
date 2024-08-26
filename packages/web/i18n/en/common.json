@@ -306,6 +306,7 @@
             },
             "error": {
                 "App name can not be empty": "App name cannot be empty",
+                "App name cannot exceed N characters": "App name cannot exceed 20 characters",
                 "Get app failed": "Failed to get app"
             },
             "feedback": {

@@ -307,6 +307,7 @@
                 "UnSave": "不保存"
             },
             "error": {
+                "App name cannot exceed N characters": "应用名称不能超过20个字符",
                 "App name can not be empty": "应用名不能为空",
                 "Get app failed": "获取应用异常"
             },

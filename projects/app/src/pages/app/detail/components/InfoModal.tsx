@@ -160,6 +160,7 @@ const InfoModal = ({ onClose }: { onClose: () => void }) => {
           />
           <FormControl>
             <Input
+              maxLength={20}
               bg={'myWhite.600'}
               placeholder={t('core.app.Set a name for your app')}
               {...register('name', {
@@ -173,7 +174,7 @@ const InfoModal = ({ onClose }: { onClose: () => void }) => {
         </Box>
         <Textarea
           rows={4}
-          maxLength={500}
+          maxLength={200}
           placeholder={t('core.app.Make a brief introduction of your app')}
           bg={'myWhite.600'}
           {...register('intro')}
