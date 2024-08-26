@@ -44,8 +44,6 @@ export function getAdCollectionSourceAndOpen(fileUrl: string) {
     try {
       setLoading(true);
 
-      console.log('getAdCollectionSourceAndOpen', fileUrl);
-
       if (!fileUrl) {
         setLoading(false);
         return;
