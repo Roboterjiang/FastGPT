@@ -27,13 +27,13 @@ const OutLink = () => {
       title: t('core.app.Share link'),
       desc: t('core.app.Share link desc'),
       value: PublishChannelEnum.share
-    },
-    {
-      icon: 'support/outlink/apikeyFill',
-      title: t('core.app.Api request'),
-      desc: t('core.app.Api request desc'),
-      value: PublishChannelEnum.apikey
     }
+    // {
+    //   icon: 'support/outlink/apikeyFill',
+    //   title: t('core.app.Api request'),
+    //   desc: t('core.app.Api request desc'),
+    //   value: PublishChannelEnum.apikey
+    // }
     // {
     //   icon: 'core/app/publish/lark',
     //   title: t('core.app.publish.Fei shu bot'),
