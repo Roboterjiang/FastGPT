@@ -1,6 +1,7 @@
 import { useTranslation } from 'next-i18next';
 import { useToast } from '@fastgpt/web/hooks/useToast';
 import { useCallback } from 'react';
+import copy from 'copy-to-clipboard';
 
 /**
  * copy text data
@@ -13,7 +14,8 @@ export const useCopyData = () => {
     async (data: string, title: string | null = t('common.Copy Successful'), duration = 1000) => {
       try {
         if (navigator.clipboard) {
-          await navigator.clipboard.writeText(data);
+          copy(data);
+          // await navigator.clipboard.writeText(data);
         } else {
           throw new Error('');
         }

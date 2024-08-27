@@ -118,8 +118,8 @@ const Logs = () => {
                 <Th>{appT('Logs Title')}</Th>
                 <Th>{appT('Logs Message Total')}</Th>
                 <Th>{appT('Feedback Count')}</Th>
-                <Th>{t('core.app.feedback.Custom feedback')}</Th>
-                <Th>{appT('Mark Count')}</Th>
+                {/*<Th>{t('core.app.feedback.Custom feedback')}</Th>*/}
+                {/*<Th>{appT('Mark Count')}</Th>*/}
               </Tr>
             </Thead>
             <Tbody fontSize={'xs'}>
@@ -183,8 +183,8 @@ const Logs = () => {
                     )}
                     {!item?.userGoodFeedbackCount && !item?.userBadFeedbackCount && <>-</>}
                   </Td>
-                  <Td>{item.customFeedbacksCount || '-'}</Td>
-                  <Td>{item.markCount}</Td>
+                  {/*<Td>{item.customFeedbacksCount || '-'}</Td>*/}
+                  {/*<Td>{item.markCount}</Td>*/}
                 </Tr>
               ))}
             </Tbody>
