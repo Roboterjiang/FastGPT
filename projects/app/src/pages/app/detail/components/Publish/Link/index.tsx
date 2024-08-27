@@ -109,7 +109,7 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
                   <Th>{t('common.Expired Time')}</Th>
                 </>
               )}
-              <Th>{t('support.outlink.Usage points')}</Th>
+              {/*<Th>{t('support.outlink.Usage points')}</Th>*/}
               <Th>{t('core.app.share.Is response quote')}</Th>
               {feConfigs?.isPlus && (
                 <>
@@ -134,16 +134,16 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
                     </Td>
                   </>
                 )}
-                <Td>
-                  {Math.round(item.usagePoints)}
-                  {feConfigs?.isPlus
-                    ? `${
-                        item.limit?.maxUsagePoints && item.limit.maxUsagePoints > -1
-                          ? ` / ${item.limit.maxUsagePoints}`
-                          : ` / ${t('common.Unlimited')}`
-                      }`
-                    : ''}
-                </Td>
+                {/*<Td>*/}
+                {/*  {Math.round(item.usagePoints)}*/}
+                {/*  {feConfigs?.isPlus*/}
+                {/*    ? `${*/}
+                {/*        item.limit?.maxUsagePoints && item.limit.maxUsagePoints > -1*/}
+                {/*          ? ` / ${item.limit.maxUsagePoints}`*/}
+                {/*          : ` / ${t('common.Unlimited')}`*/}
+                {/*      }`*/}
+                {/*    : ''}*/}
+                {/*</Td>*/}
                 <Td>{item.responseDetail ? '✔' : '✖'}</Td>
                 {feConfigs?.isPlus && (
                   <>
