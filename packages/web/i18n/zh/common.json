@@ -307,6 +307,7 @@
                 "UnSave": "不保存"
             },
             "error": {
+                "App name cannot exceed N characters": "应用名称不能超过20个字符",
                 "App name can not be empty": "应用名不能为空",
                 "Get app failed": "获取应用异常"
             },
@@ -1139,11 +1140,13 @@
     "dataset": {
         "Collaborators only": "仅协作者",
         "Batch set tags": "批量设置标签",
+        "Batch operation": "批量操作",
         "Batch delete": "批量删除",
         "Batch index": "批量索引",
         "Document type": "文档类型",
         "Please select data first": "请先选择数据",
         "Indexing": "索引中",
+        "Not indexed": "未索引",
         "Indexing failed": "索引失败",
         "Reindex": "重新索引",
         "Set tag": "设置标签",
@@ -1152,6 +1155,7 @@
         "Chart": "图表",
         "Appearance": "外观",
         "Video": "视频",
+        "Reset": "重置",
         "Tags batch set successfully": "标签批量设置成功",
         "Tags set successfully": "标签设置成功",
         "Tags set failed": "标签设置失败",

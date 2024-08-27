@@ -229,6 +229,7 @@ const TagInfo: React.FC = () => {
               <FormControl isInvalid={!!tagErrors.tagKey}>
                 <FormLabel>{t('tag.Tag key')}</FormLabel>
                 <Input
+                  maxLength={20}
                   placeholder={t('tag.Please enter tag key')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagKey : ''
@@ -240,6 +241,7 @@ const TagInfo: React.FC = () => {
               <FormControl isInvalid={!!tagErrors.tagValue} mt={4}>
                 <FormLabel>{t('tag.Tag value')}</FormLabel>
                 <Input
+                  maxLength={20}
                   placeholder={t('tag.Please enter tag value')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagValue : ''

@@ -86,23 +86,78 @@ export const postSearchText = (data: SearchTestProps) =>
 
 /* ============================= collections ==================================== */
 export const getDatasetCollections = async (data: GetDatasetCollectionsProps) => {
-  const result = await POST<PagingData<DatasetCollectionsListItemType>>(
-    `/core/dataset/collection/list`,
-    data
+  let finalResult = {
+    pageNum: 1,
+    pageSize: 20,
+    data: [],
+    total: 0
+  };
+  const user_id = data.user_id;
+  const kb_id = data.kb_id;
+
+  const getStatusType = (status: string) => {
+    switch (status) {
+      case 'yellow':
+        return 1;
+      case 'green':
+        return 2;
+      case 'red':
+        return 3;
+      case 'gray':
+        return 4;
+      default:
+        return 4;
+    }
+  };
+
+  const getColorStatus = (status: string | undefined) => {
+    switch (status) {
+      case '1':
+        return 'yellow';
+      case '2':
+        return 'green';
+      case '3':
+        return 'red';
+      case '4':
+        return 'gray';
+      default:
+        return '';
+    }
+  };
+
+  const status = getColorStatus(data.filterStatus);
+
+  const aidongResult = await getPageAdDatasetsDocs(
+    user_id,
+    kb_id,
+    data.pageNum,
+    status,
+    data.docType,
+    data.searchText
   );
-  const aidongResult = await getAdDatasetsDocs(data.user_id, data.kb_id);
-  if (aidongResult && aidongResult.data && result.data.length > 0) {
+  if (aidongResult && aidongResult.data) {
+    const adFileIds = aidongResult.data.map((x) => x.file_id);
+    const result = await POST<PagingData<DatasetCollectionsListItemType>>(
+      `/core/dataset/collection/filterList`,
+      { datasetId: data.datasetId, adFileIds: adFileIds }
+    );
     result.data.forEach((item) => {
       const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
       if (findItem) {
-        //表示向量化状态  1进行中 2.成功  3.失败
-        item.status = findItem.status == 'green' ? 2 : findItem.status == 'red' ? 3 : 1;
+        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
+        item.status = getStatusType(findItem.status);
         item.doc_type = findItem.doc_type;
       }
     });
+    finalResult = {
+      pageNum: data.pageNum,
+      pageSize: 20,
+      data: result.data,
+      total: aidongResult.pagination.total
+    };
   }
   return new Promise((resolve, reject) => {
-    resolve(result);
+    resolve(finalResult);
   });
 };
 export const getDatasetCollectionPathById = (parentId: string) =>
@@ -212,9 +267,41 @@ export const delAdDatasetDocs = (user_id: string, kb_id: string, adFileId: strin
 export const batchDelAdDatasetDocs = (user_id: string, kb_id: string, file_ids: string[]) =>
   DELETE(`/aidong/kbqa/docs`, { user_id: 'user' + user_id, kb_id, file_ids: file_ids });
 
-/**获取单个知识库的文档列表 */
-export const getAdDatasetsDocs = (user_id: string, kb_id: string) =>
-  GET<Object>('/aidong/kbqa/docs', { user_id: 'user' + user_id, kb_id });
+/**获取单个知识库的文档列表-分页 */
+export const getPageAdDatasetsDocs = (
+  user_id: string | undefined,
+  kb_id: string | undefined,
+  page: number,
+  status: string | undefined,
+  doc_type: string | undefined,
+  file_name: string | undefined
+) => {
+  const postData = {
+    user_id: 'user' + user_id,
+    kb_id,
+    size: 20,
+    page
+  };
+  if (status) {
+    postData.status = status;
+  }
+  if (doc_type) {
+    postData.doc_type = doc_type;
+  }
+  if (file_name) {
+    postData.file_name = file_name;
+  }
+  return GET<Object>('/aidong/kbqa/docs', postData);
+};
+
+/**
+ * 活动单个知识库文档列表
+ * @param file_ids
+ * @returns
+ */
+export const getAdDatasetsDocs = (file_ids: string[]) =>
+  POST<Object>('/aidong/kbqa/doc_details', { file_ids });
+
 /**
  *
  *向量化指定文件
@@ -224,4 +311,18 @@ export const vectorizeAdDatasetsDocs = (user_id: string, kb_id: string, adFileId
 
 export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollectionTag) => {
   return POST(`/core/dataset/collection/batchUpdateTag`, data);
+};
+
+/**
+ * 重命名知识库
+ * @param user_id
+ * @param kb_id
+ * @param kb_name
+ * @returns
+ */
+export const renameDataset = (user_id: string, kb_id: string, kb_name: string) =>
+  POST(`/aidong/kbqa/rename_kb`, { user_id: 'user' + user_id, kb_id, kb_name });
+
+export const checkDuplicateByNames = (user_id: string, kb_id: string, file_names: string[]) => {
+  return POST(`/aidong/kbqa/doc_exists`, { user_id: 'user' + user_id, kb_id, file_names });
 };

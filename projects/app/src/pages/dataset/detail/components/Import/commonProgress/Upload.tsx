@@ -63,7 +63,6 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
               : source
           )
         );
-        console.log('爱动开始上传文件', item);
         const commonParams = {
           parentId,
           trainingType: TrainingModeEnum.chunk,

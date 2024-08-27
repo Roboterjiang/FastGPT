@@ -208,6 +208,7 @@ export const adStreamFetch = ({
                   });
                 }
               });
+              console.log('parseJson.source_documents', parseJson.source_documents);
               responseData = [
                 {
                   nodeId: new Date().getTime() + '',

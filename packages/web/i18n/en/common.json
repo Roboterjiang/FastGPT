@@ -306,6 +306,7 @@
             },
             "error": {
                 "App name can not be empty": "App name cannot be empty",
+                "App name cannot exceed N characters": "App name cannot exceed 20 characters",
                 "Get app failed": "Failed to get app"
             },
             "feedback": {
@@ -1130,12 +1131,14 @@
     "dataset": {
         "Collaborators only": "Collaborators only",
         "Batch set tags": "Batch set tags",
+        "Batch operation": "Batch operation",
         "Batch delete": "Batch delete",
         "Batch index": "Batch index",
         "Document type": "Document type",
         "Please select data first": "Please select data first",
         "Indexing": "Indexing",
         "Indexing failed": "Indexing failed",
+        "Not indexed": "Not indexed",
         "Reindex": "Reindex",
         "Set tag": "Set tag",
         "General document": "General document",
@@ -1143,6 +1146,7 @@
         "Chart": "Chart",
         "Appearance": "Appearance",
         "Video": "Video",
+        "Reset": "Reset",
         "Tags batch set successfully": "Tags batch set successfully",
         "Tags batch set failed": "Tags batch set failed",
         "Tags set successfully": "Tags set successfully",

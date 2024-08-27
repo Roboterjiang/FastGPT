@@ -16,7 +16,7 @@ import { ImportSourceItemType } from '@/web/core/dataset/type';
 import { useI18n } from '@/web/context/I18n';
 import { useUserStore } from '@/web/support/user/useUserStore';
 
-import { getAdDatasetsDocs } from '@/web/core/dataset/api';
+import { checkDuplicateByNames } from '@/web/core/dataset/api';
 
 export type SelectFileItemType = {
   fileId: string;
@@ -173,27 +173,20 @@ const FileSelector = ({
     }
   });
 
-  const hasDuplicates = (files: any, serverNames: any) => {
-    const fileNames = files.map((item: any) => item.file.name);
-    const finalNames = fileNames.concat(serverNames);
-    // console.log('爱动finalNames', finalNames);
-    const uniqueNames = new Set(finalNames);
-    return finalNames.length !== uniqueNames.size;
-  };
-
   const selectFileCallback = useCallback(
     async (files: SelectFileItemType[]) => {
-      const result = await getAdDatasetsDocs(userInfo._id, kb_id);
+      const file_names = files.map((item) => item.file.name);
+      //判断文件名称是否重复
+      const result = await checkDuplicateByNames(userInfo._id, kb_id, file_names);
+      //返回重复的file
       if (result && result.data && result.data.length > 0) {
-        let serverFilesNames = result.data.map((item: any) => item.file_name);
-        //新增爱动判断，文件名不可以重复
-        if (hasDuplicates(files, serverFilesNames)) {
-          toast({
-            status: 'warning',
-            title: t('dataset.All file names in the knowledge base cannot be duplicated')
-          });
-          return;
-        }
+        toast({
+          status: 'warning',
+          title: t('dataset.All file names in the knowledge base cannot be duplicated')
+        });
+        //过滤掉重复的数据
+        const serverFileNames = result.data.map((item) => item.file_name);
+        files = files.filter((item) => !serverFileNames.includes(item.file.name));
       }
       if (selectFiles.length + files.length > maxCount) {
         files = files.slice(0, maxCount - selectFiles.length);

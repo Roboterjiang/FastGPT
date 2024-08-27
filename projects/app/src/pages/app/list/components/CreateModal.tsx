@@ -129,8 +129,6 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
     errorToast: t('common.Create Failed')
   });
 
-  console.log('爱动typeData.templates', typeData.templates);
-
   return (
     <MyModal
       iconSrc={typeData.icon}
@@ -159,9 +157,14 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
             flex={1}
             ml={4}
             autoFocus
+            maxLength={20}
             bg={'myWhite.600'}
             {...register('name', {
-              required: t('core.app.error.App name can not be empty')
+              required: t('core.app.error.App name can not be empty'),
+              maxLength: {
+                value: 30,
+                message: 'App name cannot exceed 30 characters'
+              }
             })}
           />
         </Flex>

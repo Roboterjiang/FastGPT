@@ -85,7 +85,9 @@ const SelectFile = React.memo(function SelectFile({
   const newFileType =
     doc_type === 'video'
       ? '.mp4, .rm, .rmvb, .3gp, .avi, .wmv'
-      : '.txt, .docx, .csv, .xlsx, .pdf, .md, .pptx, .jpg, .jpeg, .png, .gif, .webp, .bmp, .svg';
+      : doc_type === 'general' || doc_type === 'error_code'
+        ? '.md, .txt, .pdf, .jpg, .png, .jpeg, .docx, .doc, .xls, .xlsx, .xlsm, .ppt, .pptx, .csv'
+        : '.md, .txt, .pdf, .jpg, .png, .jpeg, .docx, .doc, .xls, .xlsx, .xlsm, .ppt, .pptx, .csv, .mp4, .rm, .rmvb, .3gp, .avi, .wmv';
 
   return (
     <Box>
