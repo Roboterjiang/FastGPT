@@ -209,7 +209,7 @@ const Header = ({
               }
             }}
           />
-          {/* 1索引中 2.已就绪  3.失败 4.未索引 */}
+          {/* 1索引中 2.已就绪  3.失败 4.未索引 5排队中 */}
           <Select
             colorScheme={'red'}
             w={['100%', '200px']}
@@ -220,6 +220,7 @@ const Header = ({
             placeholder={t('common.Status')}
           >
             <option value="4">{t('dataset.Not indexed')}</option>
+            <option value="5">{t('dataset.Queuing')}</option>
             <option value="1">{t('dataset.Indexing')}</option>
             <option value="2">{t('core.dataset.collection.status.active')}</option>
             <option value="3">{t('dataset.Indexing failed')}</option>

@@ -1147,6 +1147,7 @@
         "Please select data first": "请先选择数据",
         "Indexing": "索引中",
         "Not indexed": "未索引",
+        "Queuing": "排队中",
         "Indexing failed": "索引失败",
         "Reindex": "重新索引",
         "Set tag": "设置标签",

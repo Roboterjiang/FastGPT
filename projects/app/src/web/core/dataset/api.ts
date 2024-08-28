@@ -105,6 +105,8 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
         return 3;
       case 'gray':
         return 4;
+      case 'orange':
+        return 5;
       default:
         return 4;
     }
@@ -120,6 +122,8 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
         return 'red';
       case '4':
         return 'gray';
+      case '5':
+        return 'orange';
       default:
         return '';
     }
@@ -144,7 +148,7 @@ export const getDatasetCollections = async (data: GetDatasetCollectionsProps) =>
     result.data.forEach((item) => {
       const findItem = aidongResult.data.find((x) => x.file_id === item.adFileId);
       if (findItem) {
-        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引
+        //表示向量化状态  1进行中 2.成功  3.失败 4.未索引  5排队中
         item.status = getStatusType(findItem.status);
         item.doc_type = findItem.doc_type;
       }
