@@ -141,7 +141,7 @@ const InputGuideConfig = ({
                 </Button>
               </Flex>
               <>
-                <Flex mt={8} alignItems={'center'}>
+                {/* <Flex mt={8} alignItems={'center'}>
                   <FormLabel>{chatT('Custom input guide url')}</FormLabel>
                   <Flex
                     onClick={() => window.open(getDocPath('/docs/course/chat_input_guide'))}
@@ -164,7 +164,7 @@ const InputGuideConfig = ({
                       customUrl: e.target.value
                     })
                   }
-                />
+                /> */}
               </>
             </>
           )}
