@@ -13,12 +13,12 @@ export const useCopyData = () => {
   const copyData = useCallback(
     async (data: string, title: string | null = t('common.Copy Successful'), duration = 1000) => {
       try {
-        if (navigator.clipboard) {
-          copy(data);
-          // await navigator.clipboard.writeText(data);
-        } else {
-          throw new Error('');
-        }
+        copy(data);
+        // if (navigator.clipboard) {
+        //   await navigator.clipboard.writeText(data);
+        // } else {
+        //   throw new Error('');
+        // }
       } catch (error) {
         console.log(error);
 
