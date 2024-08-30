@@ -35,8 +35,6 @@ async function handler(req: ApiRequestProps<FileIdCreateDatasetCollectionParams>
     ...body
   } = req.body;
 
-  console.log('爱动创建 知识库文档表', adFileId);
-
   const { teamId, tmbId, dataset } = await authDataset({
     req,
     authToken: true,
