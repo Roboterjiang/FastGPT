@@ -50,9 +50,10 @@ type Props = {
   shareId: string;
   authToken: string;
   appId: string;
+  responseDetail?: boolean;
 };
 
-const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
+const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
   const { t } = useTranslation();
   const router = useRouter();
   const {
@@ -70,6 +71,7 @@ const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
     authToken: string;
     [key: string]: string;
   };
+
   const { toast } = useToast();
   const { isPc } = useSystemStore();
   const ChatBoxRef = useRef<ComponentRef>(null);
@@ -140,7 +142,8 @@ const OutLink = ({ appName, appIntro, appAvatar }: Props) => {
           chatId: completionChatId,
           outLinkUid,
           user_id: userId,
-          kb_ids: kb_ids
+          kb_ids: kb_ids,
+          responseDetail
         },
         onMessage: generatingMessage,
         abortCtrl: controller
@@ -418,7 +421,7 @@ export async function getServerSideProps(context: any) {
         {
           shareId
         },
-        'appId'
+        'appId responseDetail'
       )
         .populate('appId', 'name avatar intro')
         .lean()) as OutLinkWithAppType;
@@ -436,6 +439,7 @@ export async function getServerSideProps(context: any) {
       appIntro: app?.appId?.intro ?? 'intro',
       shareId: shareId ?? '',
       authToken: authToken ?? '',
+      responseDetail: app?.responseDetail ?? false,
       ...(await serviceSideProps(context, ['file']))
     }
   };

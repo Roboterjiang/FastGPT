@@ -115,8 +115,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const originIp = requestIp.getClientIp(req);
 
-    console.log('爱动originIp', originIp);
-
     await connectToDatabase();
     // body data check
     if (!messages) {

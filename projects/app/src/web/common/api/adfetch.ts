@@ -121,6 +121,13 @@ export const adStreamFetch = ({
         question: data?.question
       };
 
+      const outLinkUid = data.outLinkUid;
+
+      /**
+       * 是否显示索引
+       */
+      const responseDetail = outLinkUid ? (data.responseDetail ? true : false) : true;
+
       const requestData = {
         method: 'POST',
         headers: {
@@ -190,16 +197,18 @@ export const adStreamFetch = ({
             }
             //获取应用文档和图片
             if (parseJson.source_documents && parseJson.source_documents.length > 0) {
-              const quoteList = parseJson.source_documents.map((x) => {
-                return {
-                  sourceName: x.file_name,
-                  sourceId: x.file_id,
-                  collectionId: x.file_id,
-                  a: x.content,
-                  q: x.retrieval_query,
-                  fileUrl: x.file
-                };
-              });
+              const quoteList = responseDetail
+                ? parseJson.source_documents.map((x) => {
+                    return {
+                      sourceName: x.file_name,
+                      sourceId: x.file_id,
+                      collectionId: x.file_id,
+                      a: x.content,
+                      q: x.retrieval_query,
+                      fileUrl: x.file
+                    };
+                  })
+                : [];
               parseJson.source_documents.forEach((x) => {
                 if (x.file) {
                   responseQueue.push({
@@ -208,7 +217,6 @@ export const adStreamFetch = ({
                   });
                 }
               });
-              console.log('parseJson.source_documents', parseJson.source_documents);
               responseData = [
                 {
                   nodeId: new Date().getTime() + '',
