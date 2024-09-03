@@ -50,8 +50,8 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
   );
 
   return (
-    <Flex flexDirection={'column'} h={'100%'}>
-      <Box mt={4} px={4}>
+    <Flex flexDirection={'column'} maxH={'300px'} minH={'220px'}>
+      {/* <Box mt={4} px={4}>
         {!isTeamChat && (
           <Flex
             alignItems={'center'}
@@ -74,14 +74,15 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
             {t('core.chat.Exit Chat')}
           </Flex>
         )}
-      </Box>
+      </Box> */}
 
       {!isTeamChat && (
         <>
-          <MyDivider h={2} my={1} />
+          {/* <MyDivider h={2} my={1} /> */}
           <HStack
             px={4}
             my={2}
+            mt={4}
             color={'myGray.500'}
             fontSize={'sm'}
             justifyContent={'space-between'}
@@ -127,7 +128,7 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
         </>
       )}
 
-      <Box flex={'1 0 0'} px={4} h={0} overflow={'overlay'}>
+      <Box flex={'1 0 0'} px={4} mt={2} h={0} overflow={'overlay'}>
         {apps.map((item) => (
           <Flex
             key={item._id}

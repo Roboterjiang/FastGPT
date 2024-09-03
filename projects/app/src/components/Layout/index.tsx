@@ -25,7 +25,7 @@ const pcUnShowLayoutRoute: Record<string, boolean> = {
   '/chat/share': true,
   '/chat/team': true,
   '/app/edit': true,
-  '/chat': true,
+  //   '/chat': true,
   '/tools/price': true,
   '/price': true
 };
