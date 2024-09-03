@@ -43,12 +43,12 @@ const MySelect = (
   const ref = useRef<HTMLButtonElement>(null);
   const { Loading } = useLoading();
   const menuItemStyles: MenuItemProps = {
-    borderRadius: 'sm',
-    py: 2,
     display: 'flex',
     alignItems: 'center',
     _hover: {
-      backgroundColor: 'myWhite.600'
+      backgroundColor: 'primary.60',
+      borderLeftColor: 'primary.10',
+      borderLeftWidth: '5px'
     },
     _notLast: {
       mb: 2
@@ -110,9 +110,7 @@ const MySelect = (
               : `${width} !important`;
           })()}
           w={'auto'}
-          px={'6px'}
-          py={'6px'}
-          border={'1px solid #fff'}
+          borderLeft={'2px solid primary.10'}
           boxShadow={
             '0px 2px 4px rgba(161, 167, 179, 0.25), 0px 0px 1px rgba(121, 141, 159, 0.25);'
           }
@@ -126,11 +124,14 @@ const MySelect = (
               {...menuItemStyles}
               {...(value === item.value
                 ? {
-                    color: 'primary.600',
-                    bg: 'myGray.100'
+                    color: 'myGray.900',
+                    bg: 'primary.60',
+                    borderLeftColor: 'primary.10',
+                    borderLeftWidth: '5px'
                   }
                 : {
-                    color: 'myGray.900'
+                    color: 'myGray.900',
+                    bg: 'myWhite.100'
                   })}
               onClick={() => {
                 if (onchange && value !== item.value) {
