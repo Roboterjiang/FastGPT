@@ -23,7 +23,7 @@ import { AppTypeEnum } from '@fastgpt/global/core/app/constants';
 import { useContextSelector } from 'use-context-selector';
 import { ChatContext } from '@/web/core/chat/context/chatContext';
 import MyBox from '@fastgpt/web/components/common/MyBox';
-
+import { AddIcon } from '@chakra-ui/icons';
 import SliderApps from './SliderApps';
 
 type HistoryItemType = {
@@ -128,7 +128,7 @@ const ChatHistorySlider = ({
       w={'100%'}
       h={'100%'}
       bg={'white'}
-      borderRight={['', theme.borders.base]}
+      //   borderRight={['', theme.borders.base]}
       whiteSpace={'nowrap'}
     >
       {/* {isPc && (
@@ -177,12 +177,12 @@ const ChatHistorySlider = ({
           />
         )}
         <Button
-          variant={'whitePrimary'}
+          //   variant={'whitePrimary'}
           flex={['0 0 auto', 1]}
           h={'100%'}
-          color={'primary.600'}
+          color={'white'}
           borderRadius={'xl'}
-          leftIcon={<MyIcon name={'core/chat/chatLight'} w={'16px'} />}
+          leftIcon={<AddIcon />}
           overflow={'hidden'}
           onClick={() => onChangeChatId()}
         >
@@ -217,11 +217,11 @@ const ChatHistorySlider = ({
                 position={'relative'}
                 key={item.id || `${i}`}
                 alignItems={'center'}
-                py={2.5}
+                py={'6px'}
                 px={4}
                 cursor={'pointer'}
                 userSelect={'none'}
-                borderRadius={'md'}
+                borderRadius={'20px'}
                 mb={2}
                 fontSize={'sm'}
                 _hover={{
@@ -237,15 +237,16 @@ const ChatHistorySlider = ({
                       color: 'primary.600'
                     }
                   : {
+                      color: 'black.30',
                       onClick: () => {
                         onChangeChatId(item.id);
                       }
                     })}
               >
-                <MyIcon
+                {/* <MyIcon
                   name={item.id === activeChatId ? 'core/chat/chatFill' : 'core/chat/chatLight'}
                   w={'16px'}
-                />
+                /> */}
                 <Box flex={'1 0 0'} ml={3} className="textEllipsis">
                   {item.customTitle || item.title}
                 </Box>
@@ -254,9 +255,11 @@ const ChatHistorySlider = ({
                     <MyMenu
                       Button={
                         <IconButton
-                          size={'xs'}
-                          variant={'whiteBase'}
-                          icon={<MyIcon name={'more'} w={'14px'} p={1} />}
+                          colorScheme={item.id === activeChatId ? 'primary' : ''}
+                          isRound={true}
+                          size={'6px'}
+                          variant={'outline'}
+                          icon={<MyIcon name={'more'} w={'8px'} p={1} />}
                           aria-label={''}
                         />
                       }

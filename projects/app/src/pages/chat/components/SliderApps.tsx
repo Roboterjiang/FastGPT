@@ -50,7 +50,7 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
   );
 
   return (
-    <Flex flexDirection={'column'} maxH={'350px'} minH={'250px'}>
+    <Flex flexDirection={'column'} maxH={'350px'} minH={'230px'}>
       {/* <Box mt={4} px={4}>
         {!isTeamChat && (
           <Flex
@@ -117,7 +117,7 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
               }
             >
               {({ onClose }) => (
-                <Box minH={'200px'}>
+                <Box minH={'180px'}>
                   <SelectOneResource
                     value={activeAppId}
                     onSelect={(id) => {
@@ -153,14 +153,15 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
                   borderColor: 'primary.1'
                 }
               : {
+                  color: 'black.100',
                   _hover: {
                     bg: 'myGray.22'
                   },
                   onClick: () => onChangeApp(item._id)
                 })}
           >
-            <Avatar src={item.avatar} w={'24px'} />
-            <Box ml={2} className={'textEllipsis'}>
+            <Avatar src={item.avatar} w={'12px'} />
+            <Box ml={3} className={'textEllipsis'}>
               {item.name}
             </Box>
           </Flex>

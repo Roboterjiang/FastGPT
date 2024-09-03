@@ -44,6 +44,7 @@ const MyMenu = ({
 }: Props) => {
   const typeMapStyle: Record<MenuItemType, MenuItemProps> = {
     primary: {
+      color: 'black.30',
       _hover: {
         backgroundColor: 'primary.50',
         color: 'primary.600'

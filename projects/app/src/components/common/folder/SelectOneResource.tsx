@@ -77,19 +77,24 @@ const SelectOneResource = ({
               <Flex
                 alignItems={'center'}
                 cursor={'pointer'}
-                py={1}
+                py={2}
+                mb={2}
                 pl={index === 0 ? '0.5rem' : `${1.75 * (index - 1) + 0.5}rem`}
                 pr={2}
-                borderRadius={'md'}
+                borderRadius={'20px'}
                 _hover={{
-                  bg: 'myGray.100'
+                  bg: 'myGray.22'
                 }}
                 {...(item.id === value
                   ? {
-                      bg: 'primary.50 !important',
+                      bg: 'myGray.22',
+                      color: 'primary.10',
+                      borderWidth: '1px',
+                      borderColor: 'primary.1',
                       onClick: () => onSelect(undefined)
                     }
                   : {
+                      color: 'black.100',
                       onClick: async () => {
                         if (item.id === rootId) return;
                         // folder => open(request children) or close
@@ -135,8 +140,8 @@ const SelectOneResource = ({
                     />
                   </Flex>
                 )}
-                <Avatar ml={index !== 0 ? '0.5rem' : 0} src={item.avatar} w={'1.25rem'} />
-                <Box fontSize={['md', 'sm']} ml={2} className="textEllipsis">
+                <Avatar ml={index !== 0 ? '0.5rem' : 0} src={item.avatar} w={'12px'} />
+                <Box fontSize={['md', 'sm']} ml={3} className="textEllipsis">
                   {item.name}
                 </Box>
               </Flex>

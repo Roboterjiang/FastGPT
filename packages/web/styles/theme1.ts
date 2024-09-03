@@ -561,7 +561,7 @@ export const theme = extendTheme({
   styles: {
     global: {
       'html, body': {
-        color: 'myGray.600',
+        color: 'black.30',
         fontWeight: 'normal',
         height: '100%',
         overflow: 'hidden',
