@@ -311,7 +311,7 @@ export const getAdDatasetsDocs = (file_ids: string[]) =>
  *向量化指定文件
  *  */
 export const vectorizeAdDatasetsDocs = (user_id: string, kb_id: string, adFileIds: string[]) =>
-  POST(`/aidong/kbqa/emb_kb`, { user_id: 'user' + user_id, kb_id, file_ids: adFileIds });
+  POST(`/aidong/kbqa/emb_file`, { user_id: 'user' + user_id, kb_id, file_ids: adFileIds });
 
 export const batchUpdateDatasetCollectionTags = (data: BatchUpdateDatasetCollectionTag) => {
   return POST(`/core/dataset/collection/batchUpdateTag`, data);
@@ -330,3 +330,13 @@ export const renameDataset = (user_id: string, kb_id: string, kb_name: string) =
 export const checkDuplicateByNames = (user_id: string, kb_id: string, file_names: string[]) => {
   return POST(`/aidong/kbqa/doc_exists`, { user_id: 'user' + user_id, kb_id, file_names });
 };
+
+/**
+ * 重新设置tag时，需要对tag列表进行向量化，只有状态为已就绪的才能进行
+ * @param user_id
+ * @param kb_id
+ * @param kb_name
+ * @returns
+ */
+export const embTag = (user_id: string | undefined, kb_id: string, file_ids: string[]) =>
+  POST(`/aidong/kbqa/emb_tag`, { user_id: 'user' + user_id, kb_id, file_ids });

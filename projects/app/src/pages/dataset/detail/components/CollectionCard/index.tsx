@@ -21,7 +21,8 @@ import {
   postLinkCollectionSync,
   delAdDatasetDocs,
   vectorizeAdDatasetsDocs,
-  batchUpdateDatasetCollectionTags
+  batchUpdateDatasetCollectionTags,
+  embTag
 } from '@/web/core/dataset/api';
 import { useQuery } from '@tanstack/react-query';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
@@ -275,16 +276,26 @@ const CollectionCard = () => {
   });
 
   const onSubmit = (result: FormTagValues) => {
+    const user_id = userInfo?._id;
     if (currentCollection) {
       //更新数据库中的tagInfo  updateDatasetCollectionTagInfo
       onUpdateCollectionTag({
         collectionId: currentCollection._id,
         tagInfo: result.values
       });
+      //对于状态为已就绪的文档，进行标签向量化
+      embTag(user_id, router.query.kb_id, [currentCollection.adFileId]);
     }
     if (selectedItems && selectedItems.length > 0) {
       //更新数据库中的tagInfo
       batchUpdateCollectionTag({ idList: selectedItems, tagInfo: result.values });
+
+      //筛选status==2的文档，进行标签向量化
+      const embFileIds = formatCollections
+        .filter((item) => selectedItems.includes(item._id) && item.status == 2)
+        .map((item) => item.adFileId);
+
+      embTag(user_id, router.query.kb_id, embFileIds);
     }
   };
 

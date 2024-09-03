@@ -205,9 +205,14 @@ export const adStreamFetch = ({
                       collectionId: x.file_id,
                       a: x.content,
                       q: x.retrieval_query,
-                      fileUrl: x.file
+                      fileUrl: x.file,
+                      score: x.score
                     };
                   })
+                : [];
+              //过滤score存在且，score<0.6的情况
+              const finalQuoteList = responseDetail
+                ? quoteList.filter((x) => x.score && x.score >= 0.6)
                 : [];
               parseJson.source_documents.forEach((x) => {
                 if (x.file) {
@@ -222,7 +227,7 @@ export const adStreamFetch = ({
                   nodeId: new Date().getTime() + '',
                   moduleName: '知识库检索',
                   moduleType: FlowNodeTypeEnum.datasetSearchNode,
-                  quoteList
+                  quoteList: finalQuoteList
                 }
               ];
             }
