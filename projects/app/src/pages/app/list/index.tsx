@@ -40,7 +40,8 @@ import { useSystemStore } from '@/web/common/system/useSystemStore';
 import type { CreateAppType } from './components/CreateModal';
 import { AppTypeEnum } from '@fastgpt/global/core/app/constants';
 import MyBox from '@fastgpt/web/components/common/MyBox';
-import LightRowTabs from '@fastgpt/web/components/common/Tabs/LightRowTabs';
+// import LightRowTabs from '@fastgpt/web/components/common/Tabs/LightRowTabs'; // 旧的tab组件
+import ButtonTabs from '@fastgpt/web/components/common/Tabs/ButtonTabs';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 
 const CreateModal = dynamic(() => import('./components/CreateModal'));
@@ -146,16 +147,16 @@ const MyApps = () => {
             alignItems={'center'}
             justifyContent={'space-between'}
           >
-            <LightRowTabs
+            <ButtonTabs
               list={[
                 {
                   label: appT('type.All'),
                   value: 'ALL'
+                },
+                {
+                  label: appT('type.Simple bot'),
+                  value: AppTypeEnum.simple
                 }
-                // {
-                //   label: appT('type.Simple bot'),
-                //   value: AppTypeEnum.simple
-                // },
                 // {
                 //   label: appT('type.Workflow bot'),
                 //   value: AppTypeEnum.workflow
@@ -194,7 +195,7 @@ const MyApps = () => {
                     setCreateAppType(AppTypeEnum.simple);
                   }}
                 >
-                  <Box>{t('common.Create New')}</Box>
+                  <Box>{t('common.Create New') + t('App')}</Box>
                 </Button>
               )}
           </Flex>

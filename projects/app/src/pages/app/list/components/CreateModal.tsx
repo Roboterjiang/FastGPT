@@ -3,12 +3,14 @@ import {
   Box,
   Flex,
   Button,
+  ModalHeader,
   ModalFooter,
   ModalBody,
   Input,
   Grid,
   useTheme,
-  Card
+  Card,
+  Textarea
 } from '@chakra-ui/react';
 import { useSelectFile } from '@/web/common/file/hooks/useSelectFile';
 import { useForm } from 'react-hook-form';
@@ -49,7 +51,8 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
   const typeMap = useRef({
     [AppTypeEnum.simple]: {
       icon: 'core/app/simpleBot',
-      title: appT('type.Create simple bot'),
+      // i18n* title: appT('type.Create simple bot'),
+      title: '创建工作台应用',
       avatar: '/imgs/app/avatar/simple.svg',
       templates: simpleBotTemplates
     },
@@ -131,18 +134,23 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
 
   return (
     <MyModal
-      iconSrc={typeData.icon}
+      // iconSrc={typeData.icon}
       title={typeData.title}
       isOpen
       onClose={onClose}
       isCentered={!isPc}
     >
       <ModalBody>
-        <Box color={'myGray.800'} fontWeight={'bold'}>
-          {t('common.Set Name')}
+        <Box
+          mt={4}
+          color={'myGray.800'}
+          // fontWeight={'bold'}
+        >
+          {/* i18n* {t('common.Set Name')} */}
+          {'应用名称'}
         </Box>
         <Flex mt={2} alignItems={'center'}>
-          <MyTooltip label={t('common.Set Avatar')}>
+          {/* <MyTooltip label={t('common.Set Avatar')}>
             <Avatar
               flexShrink={0}
               src={avatar}
@@ -152,10 +160,11 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
               borderRadius={'sm'}
               onClick={onOpenSelectFile}
             />
-          </MyTooltip>
+          </MyTooltip> */}
           <Input
             flex={1}
-            ml={4}
+            // ml={4}
+            placeholder="输入应用名称"
             autoFocus
             maxLength={20}
             bg={'myWhite.600'}
@@ -166,6 +175,25 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
                 message: 'App name cannot exceed 30 characters'
               }
             })}
+          />
+        </Flex>
+
+        <Box
+          mt={8}
+          color={'myGray.800'}
+          // fontWeight={'bold'}
+        >
+          {/* i18n* {t('common.Set Name')} */}
+          {'简介描述'}
+        </Box>
+        <Flex mt={2} alignItems={'center'}>
+          <Textarea
+            flex={1}
+            // ml={4}
+            placeholder="请描写应用简介"
+            autoFocus
+            maxLength={20}
+            bg={'myWhite.600'}
           />
         </Flex>
         {/* <Box mt={[4, 7]} mb={[0, 3]} color={'myGray.800'} fontWeight={'bold'}>
@@ -212,12 +240,17 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
         </Grid> */}
       </ModalBody>
 
-      <ModalFooter>
-        <Button variant={'whiteBase'} mr={3} onClick={onClose}>
-          {t('common.Close')}
+      <ModalFooter justifyContent={'center'}>
+        <Button variant={'primaryOutline'} borderRadius={5} px={6} mr={3} onClick={onClose}>
+          {t('common.Cancel')}
         </Button>
-        <Button px={6} isLoading={creating} onClick={handleSubmit((data) => onclickCreate(data))}>
-          {t('common.Confirm Create')}
+        <Button
+          px={6}
+          borderRadius={5}
+          isLoading={creating}
+          onClick={handleSubmit((data) => onclickCreate(data))}
+        >
+          {t('common.Create New')}
         </Button>
       </ModalFooter>
 

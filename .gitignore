@@ -50,3 +50,5 @@ files/docker/mongo/*
 files/docker/mysql/*
 files/docker/oneapi/*
 files/docker/pg/*
+files/docker/milvus/*
+files/docker/minio/*
