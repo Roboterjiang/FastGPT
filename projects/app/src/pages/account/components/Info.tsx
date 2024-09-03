@@ -63,10 +63,10 @@ const Account = () => {
   useQuery(['init'], initUserInfo);
 
   return (
-    <Box py={[3, '28px']} maxW={['95vw', '1080px']} px={[5, 10]} mx={'auto'}>
+    <Box maxW={['95vw', '100%']}>
       {isPc ? (
-        <Flex justifyContent={'center'}>
-          <Box flex={'0 0 330px'}>
+        <Flex justifyContent={'space-between'}>
+          <Box flex={'0 0 100%'}>
             <MyInfo />
             <Box mt={9}>
               <Other />
@@ -169,23 +169,30 @@ const MyInfo = () => {
     <Box>
       {/* user info */}
       {isPc && (
-        <Flex alignItems={'center'} fontSize={'md'} h={'30px'}>
-          <MyIcon mr={2} name={'support/user/userLight'} w={'1.25rem'} />
+        <Box
+          bg={'myGray.25'}
+          display={'flex'}
+          pl={5}
+          alignItems={'center'}
+          fontSize={'sm'}
+          h={'50px'}
+          w={'100%'}
+        >
+          <MyIcon color={'primary.10'} mr={2} name={'support/user/userLight'} w={'0.9rem'} />
           {t('support.user.User self info')}
-        </Flex>
+        </Box>
       )}
 
-      <Box mt={[0, 6]} fontSize={'sm'}>
+      <Box pl={5} fontSize={'sm'}>
         {isPc ? (
-          <Flex alignItems={'center'} cursor={'pointer'}>
-            <Box {...labelStyles}>{t('support.user.Avatar')}:&nbsp;</Box>
+          <Flex mt={5} cursor={'pointer'}>
+            <Box {...labelStyles}>{t('support.user.Avatar')}</Box>
 
             <MyTooltip label={t('common.avatar.Select Avatar')}>
               <Box
                 w={['44px', '56px']}
                 h={['44px', '56px']}
                 borderRadius={'50%'}
-                border={theme.borders.base}
                 overflow={'hidden'}
                 p={'2px'}
                 boxShadow={'0 0 5px rgba(0,0,0,0.1)'}
@@ -244,9 +251,11 @@ const MyInfo = () => {
             />
           </Flex>
         )}
-        <Flex alignItems={'center'} mt={6}>
-          <Box {...labelStyles}>{t('user.Account')}:&nbsp;</Box>
-          <Box flex={1}>{userInfo?.username}</Box>
+        <Flex alignItems={'center'} mt={6} w={'480px'}>
+          <Box {...labelStyles}>{t('user.Account')}</Box>
+          <Box bg={'myGray.20'} padding={'5px 15px'} flex={1}>
+            {userInfo?.username}
+          </Box>
         </Flex>
         {feConfigs.isPlus && (
           <Flex mt={6} alignItems={'center'}>

@@ -129,16 +129,24 @@ const Account = ({ currentTab }: { currentTab: TabEnum }) => {
   return (
     <>
       <Script src="/js/qrcode.min.js" strategy="lazyOnload"></Script>
-      <PageContainer>
+      <PageContainer
+        insertProps={{ boxShadow: '0', border: 'none', backgroundColor: 'myGray.100' }}
+      >
         <Flex flexDirection={['column', 'row']} h={'100%'} pt={[4, 0]}>
           {isPc ? (
             <Flex
+              bg={'myWhite.100'}
+              borderRadius={[0, '16px']}
               flexDirection={'column'}
               p={4}
               h={'100%'}
               flex={'0 0 200px'}
-              borderRight={theme.borders.base}
+              mr={2}
             >
+              <Box mb={3} display={'flex'} alignItems={'center'}>
+                <Box mr={2} w={'5px'} h={'20px'} backgroundColor={'primary.10'}></Box>
+                <Box>{currentTab === TabEnum.info ? '账户' : '个性化'}</Box>
+              </Box>
               <SideTabs<TabEnum>
                 flex={1}
                 mx={'auto'}
@@ -170,7 +178,14 @@ const Account = ({ currentTab }: { currentTab: TabEnum }) => {
             </Box>
           )}
 
-          <Box flex={'1 0 0'} h={'100%'} pb={[4, 0]} overflow={'auto'}>
+          <Box
+            bg={'myWhite.100'}
+            borderRadius={[0, '16px']}
+            flex={'1 0 0'}
+            h={'100%'}
+            pb={[4, 0]}
+            overflow={'auto'}
+          >
             {currentTab === TabEnum.info && <UserInfo />}
             {currentTab === TabEnum.promotion && <Promotion />}
             {currentTab === TabEnum.usage && <UsageTable />}
