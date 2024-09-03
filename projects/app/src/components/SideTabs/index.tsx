@@ -44,15 +44,17 @@ const SideTabs = <ValueType = string,>({
         <Flex
           key={item.value as string}
           py={sizeMap.inlineP}
-          borderRadius={'md'}
-          px={3}
+          borderRadius={'20px'}
+          px={4}
           mb={2}
           fontWeight={'medium'}
           alignItems={'center'}
           {...(value === item.value
             ? {
-                bg: ' primary.100 !important',
-                color: 'primary.600 ',
+                bg: ' myGray.22 !important',
+                color: 'black.30 !important ',
+                border: '1px solid',
+                borderColor: 'primary.1',
                 cursor: 'default'
               }
             : {
@@ -60,15 +62,26 @@ const SideTabs = <ValueType = string,>({
                 color: 'myGray.600'
               })}
           _hover={{
-            color: 'primary.600',
-            bg: 'myGray.100'
+            color: 'black.30',
+            bg: 'myGray.22'
           }}
           onClick={() => {
             if (value === item.value) return;
             onChange(item.value);
           }}
         >
-          <MyIcon mr={2} name={item.icon as IconNameType} w={'20px'} />
+          <MyIcon
+            {...(value === item.value
+              ? {
+                  color: 'primary.10'
+                }
+              : {
+                  color: 'black.30'
+                })}
+            mr={2}
+            name={item.icon as IconNameType}
+            w={'16px'}
+          />
           {item.label}
         </Flex>
       ))}
