@@ -595,7 +595,8 @@ export const theme = extendTheme({
       '05': 'rgba(17, 24, 36, 0.05)',
       1: 'rgba(17, 24, 36, 0.1)',
       15: 'rgba(17, 24, 36, 0.15)',
-
+      20: '#F5F5F5',
+      22: '#F6F6F6',
       25: '#FBFBFC',
       50: '#F7F8FA',
       100: '#F4F4F7',
@@ -617,7 +618,7 @@ export const theme = extendTheme({
       5: 'rgba(174, 0, 85, 0.5)',
       7: 'rgba(174, 0, 85, 0.7)',
       9: 'rgba(174, 0, 85, 0.9)',
-
+      10: 'rgba(174, 0, 85, 1)',
       50: '#ffe4f0',
       100: '#ffb8d9',
       200: '#ff8bc2',
@@ -695,7 +696,8 @@ export const theme = extendTheme({
       low: '#E8EBF0',
       base: '#DFE2EA',
       high: '#C4CBD7',
-      highest: '#8A95A7'
+      highest: '#8A95A7',
+      body: '#F5F5F5'
     }
   },
   fonts: {

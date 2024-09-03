@@ -56,7 +56,7 @@ const Chat = ({
 
   const ChatBoxRef = useRef<ComponentRef>(null);
 
-  const { setLastChatAppId, setKbIds } = useChatStore();
+  const { setLastChatAppId } = useChatStore();
   const {
     loadHistories,
     onUpdateHistory,
@@ -216,13 +216,13 @@ const Chat = ({
 
   return (
     <Flex h={'100%'}>
-      <NextHead title={chatData.app.name} icon={chatData.app.avatar}></NextHead>
+      {/* <NextHead title={chatData.app.name} icon={chatData.app.avatar}></NextHead> */}
       {/* pc show myself apps */}
-      {isPc && (
+      {/* {isPc && (
         <Box borderRight={theme.borders.base} w={'220px'} flexShrink={0}>
           <SliderApps apps={myApps} activeAppId={appId} />
         </Box>
-      )}
+      )} */}
 
       <PageContainer isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px']} position={'relative'}>
         <Flex h={'100%'} flexDirection={['column', 'row']} bg={'white'}>

@@ -24,6 +24,8 @@ import { useContextSelector } from 'use-context-selector';
 import { ChatContext } from '@/web/core/chat/context/chatContext';
 import MyBox from '@fastgpt/web/components/common/MyBox';
 
+import SliderApps from './SliderApps';
+
 type HistoryItemType = {
   id: string;
   title: string;
@@ -129,7 +131,7 @@ const ChatHistorySlider = ({
       borderRight={['', theme.borders.base]}
       whiteSpace={'nowrap'}
     >
-      {isPc && (
+      {/* {isPc && (
         <MyTooltip label={canRouteToDetail ? appT('App Detail') : ''} offset={[0, 0]}>
           <Flex
             pt={5}
@@ -152,7 +154,9 @@ const ChatHistorySlider = ({
             </Box>
           </Flex>
         </MyTooltip>
-      )}
+      )} */}
+
+      {isPc && <SliderApps apps={apps} activeAppId={appId} />}
 
       {/* menu */}
       <Flex w={'100%'} px={[2, 5]} h={'36px'} my={5} alignItems={'center'}>
