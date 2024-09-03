@@ -510,6 +510,9 @@ const Modal = modalMultiStyle({
     },
     footer: {
       pt: 2
+    },
+    header: {
+      borderBottom: 'none'
     }
   })
 });
