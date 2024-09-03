@@ -22,6 +22,7 @@ export type AppSchema = {
   avatar: string;
   intro: string;
   updateTime: Date;
+  responseDetail?: boolean;
 
   modules: StoreNodeItemType[];
   edges: StoreEdgeItemType[];

@@ -23,7 +23,7 @@ async function handler(req: NextApiRequest) {
     filterStatus = ''
   } = req.body as GetDatasetCollectionsProps;
   searchText = searchText?.replace(/'/g, '');
-  pageSize = Math.min(pageSize, 30);
+  //   pageSize = Math.min(pageSize, 30);
 
   // auth dataset and get my role
   const { teamId, permission } = await authDataset({

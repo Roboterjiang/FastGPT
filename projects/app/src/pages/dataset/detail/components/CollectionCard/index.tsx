@@ -21,7 +21,8 @@ import {
   postLinkCollectionSync,
   delAdDatasetDocs,
   vectorizeAdDatasetsDocs,
-  batchUpdateDatasetCollectionTags
+  batchUpdateDatasetCollectionTags,
+  embTag
 } from '@/web/core/dataset/api';
 import { useQuery } from '@tanstack/react-query';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
@@ -106,7 +107,7 @@ const CollectionCard = () => {
   const { dragStartId, setDragStartId, dragTargetId, setDragTargetId } = useDrag();
 
   // Ad file status icon
-  //   1进行中 2.成功  3.失败 4.未索引
+  //   1进行中 2.成功  3.失败 4.未索引 5 排队中
   const formatCollections = useMemo(
     () =>
       collections.map((collection) => {
@@ -133,12 +134,19 @@ const CollectionCard = () => {
               bg: 'red.50',
               borderColor: 'red.300'
             };
+          } else if (collection.status == 4) {
+            return {
+              statusText: t('dataset.Not indexed'),
+              color: 'myGray.600',
+              bg: 'myGray.50',
+              borderColor: 'borderColor.low'
+            };
           }
           return {
-            statusText: t('dataset.Not indexed'),
-            color: 'myGray.600',
-            bg: 'myGray.50',
-            borderColor: 'borderColor.low'
+            statusText: t('dataset.Queuing'),
+            color: 'orange.600',
+            bg: 'orange.50',
+            borderColor: 'orange.30'
           };
         })();
 
@@ -193,7 +201,7 @@ const CollectionCard = () => {
   });
 
   const hasTrainingData = useMemo(
-    () => !!formatCollections.find((item) => item.status == 1), //向量化进行中
+    () => !!formatCollections.find((item) => item.status == 1 || item.status == 5), //向量化进行中或排队中
     [formatCollections]
   );
   const isLoading = useMemo(
@@ -268,16 +276,26 @@ const CollectionCard = () => {
   });
 
   const onSubmit = (result: FormTagValues) => {
+    const user_id = userInfo?._id;
     if (currentCollection) {
       //更新数据库中的tagInfo  updateDatasetCollectionTagInfo
       onUpdateCollectionTag({
         collectionId: currentCollection._id,
         tagInfo: result.values
       });
+      //对于状态为已就绪的文档，进行标签向量化
+      embTag(user_id, router.query.kb_id, [currentCollection.adFileId]);
     }
     if (selectedItems && selectedItems.length > 0) {
       //更新数据库中的tagInfo
       batchUpdateCollectionTag({ idList: selectedItems, tagInfo: result.values });
+
+      //筛选status==2的文档，进行标签向量化
+      const embFileIds = formatCollections
+        .filter((item) => selectedItems.includes(item._id) && item.status == 2)
+        .map((item) => item.adFileId);
+
+      embTag(user_id, router.query.kb_id, embFileIds);
     }
   };
 
@@ -487,8 +505,8 @@ const CollectionCard = () => {
                           },
                           {
                             children: [
-                              //索引进行中不可删除
-                              ...(collection.status != 1 //默认值为1
+                              //索引进行中和排队中不可删除
+                              ...(collection.status != 1 && collection.status != 5 //1和5不可删除
                                 ? [
                                     {
                                       label: (
@@ -552,7 +570,7 @@ const CollectionCard = () => {
                           },
                           {
                             children: [
-                              ...(collection.status != 1
+                              ...(collection.status != 1 && collection.status != 5
                                 ? [
                                     {
                                       label: (

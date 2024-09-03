@@ -328,8 +328,6 @@ const ChatBox = (
         const abortSignal = new AbortController();
         questionGuideController.current = abortSignal;
 
-        console.log('爱动createQuestionGuide', history);
-
         const result = await postQuestionGuide(
           {
             messages: chats2GPTMessages({ messages: history, reserveId: false }).slice(-6),

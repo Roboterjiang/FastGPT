@@ -454,6 +454,7 @@
             "Type a message": "Type a question, send [Enter]/newline [Ctrl(Alt/Shift) + Enter]",
             "Unpin": "Unpin",
             "You need to a chat app": "You do not have a usable app",
+            "You need to choose knowledge": "You haven't selected a knowledge base yet",
             "error": {
                 "Chat error": "Chat error",
                 "Messages empty": "API content is empty, text may be too long~",
@@ -1139,6 +1140,7 @@
         "Indexing": "Indexing",
         "Indexing failed": "Indexing failed",
         "Not indexed": "Not indexed",
+        "Queuing": "Queuing",
         "Reindex": "Reindex",
         "Set tag": "Set tag",
         "General document": "General document",

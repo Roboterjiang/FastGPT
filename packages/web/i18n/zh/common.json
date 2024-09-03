@@ -456,6 +456,7 @@
             "Type a message": "输入问题，发送 [Enter]/换行 [Ctrl(Alt/Shift) + Enter]",
             "Unpin": "取消置顶",
             "You need to a chat app": "你没有可用的应用",
+            "You need to choose knowledge": "你没有选择知识库",
             "error": {
                 "Chat error": "对话出现异常",
                 "Messages empty": "接口内容为空，可能文本超长了~",
@@ -1147,6 +1148,7 @@
         "Please select data first": "请先选择数据",
         "Indexing": "索引中",
         "Not indexed": "未索引",
+        "Queuing": "排队中",
         "Indexing failed": "索引失败",
         "Reindex": "重新索引",
         "Set tag": "设置标签",

@@ -115,8 +115,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   try {
     const originIp = requestIp.getClientIp(req);
 
-    console.log('爱动originIp', originIp);
-
     await connectToDatabase();
     // body data check
     if (!messages) {
@@ -284,7 +282,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return ChatSourceEnum.online;
       })();
 
-      console.log('爱动saveChat执行了');
+      //   console.log('爱动saveChat执行了');
 
       await saveChat({
         chatId,
@@ -312,7 +310,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       });
     }
 
-    addLog.info(`completions running time: ${(Date.now() - startTime) / 1000}s`);
+    // addLog.info(`completions running time: ${(Date.now() - startTime) / 1000}s`);
 
     /* select fe response field */
     // const feResponseData = canWrite
@@ -378,11 +376,12 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     // });
 
     if (shareId) {
+      //如果是外链更新使用时间
       //   pushResult2Remote({ outLinkUid, shareId, appName: app.name, flowResponses });
-      //   addOutLinkUsage({
-      //     shareId,
-      //     totalPoints
-      //   });
+      addOutLinkUsage({
+        shareId,
+        totalPoints: 0
+      });
     }
     if (apikey) {
       //   updateApiKeyUsage({
