@@ -696,8 +696,11 @@ export const theme = extendTheme({
       low: '#E8EBF0',
       base: '#DFE2EA',
       high: '#C4CBD7',
-      highest: '#8A95A7',
-      body: '#F5F5F5'
+      highest: '#8A95A7'
+    },
+    black: {
+      30: '#333333',
+      100: '#000000'
     }
   },
   fonts: {
