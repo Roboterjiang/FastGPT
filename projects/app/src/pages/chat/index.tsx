@@ -38,6 +38,7 @@ import { defaultChatData } from '@/global/core/chat/constants';
 import ChatContextProvider, { ChatContext } from '@/web/core/chat/context/chatContext';
 import { AppListItemType } from '@fastgpt/global/core/app/type';
 import { useContextSelector } from 'use-context-selector';
+import MyBox from '@fastgpt/web/components/common/MyBox';
 
 import { getAllDataset, getDatasets, getAdDatasets } from '@/web/core/dataset/api';
 
@@ -224,7 +225,7 @@ const Chat = ({
         </Box>
       )} */}
 
-      <PageContainer isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px']} position={'relative'}>
+      <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px']} position={'relative'}>
         <Flex h={'100%'} flexDirection={['column', 'row']} bg={'white'}>
           {/* pc always show history. */}
           {((children: React.ReactNode) => {
@@ -253,9 +254,9 @@ const Chat = ({
               onClearHistory={() => {
                 onClearHistories({ appId });
               }}
-              onSetHistoryTop={(e) => {
-                onUpdateHistory({ ...e, appId });
-              }}
+              //   onSetHistoryTop={(e) => {
+              //     onUpdateHistory({ ...e, appId });
+              //   }}
               onSetCustomTitle={async (e) => {
                 onUpdateHistory({
                   appId,
@@ -272,6 +273,7 @@ const Chat = ({
             w={['100%', 0]}
             flex={'1 0 0'}
             flexDirection={'column'}
+            ml={1}
           >
             {/* header */}
             <ChatHeader
@@ -301,7 +303,7 @@ const Chat = ({
             </Box>
           </Flex>
         </Flex>
-      </PageContainer>
+      </MyBox>
     </Flex>
   );
 };
