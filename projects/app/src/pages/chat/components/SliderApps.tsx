@@ -50,7 +50,7 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
   );
 
   return (
-    <Flex flexDirection={'column'} maxH={'300px'} minH={'220px'}>
+    <Flex flexDirection={'column'} maxH={'350px'} minH={'250px'}>
       {/* <Box mt={4} px={4}>
         {!isTeamChat && (
           <Flex
@@ -81,13 +81,19 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
           {/* <MyDivider h={2} my={1} /> */}
           <HStack
             px={4}
+            py={2}
             my={2}
+            mx={3}
             mt={4}
             color={'myGray.500'}
             fontSize={'sm'}
+            borderRadius={'30px'}
+            bg={'myGray.100'}
             justifyContent={'space-between'}
           >
-            <Box>{t('core.chat.Recent use')}</Box>
+            <Box fontWeight={'bold'} fontSize={'md'} color={'black.30'}>
+              {t('core.chat.Recent use')}
+            </Box>
             <MyPopover
               placement="bottom-end"
               offset={[20, 10]}
@@ -105,7 +111,7 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
                     bg: 'myGray.200'
                   }}
                 >
-                  <Box>{t('common.More')}</Box>
+                  <Box fontSize={'small'}>{t('common.More')}</Box>
                   <MyIcon name={'common/select'} w={'1rem'} />
                 </HStack>
               }
@@ -133,21 +139,22 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
           <Flex
             key={item._id}
             py={2}
-            px={3}
+            px={4}
             mb={3}
             cursor={'pointer'}
-            borderRadius={'md'}
+            borderRadius={'20px'}
             alignItems={'center'}
             fontSize={'sm'}
             {...(item._id === activeAppId
               ? {
-                  bg: 'white',
-                  boxShadow: 'md',
-                  color: 'primary.600'
+                  bg: 'myGray.22',
+                  color: 'primary.10',
+                  borderWidth: '1px',
+                  borderColor: 'primary.1'
                 }
               : {
                   _hover: {
-                    bg: 'myGray.200'
+                    bg: 'myGray.22'
                   },
                   onClick: () => onChangeApp(item._id)
                 })}
