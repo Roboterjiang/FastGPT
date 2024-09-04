@@ -111,7 +111,7 @@ const ChatBox = (
     feedbackType = FeedbackTypeEnum.hidden,
     showMarkIcon = false,
     showVoiceIcon = true,
-    showEmptyIntro = false,
+    showEmptyIntro = true,
     appAvatar,
     userAvatar,
     showFileSelector,

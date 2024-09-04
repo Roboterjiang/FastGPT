@@ -225,7 +225,7 @@ const Chat = ({
         </Box>
       )} */}
 
-      <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px']} position={'relative'}>
+      <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px', 0, 0]} position={'relative'}>
         <Flex h={'100%'} flexDirection={['column', 'row']} bg={'myGray.20'}>
           {/* pc always show history. */}
           {((children: React.ReactNode) => {
@@ -279,6 +279,7 @@ const Chat = ({
             <ChatHeader
               appAvatar={chatData.app.avatar}
               appName={chatData.app.name}
+              chatData={chatData}
               history={chatData.history}
               chatModels={chatData.app.chatModels}
               onRoute2AppDetail={() => router.push(`/app/detail?appId=${appId}`)}
@@ -286,7 +287,7 @@ const Chat = ({
             />
 
             {/* chat box */}
-            <Box flex={1}>
+            <Box flex={1} bg={'myGray.24'}>
               <ChatBox
                 ref={ChatBoxRef}
                 showEmptyIntro

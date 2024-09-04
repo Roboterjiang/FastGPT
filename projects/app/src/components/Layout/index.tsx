@@ -77,7 +77,7 @@ const Layout = ({ children }: { children: JSX.Element }) => {
 
   return (
     <>
-      <Box h={'100%'} bg={'myGray.100'}>
+      <Box h={'100%'} bg={'myGray.24'}>
         {isPc === true && (
           <>
             {isHideNavbar ? (

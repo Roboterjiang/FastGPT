@@ -11,8 +11,10 @@ import { getChatTitleFromChatMessage } from '@fastgpt/global/core/chat/utils';
 import MyTag from '@fastgpt/web/components/common/Tag/index';
 import { useContextSelector } from 'use-context-selector';
 import { ChatContext } from '@/web/core/chat/context/chatContext';
+import { InitChatResponse } from '@/global/core/chat/api';
 
 const ChatHeader = ({
+  chatData,
   history,
   appName,
   appAvatar,
@@ -20,6 +22,7 @@ const ChatHeader = ({
   showHistory,
   onRoute2AppDetail
 }: {
+  chatData: InitChatResponse;
   history: ChatItemType[];
   appName: string;
   appAvatar: string;
@@ -30,11 +33,11 @@ const ChatHeader = ({
   const theme = useTheme();
   const { t } = useTranslation();
   const { isPc } = useSystemStore();
-  const title = useMemo(
-    () =>
-      getChatTitleFromChatMessage(history[history.length - 2], appName || t('core.chat.New Chat')),
-    [appName, history, t]
-  );
+  //   const title = useMemo(
+  //     () =>
+  //       getChatTitleFromChatMessage(history[history.length - 2], appName || t('core.chat.New Chat')),
+  //     [appName, history, t]
+  //   );
 
   const onOpenSlider = useContextSelector(ChatContext, (v) => v.onOpenSlider);
 
@@ -51,7 +54,7 @@ const ChatHeader = ({
       {isPc ? (
         <>
           <Box mr={3} color={'myGray.1000'}>
-            {title}
+            {chatData.title || t('core.chat.New Chat')}
           </Box>
           <MyTag>
             <MyIcon name={'history'} w={'14px'} />
