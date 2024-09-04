@@ -186,7 +186,7 @@ function List() {
                 borderWidth={1.5}
                 bg={'white'}
                 borderRadius={'md'}
-                minH={'130px'}
+                minH={'180px'}
                 position={'relative'}
                 {...getBoxProps({
                   dataId: dataset._id,
@@ -318,9 +318,9 @@ function List() {
                   </Box>
                 )}
 
-                <Flex alignItems={'center'} h={'38px'}>
+                <Flex mb={3} alignItems={'center'} h={'38px'}>
                   <Avatar src={dataset.avatar} borderRadius={'md'} w={'28px'} />
-                  <Box mx={3} className="textEllipsis3">
+                  <Box mx={3} fontSize={'20px'} className="textEllipsis3">
                     {dataset.name}
                   </Box>
                 </Flex>
@@ -331,6 +331,9 @@ function List() {
                   wordBreak={'break-all'}
                   fontSize={'xs'}
                   color={'myGray.500'}
+                  borderBottomWidth={'1px'}
+                  borderBottomColor={'myGray.200'}
+                  mb={2}
                 >
                   {dataset.intro ||
                     (dataset.type === DatasetTypeEnum.folder
@@ -338,14 +341,15 @@ function List() {
                       : t('core.dataset.Intro Placeholder'))}
                 </Box>
                 <Flex alignItems={'center'} fontSize={'sm'}>
-                  <Box flex={1}>
+                  <Box>
                     <PermissionIconText
                       defaultPermission={dataset.defaultPermission}
-                      color={'myGray.600'}
+                      color={'myGray.400'}
                     />
                   </Box>
+                  <Box ml={2} w={'1px'} h={'12px'} backgroundColor={'myGray.300'}></Box>
                   {dataset.type !== DatasetTypeEnum.folder && (
-                    <DatasetTypeTag type={dataset.type} py={1} px={2} />
+                    <DatasetTypeTag color={'myGray.400'} type={dataset.type} py={1} px={2} />
                   )}
                 </Flex>
               </MyBox>

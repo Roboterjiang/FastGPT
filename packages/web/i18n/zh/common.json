@@ -1681,7 +1681,7 @@
         "Addition failed": "新增失败",
         "Tag values cannot be duplicated": "标签值不可以重复",
         "Deletion failed, please try again": "删除失败，请重试",
-        "Delete tag": "确认删除该标签？删除后数据无法恢复，请确认！",
+        "Delete tag": "确认删除该标签？\n删除后数据无法恢复，请确认！",
         "Create new tag": "新建标签",
         "Tag key": "标签键",
         "Tag value": "标签值",
