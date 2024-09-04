@@ -186,7 +186,7 @@ function List() {
                 borderWidth={1.5}
                 bg={'white'}
                 borderRadius={'md'}
-                minH={'180px'}
+                minH={'130px'}
                 position={'relative'}
                 {...getBoxProps({
                   dataId: dataset._id,
@@ -334,6 +334,7 @@ function List() {
                   borderBottomWidth={'1px'}
                   borderBottomColor={'myGray.200'}
                   mb={2}
+                  pb={4}
                 >
                   {dataset.intro ||
                     (dataset.type === DatasetTypeEnum.folder
