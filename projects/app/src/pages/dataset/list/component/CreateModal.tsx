@@ -173,6 +173,7 @@ const CreateModal = ({ onClose, parentId }: { onClose: () => void; parentId?: st
               flex={1}
               autoFocus
               bg={'myWhite.600'}
+              _hover={{ borderColor: 'primary.500' }}
               placeholder={t('common.Name')}
               maxLength={30}
               {...register('name', {
@@ -224,7 +225,7 @@ const CreateModal = ({ onClose, parentId }: { onClose: () => void; parentId?: st
         )}
       </ModalBody>
 
-      <ModalFooter>
+      <ModalFooter mt={5} display={'unset'} textAlign={'center'}>
         <Button variant={'whiteBase'} mr={3} onClick={onClose}>
           {t('common.Close')}
         </Button>

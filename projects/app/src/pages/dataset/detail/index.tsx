@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { Box } from '@chakra-ui/react';
+import { Box, Flex } from '@chakra-ui/react';
 import { useToast } from '@fastgpt/web/hooks/useToast';
 import { useQuery } from '@tanstack/react-query';
 import { getErrText } from '@fastgpt/global/common/error/utils';
@@ -54,12 +54,29 @@ const Detail = ({ datasetId, currentTab, kb_id, doc_type }: Props) => {
   return (
     <>
       <NextHead title={datasetDetail?.name} icon={datasetDetail?.avatar} />
-      <PageContainer>
+      <PageContainer
+        insertProps={{ boxShadow: '0', border: 'none', backgroundColor: 'myGray.100' }}
+      >
         <MyBox display={'flex'} flexDirection={['column', 'row']} h={'100%'} pt={[4, 0]}>
           <Slider currentTab={currentTab} />
 
           {!!datasetDetail._id && (
-            <Box flex={'1 0 0'} pb={0} overflow={'auto'}>
+            <Box bg={'myWhite.300'} flex={'1 0 0'} pb={0} overflow={'auto'}>
+              {currentTab === TabEnum.collectionCard && (
+                <Flex px={[2, 6]} mt={'12px'} justifyContent={'space-between'}>
+                  <Flex alignItems={'center'}>
+                    <Box mr={2} w={'3px'} h={'16px'} backgroundColor={'primary.10'}></Box>
+                    <Box fontSize={'14px'}>{t('common.File')}</Box>
+                  </Flex>
+                  <Box
+                    color={'primary.10'}
+                    cursor={'pointer'}
+                    onClick={() => router.replace('/dataset/list')}
+                  >
+                    {t('common.Back')}
+                  </Box>
+                </Flex>
+              )}
               {currentTab === TabEnum.collectionCard && (
                 <CollectionPageContextProvider>
                   <CollectionCard />

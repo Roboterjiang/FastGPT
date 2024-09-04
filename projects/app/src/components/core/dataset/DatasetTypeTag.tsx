@@ -11,17 +11,8 @@ const DatasetTypeTag = ({ type, ...props }: { type: DatasetTypeEnum } & FlexProp
   const item = DatasetTypeMap[type] || DatasetTypeMap['dataset'];
 
   return (
-    <Flex
-      bg={'myGray.100'}
-      borderWidth={'1px'}
-      borderColor={'myGray.200'}
-      px={4}
-      py={'6px'}
-      borderRadius={'md'}
-      fontSize={'xs'}
-      {...props}
-    >
-      <MyIcon name={item.icon as any} w={'16px'} mr={2} color={'myGray.400'} />
+    <Flex px={4} py={'6px'} borderRadius={'md'} fontSize={'12px'} {...props}>
+      {/*<MyIcon name={item.icon as any} w={'16px'} mr={2} color={'myGray.400'} />*/}
       {/* @ts-ignore */}
       <Box>{datasetT(item.label)}</Box>
     </Flex>

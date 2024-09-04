@@ -12,6 +12,7 @@ import {
 } from '@chakra-ui/react';
 import MyIcon from '../Icon';
 import MyBox from '../MyBox';
+import { useTranslation } from 'next-i18next';
 
 export interface MyModalProps extends ModalContentProps {
   iconSrc?: string;
@@ -35,6 +36,7 @@ const MyModal = ({
   ...props
 }: MyModalProps) => {
   const [isPc] = useMediaQuery('(min-width: 900px)');
+  const { t } = useTranslation();
 
   return (
     <Modal
@@ -65,6 +67,7 @@ const MyModal = ({
             py={'10px'}
             fontSize={'md'}
             fontWeight={'bold'}
+            color={title == t('common.Delete') ? 'red.500' : 'black.100'}
           >
             {iconSrc && (
               <>
@@ -78,7 +81,13 @@ const MyModal = ({
             {title}
             <Box flex={1} />
             {onClose && (
-              <ModalCloseButton position={'relative'} fontSize={'xs'} top={0} right={0} />
+              <ModalCloseButton
+                color={'black.100'}
+                position={'relative'}
+                fontSize={'xs'}
+                top={0}
+                right={0}
+              />
             )}
           </ModalHeader>
         )}
