@@ -70,10 +70,14 @@ const AppCard = () => {
       {/* basic info */}
       <Box px={6} py={4} position={'relative'}>
         <Flex alignItems={'center'}>
-          <Avatar src={appDetail.avatar} borderRadius={'md'} w={'28px'} />
-          <Box ml={3} fontWeight={'bold'} fontSize={'md'} flex={'1 0 0'} color={'myGray.900'}>
-            {appDetail.name}
+          <Box fontWeight={'bold'} fontSize={'md'} flex={'1 0 0'} color={'primary.10'}>
+            {/* i18n* */}
+            {'基本信息'}
           </Box>
+          {/* <Avatar src={appDetail.avatar} borderRadius={'md'} w={'28px'} /> */}
+          {/* <Box ml={3} fontWeight={'bold'} fontSize={'md'} flex={'1 0 0'} color={'myGray.900'}>
+            {appDetail.name}
+          </Box> */}
         </Flex>
         <Box
           flex={1}
