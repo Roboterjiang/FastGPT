@@ -174,8 +174,6 @@ const Header = ({
 
   return (
     <Flex px={[2, 6]} alignItems={'flex-start'} h={'35px'}>
-      <Box flex={1}></Box>
-
       {/* search input */}
       {isPc && (
         <Flex alignItems={'center'} mr={4}>
@@ -255,7 +253,7 @@ const Header = ({
                 py={2}
                 borderRadius={'md'}
                 cursor={'pointer'}
-                bg={'primary.500'}
+                bg={'primary.10'}
                 overflow={'hidden'}
                 color={'white'}
                 h={['28px', '35px']}
@@ -284,7 +282,7 @@ const Header = ({
                       py={2}
                       borderRadius={'md'}
                       cursor={'pointer'}
-                      bg={'primary.500'}
+                      bg={'primary.10'}
                       overflow={'hidden'}
                       color={'white'}
                       h={['28px', '35px']}
@@ -383,7 +381,7 @@ const Header = ({
                       py={2}
                       borderRadius={'md'}
                       cursor={'pointer'}
-                      bg={'primary.500'}
+                      bg={'primary.10'}
                       overflow={'hidden'}
                       color={'white'}
                       h={['28px', '35px']}
@@ -396,7 +394,7 @@ const Header = ({
                   {
                     children: [
                       {
-                        label: <Flex>{t('dataset.Batch set tags')}</Flex>,
+                        label: <Flex>{t('dataset.Set tag')}</Flex>,
                         onClick: () => {
                           if (selectedItems.length == 0) {
                             toast({
@@ -447,7 +445,7 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>{t('dataset.Batch delete')}</Flex>,
+                        label: <Flex color={'red.500'}>{t('common.Delete')}</Flex>,
                         onClick: () => {
                           if (selectedItems.length == 0) {
                             toast({

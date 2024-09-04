@@ -305,7 +305,7 @@ const CollectionCard = () => {
   };
 
   return (
-    <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'100%'} py={[2, 4]}>
+    <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'calc(100% - 36px)'} py={[2, 4]}>
       <Flex ref={BoxRef} flexDirection={'column'} py={[1, 3]} h={'100%'}>
         {/* header */}
         <Header
@@ -326,7 +326,7 @@ const CollectionCard = () => {
           overflowY={'auto'}
           fontSize={'sm'}
         >
-          <Table variant={'simple'} draggable={false}>
+          <Table colorScheme="gray" variant={'striped'} draggable={false}>
             <Thead draggable={false}>
               <Tr>
                 <Th py={4}>
