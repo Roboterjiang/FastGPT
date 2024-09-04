@@ -206,19 +206,25 @@ const ChatInput = ({
   }, [finishWhisperTranscription, isSpeaking, startSpeak, stopSpeak]);
 
   return (
-    <Box m={['0 auto', '10px auto']} w={'100%'} maxW={['auto', 'min(800px, 100%)']} px={[0, 5]}>
+    <Box
+      m={['0 auto', '10px 40px']}
+      w={['100%', 'calc(100% - 80px)']}
+      maxW={['auto', '100%']}
+      px={[0, 5]}
+    >
       <Box
         pt={fileList.length > 0 ? '10px' : ['14px', '18px']}
         pb={['14px', '18px']}
         position={'relative'}
         boxShadow={isSpeaking ? `0 0 10px rgba(54,111,255,0.4)` : `0 0 10px rgba(0,0,0,0.2)`}
-        borderRadius={['none', 'md']}
+        borderRadius={['none', '30px']}
         bg={'white'}
         overflow={'display'}
+        className="my-input-chat-box"
         {...(isPc
           ? {
               border: '1px solid',
-              borderColor: 'rgba(0,0,0,0.12)'
+              borderColor: 'primary.10'
             }
           : {
               borderTop: '1px solid',
@@ -361,7 +367,7 @@ const ChatInput = ({
             whiteSpace={'pre-wrap'}
             wordBreak={'break-all'}
             boxShadow={'none !important'}
-            color={'myGray.900'}
+            color={'black.30'}
             isDisabled={isSpeaking}
             value={inputValue}
             fontSize={['md', 'sm']}
@@ -515,7 +521,7 @@ const ChatInput = ({
                       name={'core/chat/sendFill'}
                       width={['18px', '20px']}
                       height={['18px', '20px']}
-                      color={'white'}
+                      color={inputValue ? 'white' : 'myGray.1'}
                     />
                   </MyTooltip>
                 )}

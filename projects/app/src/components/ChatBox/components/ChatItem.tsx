@@ -69,14 +69,15 @@ const ChatItem = ({
           borderRadius: '8px 0 8px 8px',
           justifyContent: 'flex-end',
           textAlign: 'right',
-          bg: 'primary.100'
+          bg: 'primary.40'
         }
       : {
           order: 1,
           borderRadius: '0 8px 8px 8px',
+          boxShadow: '0 0 8px rgba(0,0,0,0.15)',
           justifyContent: 'flex-start',
           textAlign: 'left',
-          bg: 'myGray.50'
+          bg: 'white'
         };
 
   const isChatting = useContextSelector(ChatBoxContext, (v) => v.isChatting);
@@ -209,6 +210,11 @@ ${toolResponse}`}
     return colorMap[statusBoxData.status];
   }, [statusBoxData?.status]);
 
+  const isTextExists = () => {
+    const { text } = formatChatValue2InputType(chat.value);
+    return !!text;
+  };
+
   return (
     <>
       {/* control icon */}
@@ -220,7 +226,7 @@ ${toolResponse}`}
         )}
         <ChatAvatar src={avatar} type={type} />
 
-        {!!chatStatusMap && statusBoxData && isLastChild && (
+        {!!chatStatusMap && statusBoxData && isLastChild && !isTextExists() && (
           <Flex
             alignItems={'center'}
             px={3}
