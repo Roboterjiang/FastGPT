@@ -97,7 +97,8 @@ const ChatHistorySlider = ({
 
   // custom title edit
   const { onOpenModal, EditModal: EditTitleModal } = useEditTitle({
-    title: t('core.chat.Custom History Title'),
+    // title: t('core.chat.Custom History Title'),
+    title: '修改名称',
     placeholder: t('core.chat.Custom History Title Description')
   });
   const { openConfirm, ConfirmModal } = useConfirm({
@@ -128,7 +129,7 @@ const ChatHistorySlider = ({
       w={'100%'}
       h={'100%'}
       bg={'white'}
-      //   borderRight={['', theme.borders.base]}
+      borderRadius={'8px'}
       whiteSpace={'nowrap'}
     >
       {/* {isPc && (
@@ -233,7 +234,7 @@ const ChatHistorySlider = ({
                 bg={item.top ? '#E6F6F6 !important' : ''}
                 {...(item.id === activeChatId
                   ? {
-                      backgroundColor: 'primary.50 !important',
+                      backgroundColor: 'primary.1 !important',
                       color: 'primary.600'
                     }
                   : {

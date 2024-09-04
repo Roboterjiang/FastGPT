@@ -226,7 +226,7 @@ const Chat = ({
       )} */}
 
       <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px']} position={'relative'}>
-        <Flex h={'100%'} flexDirection={['column', 'row']} bg={'white'}>
+        <Flex h={'100%'} flexDirection={['column', 'row']} bg={'myGray.20'}>
           {/* pc always show history. */}
           {((children: React.ReactNode) => {
             return isPc || !appId ? (
@@ -273,7 +273,7 @@ const Chat = ({
             w={['100%', 0]}
             flex={'1 0 0'}
             flexDirection={'column'}
-            ml={1}
+            ml={2}
           >
             {/* header */}
             <ChatHeader

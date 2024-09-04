@@ -83,7 +83,7 @@ export const useEditTitle = ({
       iconSrc?: string;
       closeBtnText?: string;
     }) => (
-      <MyModal isOpen={isOpen} onClose={onClose} iconSrc={iconSrc} title={title} maxW={'500px'}>
+      <MyModal isOpen={isOpen} onClose={onClose} title={title} maxW={'500px'}>
         <ModalBody>
           {!!tip && (
             <Box mb={2} color={'myGray.500'} fontSize={'sm'}>
@@ -101,7 +101,7 @@ export const useEditTitle = ({
         </ModalBody>
         <ModalFooter>
           {!!closeBtnText && (
-            <Button mr={3} variant={'whiteBase'} onClick={onClose}>
+            <Button mr={3} variant={'outline'} colorScheme={'primary'} onClick={onClose}>
               {closeBtnText}
             </Button>
           )}
