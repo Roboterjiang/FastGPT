@@ -152,11 +152,11 @@ const MyApps = () => {
                 {
                   label: appT('type.All'),
                   value: 'ALL'
-                },
-                {
-                  label: appT('type.Simple bot'),
-                  value: AppTypeEnum.simple
                 }
+                // {
+                //   label: appT('type.Simple bot'),
+                //   value: AppTypeEnum.simple
+                // }
                 // {
                 //   label: appT('type.Workflow bot'),
                 //   value: AppTypeEnum.workflow
