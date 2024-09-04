@@ -21,7 +21,7 @@ export const useConfirm = (props?: {
         iconSrc: 'common/confirm/commonTip'
       },
       delete: {
-        title: t('common.Delete Warning'),
+        title: t('common.Delete'),
         variant: 'dangerFill',
         iconSrc: 'common/confirm/deleteTip'
       }
@@ -86,12 +86,21 @@ export const useConfirm = (props?: {
       }, []);
 
       return (
-        <MyModal isOpen={isOpen} iconSrc={iconSrc} title={title} maxW={['90vw', '400px']}>
+        <MyModal
+          onClose={() => {
+            onClose();
+            typeof cancelCb.current === 'function' && cancelCb.current();
+          }}
+          isOpen={isOpen}
+          iconSrc={iconSrc}
+          title={title}
+          maxW={['90vw', '400px']}
+        >
           <ModalBody pt={5} whiteSpace={'pre-wrap'} fontSize={'sm'}>
             {customContent}
           </ModalBody>
           {!hideFooter && (
-            <ModalFooter>
+            <ModalFooter display={'unset'} textAlign={'center'}>
               {showCancel && (
                 <Button
                   size={'sm'}
@@ -113,6 +122,7 @@ export const useConfirm = (props?: {
                 ml={3}
                 isLoading={isLoading || requesting}
                 px={5}
+                bg={'red.500'}
                 onClick={async () => {
                   setRequesting(true);
                   try {

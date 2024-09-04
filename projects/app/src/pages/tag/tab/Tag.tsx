@@ -166,17 +166,20 @@ const TagInfo: React.FC = () => {
   };
 
   return (
-    <MyBox p={8} isLoading={listLoading}>
-      <VStack spacing={5} align="stretch">
-        <Flex alignItems={'center'}>
-          <Box flex={1} className="textlg" letterSpacing={1} fontSize={'24px'} fontWeight={'bold'}>
-            {t('navbar.Tag')}
-          </Box>
+    <MyBox isLoading={listLoading}>
+      <Box p={4} pb={0} display={'flex'} alignItems={'center'} fontSize={'16px'} fontWeight={'600'}>
+        <Box mr={2} w={'4px'} h={'16px'} backgroundColor={'primary.10'}></Box>
+        <Box>{t('navbar.Tag')}</Box>
+      </Box>
+      <VStack pl={5} pr={5} spacing={5} align="stretch">
+        <Flex justifyContent={'flex-end'}>
           <Button
             ml={4}
             _hover={{
               color: 'primary.200'
             }}
+            w={'160px'}
+            h={'40px'}
             fontSize={['sm', 'md']}
             onClick={() => openTagModal(false, '')}
           >
@@ -184,7 +187,7 @@ const TagInfo: React.FC = () => {
             <Box>{t('tag.Create new tag')}</Box>
           </Button>
         </Flex>
-        <Table variant="simple" mt={5}>
+        <Table variant="simple">
           <Thead>
             <Tr>
               <Th>{t('tag.Tag key')}</Th>
@@ -198,17 +201,32 @@ const TagInfo: React.FC = () => {
                 <Td>{tag.tagKey}</Td>
                 <Td>{tag.tagValue}</Td>
                 <Td>
-                  <IconButton
-                    aria-label="Edit tag"
-                    icon={<EditIcon />}
-                    size="sm"
+                  {/*<IconButton*/}
+                  {/*  aria-label="Edit tag"*/}
+                  {/*  icon={<EditIcon />}*/}
+                  {/*  size="sm"*/}
+                  {/*  onClick={() => openTagModal(true, tag._id)}*/}
+                  {/*/>*/}
+                  <Button
+                    _hover={{ bg: 'primary.60' }}
                     onClick={() => openTagModal(true, tag._id)}
-                  />
+                    borderRadius={'4px'}
+                    bg={'primary.60'}
+                    border={'none'}
+                    width={'80px'}
+                    color={'primary.600'}
+                    variant="outline"
+                  >
+                    {t('common.Edit')}
+                  </Button>
                   <IconButton
-                    ml={2}
-                    aria-label="Delete tag"
+                    ml={6}
                     icon={<DeleteIcon />}
                     size="sm"
+                    bg={'none'}
+                    border={'none'}
+                    color={'red.600'}
+                    boxShadow={'0'}
                     onClick={() => removeTag(tag._id)}
                   />
                 </Td>
@@ -222,14 +240,18 @@ const TagInfo: React.FC = () => {
       <Modal isOpen={isTagModalOpen} onClose={closeTagModal}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>{isEditTag ? t('tag.Edit tag') : t('tag.Create new tag')}</ModalHeader>
+          <ModalHeader fontSize={'16px'}>
+            {isEditTag ? t('tag.Edit tag') : t('tag.Create new tag')}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <form onSubmit={handleTagSubmit(isEditTag ? editTag : addTag)}>
               <FormControl isInvalid={!!tagErrors.tagKey}>
                 <FormLabel>{t('tag.Tag key')}</FormLabel>
                 <Input
+                  bg={'myGray.22'}
                   maxLength={20}
+                  _hover={{ borderColor: 'primary.500' }}
                   placeholder={t('tag.Please enter tag key')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagKey : ''
@@ -241,7 +263,9 @@ const TagInfo: React.FC = () => {
               <FormControl isInvalid={!!tagErrors.tagValue} mt={4}>
                 <FormLabel>{t('tag.Tag value')}</FormLabel>
                 <Input
+                  bg={'myGray.22'}
                   maxLength={20}
+                  _hover={{ borderColor: 'primary.500' }}
                   placeholder={t('tag.Please enter tag value')}
                   defaultValue={
                     currentTagId ? tags.find((tag) => tag._id === currentTagId)?.tagValue : ''
@@ -254,17 +278,26 @@ const TagInfo: React.FC = () => {
               </FormControl>
             </form>
           </ModalBody>
-          <ModalFooter>
+          <ModalFooter mt={5} display={'unset'} textAlign={'center'}>
+            <Button
+              borderRadius={'5px'}
+              border={'1px'}
+              borderColor={'primary.10'}
+              bg={''}
+              mr={4}
+              color={'primary.10'}
+              onClick={closeTagModal}
+            >
+              {t('common.Cancel')}
+            </Button>
             <Button
               colorScheme="blue"
+              borderRadius={'5px'}
               mr={3}
               isLoading={creating || editLoading}
               onClick={handleTagSubmit(isEditTag ? editTag : addTag)}
             >
               {t('common.Confirm')}
-            </Button>
-            <Button variant="ghost" onClick={closeTagModal}>
-              {t('common.Cancel')}
             </Button>
           </ModalFooter>
         </ModalContent>

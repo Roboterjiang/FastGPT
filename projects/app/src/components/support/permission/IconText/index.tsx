@@ -33,7 +33,7 @@ const PermissionIconText = ({
 
   return PermissionTypeMap[per] ? (
     <HStack spacing={1} fontSize={fontSize} {...props}>
-      <MyIcon name={PermissionTypeMap[per]?.iconLight as any} w={w} color={iconColor} />
+      {/*<MyIcon name={PermissionTypeMap[per]?.iconLight as any} w={w} color={iconColor} />*/}
       <Box lineHeight={1}>{t(PermissionTypeMap[per]?.label)}</Box>
     </HStack>
   ) : null;

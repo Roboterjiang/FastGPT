@@ -63,18 +63,25 @@ const Slider = ({ currentTab }: { currentTab: TabEnum }) => {
           py={4}
           h={'100%'}
           flex={'0 0 200px'}
-          borderRight={theme.borders.base}
+          bg={'myWhite.100'}
+          mr={2}
         >
-          <Box px={4} borderBottom={'1px'} borderColor={'myGray.200'} pb={4} mb={4}>
+          <Box px={4} pb={4} mb={4}>
             <Flex mb={4} alignItems={'center'}>
-              <Avatar src={datasetDetail.avatar} w={'34px'} borderRadius={'md'} />
-              <Box ml={2}>
-                <Box fontWeight={'bold'}>{datasetDetail.name}</Box>
+              {/*<Avatar src={datasetDetail.avatar} w={'34px'} borderRadius={'md'} />*/}
+              {/*<Box ml={2}>*/}
+              {/*  <Box fontWeight={'bold'}>{datasetDetail.name}</Box>*/}
+              {/*</Box>*/}
+              <Box mr={2} w={'4px'} h={'18px'} backgroundColor={'primary.10'}></Box>
+              <Box fontWeight={'600'} fontSize={'16px'}>
+                {datasetT('Common Dataset')}
               </Box>
             </Flex>
             {DatasetTypeMap[datasetDetail.type] && (
-              <Flex alignItems={'center'} pl={2} justifyContent={'space-between'}>
-                <DatasetTypeTag type={datasetDetail.type} />
+              <Flex alignItems={'center'}>
+                {/*<DatasetTypeTag type={datasetDetail.type} />*/}
+                <Avatar mr={2} src={datasetDetail.avatar} w={'26px'} borderRadius={'md'} />
+                <Box>{datasetDetail.name}</Box>
               </Flex>
             )}
           </Box>
@@ -123,27 +130,27 @@ const Slider = ({ currentTab }: { currentTab: TabEnum }) => {
             </Box> */}
           </Box>
 
-          <Flex
-            alignItems={'center'}
-            cursor={'pointer'}
-            py={2}
-            px={3}
-            borderRadius={'md'}
-            _hover={{ bg: 'myGray.100' }}
-            fontSize={'sm'}
-            onClick={() => router.replace('/dataset/list')}
-          >
-            <IconButton
-              mr={3}
-              icon={<MyIcon name={'common/backFill'} w={'1rem'} color={'primary.500'} />}
-              bg={'white'}
-              boxShadow={'1px 1px 9px rgba(0,0,0,0.15)'}
-              size={'smSquare'}
-              borderRadius={'50%'}
-              aria-label={''}
-            />
-            {t('core.dataset.All Dataset')}
-          </Flex>
+          {/*<Flex*/}
+          {/*  alignItems={'center'}*/}
+          {/*  cursor={'pointer'}*/}
+          {/*  py={2}*/}
+          {/*  px={3}*/}
+          {/*  borderRadius={'md'}*/}
+          {/*  _hover={{ bg: 'myGray.100' }}*/}
+          {/*  fontSize={'sm'}*/}
+          {/*  onClick={() => router.replace('/dataset/list')}*/}
+          {/*>*/}
+          {/*  <IconButton*/}
+          {/*    mr={3}*/}
+          {/*    icon={<MyIcon name={'common/backFill'} w={'1rem'} color={'primary.500'} />}*/}
+          {/*    bg={'white'}*/}
+          {/*    boxShadow={'1px 1px 9px rgba(0,0,0,0.15)'}*/}
+          {/*    size={'smSquare'}*/}
+          {/*    borderRadius={'50%'}*/}
+          {/*    aria-label={''}*/}
+          {/*  />*/}
+          {/*  {t('core.dataset.All Dataset')}*/}
+          {/*</Flex>*/}
         </Flex>
       ) : (
         <Box mb={3}>

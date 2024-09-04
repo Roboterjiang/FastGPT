@@ -83,88 +83,101 @@ const Header = ({
   const [historiesDefaultData, setHistoriesDefaultData] = useState<InitProps>();
 
   return (
-    <Box>
-      {!isPc && (
-        <Flex pt={2} justifyContent={'center'}>
-          <RouteTab />
+    <>
+      <Box>
+        <Flex h={'45px'} pl={2} pt={[1, 2]} pb={[1, 2]} my={'5px'} alignItems={'flex-start'} position={'relative'} bg={'white'} borderRadius={'10px'}>
+          {!isPc && (
+            <Flex pt={2} justifyContent={'center'}>
+              <RouteTab />
+            </Flex>
+          )}
+          {isPc && (
+            <Box position={'absolute'} left={'50%'} transform={'translateX(-50%)'}>
+              <RouteTab />
+            </Box>
+          )}
         </Flex>
-      )}
-      <Flex pl={2} pt={[2, 3]} alignItems={'flex-start'} position={'relative'}>
-        <Box flex={'1'}>
-          <FolderPath paths={paths} hoverStyle={{ color: 'primary.600' }} onClick={onclickRoute} />
-        </Box>
-        {isPc && (
-          <Box position={'absolute'} left={'50%'} transform={'translateX(-50%)'}>
-            <RouteTab />
+      </Box>
+      <Box py={1}>
+        <Flex>
+          <Box flex={'1'}>
+            <FolderPath paths={paths} hoverStyle={{ color: 'primary.600' }} onClick={onclickRoute} />
           </Box>
+          {currentTab === TabEnum.appEdit && (
+            <Flex alignItems={'center'} ml={'auto'}>
+              {!historiesDefaultData && (
+                <>
+                  <MyTag
+                    mr={3}
+                    type={'borderFill'}
+                    showDot
+                    colorSchema={
+                      isPublished
+                        ? publishStatusStyle.published.colorSchema
+                        : publishStatusStyle.unPublish.colorSchema
+                    }
+                  >
+                    {isPublished
+                      ? t(publishStatusStyle.published.text)
+                      : t(publishStatusStyle.unPublish.text)}
+                  </MyTag>
+                  <IconButton
+                    mr={[2, 4]}
+                    icon={<MyIcon name={'history'} w={'18px'} />}
+                    aria-label={''}
+                    size={'sm'}
+                    w={'30px'}
+                    variant={'whitePrimary'}
+                    onClick={() => {
+                      const { nodes, edges } = form2AppWorkflow(appForm);
+                      setHistoriesDefaultData({
+                        nodes,
+                        edges,
+                        chatConfig: appForm.chatConfig
+                      });
+                    }}
+                  />
+                  <PopoverConfirm
+                    showCancel
+                    content={t('core.app.Publish Confirm')}
+                    Trigger={
+                      <Box>
+                        <MyTooltip label={t('core.app.Publish app tip')}>
+                          <Button isDisabled={isPublished}>{t('core.app.Publish')}</Button>
+                        </MyTooltip>
+                      </Box>
+                    }
+                    onConfirm={() => onSubmitPublish(appForm)}
+                  />
+                </>
+              )}
+            </Flex>
+          )}
+          <Button
+            ml={'5px'}
+            variant='ghost'
+            colorScheme={'primary'}
+          >
+            {/* i18n* */}
+            {'返回'}
+          </Button>
+        </Flex>
+        {!!historiesDefaultData && (
+          <PublishHistoriesSlider
+            initData={({ nodes, chatConfig }) => {
+              setAppForm(
+                appWorkflow2Form({
+                  nodes,
+                  chatConfig
+                })
+              );
+            }}
+            onClose={() => setHistoriesDefaultData(undefined)}
+            defaultData={historiesDefaultData}
+          />
         )}
-        {currentTab === TabEnum.appEdit && (
-          <Flex alignItems={'center'}>
-            {!historiesDefaultData && (
-              <>
-                <MyTag
-                  mr={3}
-                  type={'borderFill'}
-                  showDot
-                  colorSchema={
-                    isPublished
-                      ? publishStatusStyle.published.colorSchema
-                      : publishStatusStyle.unPublish.colorSchema
-                  }
-                >
-                  {isPublished
-                    ? t(publishStatusStyle.published.text)
-                    : t(publishStatusStyle.unPublish.text)}
-                </MyTag>
-                <IconButton
-                  mr={[2, 4]}
-                  icon={<MyIcon name={'history'} w={'18px'} />}
-                  aria-label={''}
-                  size={'sm'}
-                  w={'30px'}
-                  variant={'whitePrimary'}
-                  onClick={() => {
-                    const { nodes, edges } = form2AppWorkflow(appForm);
-                    setHistoriesDefaultData({
-                      nodes,
-                      edges,
-                      chatConfig: appForm.chatConfig
-                    });
-                  }}
-                />
-                <PopoverConfirm
-                  showCancel
-                  content={t('core.app.Publish Confirm')}
-                  Trigger={
-                    <Box>
-                      <MyTooltip label={t('core.app.Publish app tip')}>
-                        <Button isDisabled={isPublished}>{t('core.app.Publish')}</Button>
-                      </MyTooltip>
-                    </Box>
-                  }
-                  onConfirm={() => onSubmitPublish(appForm)}
-                />
-              </>
-            )}
-          </Flex>
-        )}
-      </Flex>
-
-      {!!historiesDefaultData && (
-        <PublishHistoriesSlider
-          initData={({ nodes, chatConfig }) => {
-            setAppForm(
-              appWorkflow2Form({
-                nodes,
-                chatConfig
-              })
-            );
-          }}
-          onClose={() => setHistoriesDefaultData(undefined)}
-          defaultData={historiesDefaultData}
-        />
-      )}
-    </Box>
+      </Box>
+    </>
   );
 };
 

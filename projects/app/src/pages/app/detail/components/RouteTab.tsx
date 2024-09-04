@@ -53,7 +53,9 @@ const RouteTab = () => {
           py={0.5}
           {...(currentTab === tab.id
             ? {
-                color: 'primary.700'
+                color: 'primary.700',
+                borderBottom: '3px solid',
+                borderColor: 'primary.700'
               }
             : {
                 color: 'myGray.600',

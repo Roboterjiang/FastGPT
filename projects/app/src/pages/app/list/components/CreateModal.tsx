@@ -141,9 +141,19 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
       isCentered={!isPc}
     >
       <ModalBody>
+        {/* 头像 */}
         <Box
           mt={4}
           color={'myGray.800'}
+          fontSize={'sm'}
+          // fontWeight={'bold'}
+        >
+        </Box>
+        {/* 应用名称 */}
+        <Box
+          mt={4}
+          color={'myGray.800'}
+          fontSize={'sm'}
           // fontWeight={'bold'}
         >
           {/* i18n* {t('common.Set Name')} */}
@@ -177,10 +187,11 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
             })}
           />
         </Flex>
-
+        {/* 简介描述 */}
         <Box
           mt={8}
           color={'myGray.800'}
+          fontSize={'sm'}
           // fontWeight={'bold'}
         >
           {/* i18n* {t('common.Set Name')} */}
@@ -189,7 +200,6 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
         <Flex mt={2} alignItems={'center'}>
           <Textarea
             flex={1}
-            // ml={4}
             placeholder="请描写应用简介"
             autoFocus
             maxLength={20}

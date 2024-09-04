@@ -20,6 +20,7 @@ import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import dynamic from 'next/dynamic';
 import { useContextSelector } from 'use-context-selector';
 import { DatasetsContext } from '../context';
+import { Button } from '@chakra-ui/react';
 import {
   DatasetDefaultPermissionVal,
   DatasetPermissionList
@@ -164,44 +165,36 @@ function List() {
           userSelect={'none'}
         >
           {formatDatasets.map((dataset, index) => (
-            <MyTooltip
-              key={dataset._id}
-              label={
-                <Flex flexDirection={'column'} alignItems={'center'}>
-                  <Box fontSize={'xs'} color={'myGray.500'}>
-                    {dataset.type === DatasetTypeEnum.folder
-                      ? t('common.folder.Open folder')
-                      : t('dataset.Open the knowledge base')}
-                  </Box>
-                </Flex>
-              }
+            <MyBox
+              isLoading={loadingDatasetId === dataset._id}
+              display={'flex'}
+              flexDirection={'column'}
+              py={3}
+              px={5}
+              cursor={'pointer'}
+              borderWidth={1.5}
+              bg={'white'}
+              borderRadius={'md'}
+              minH={'130px'}
+              position={'relative'}
+              {...getBoxProps({
+                dataId: dataset._id,
+                isFolder: dataset.type === DatasetTypeEnum.folder
+              })}
+              _hover={{
+                borderColor: 'primary.300',
+                boxShadow: '1.5',
+                '& .delete': {
+                  display: 'block'
+                },
+                '& .more': {
+                  display: 'flex'
+                }
+              }}
             >
-              <MyBox
-                isLoading={loadingDatasetId === dataset._id}
-                display={'flex'}
-                flexDirection={'column'}
-                py={3}
-                px={5}
-                cursor={'pointer'}
-                borderWidth={1.5}
-                bg={'white'}
-                borderRadius={'md'}
-                minH={'130px'}
-                position={'relative'}
-                {...getBoxProps({
-                  dataId: dataset._id,
-                  isFolder: dataset.type === DatasetTypeEnum.folder
-                })}
-                _hover={{
-                  borderColor: 'primary.300',
-                  boxShadow: '1.5',
-                  '& .delete': {
-                    display: 'block'
-                  },
-                  '& .more': {
-                    display: 'flex'
-                  }
-                }}
+              <Button
+                className="more"
+                display={['', 'none']}
                 onClick={() => {
                   if (dataset.type === DatasetTypeEnum.folder) {
                     router.push({
@@ -220,136 +213,147 @@ function List() {
                     });
                   }
                 }}
+                position={'absolute'}
+                borderRadius={'4px'}
+                right={4}
+                bottom={2.5}
+                h={'26px'}
               >
-                {dataset.permission.hasWritePer && (
-                  <Box
-                    className="more"
-                    display={['', 'none']}
-                    position={'absolute'}
-                    top={3.5}
-                    right={4}
-                    borderRadius={'md'}
-                    _hover={{
-                      color: 'primary.500',
-                      '& .icon': {
-                        bg: 'myGray.100'
-                      }
-                    }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                    }}
-                  >
-                    <MyMenu
-                      Button={
-                        <Box w={'22px'} h={'22px'}>
-                          <MyIcon
-                            className="icon"
-                            name={'more'}
-                            h={'16px'}
-                            w={'16px'}
-                            px={1}
-                            py={1}
-                            borderRadius={'md'}
-                            cursor={'pointer'}
-                          />
-                        </Box>
-                      }
-                      menuList={[
-                        // {
-                        //   children: [
-                        // {
-                        //   icon: 'edit',
-                        //   label: commonT('dataset.Edit Info'),
-                        //   onClick: () =>
-                        //     setEditedDataset({
-                        //       id: dataset._id,
-                        //       name: dataset.name,
-                        //       intro: dataset.intro,
-                        //       avatar: dataset.avatar
-                        //     })
-                        // },
-                        // {
-                        //   icon: 'common/file/move',
-                        //   label: t('Move'),
-                        //   onClick: () => setMoveDatasetId(dataset._id)
-                        // },
-                        // ...(dataset.permission.hasManagePer
-                        //   ? [
-                        //       {
-                        //         icon: 'support/team/key',
-                        //         label: t('permission.Permission'),
-                        //         onClick: () => setEditPerDatasetIndex(index)
-                        //       }
-                        //     ]
-                        //   : [])
-                        //   ]
-                        // },
-                        // ...(dataset.type != DatasetTypeEnum.folder
-                        //   ? [
-                        //       {
-                        //         children: [
-                        //           {
-                        //             icon: 'export',
-                        //             label: t('Export'),
-                        //             onClick: () => {
-                        //               exportDataset(dataset);
-                        //             }
-                        //           }
-                        //         ]
-                        //       }
-                        //     ]
-                        //   : []),
-                        ...(dataset.permission.hasManagePer
-                          ? [
-                              {
-                                children: [
-                                  {
-                                    icon: 'delete',
-                                    label: t('common.Delete'),
-                                    type: 'danger' as 'danger',
-                                    onClick: () => onClickDeleteDataset(dataset._id, dataset.kb_id)
-                                  }
-                                ]
-                              }
-                            ]
-                          : [])
-                      ]}
-                    />
-                  </Box>
-                )}
-
-                <Flex alignItems={'center'} h={'38px'}>
-                  <Avatar src={dataset.avatar} borderRadius={'md'} w={'28px'} />
-                  <Box mx={3} className="textEllipsis3">
-                    {dataset.name}
-                  </Box>
-                </Flex>
+                打开
+              </Button>
+              {dataset.permission.hasWritePer && (
                 <Box
-                  flex={1}
-                  className={'textEllipsis3'}
-                  py={1}
-                  wordBreak={'break-all'}
-                  fontSize={'xs'}
-                  color={'myGray.500'}
+                  className="more"
+                  display={['', 'none']}
+                  position={'absolute'}
+                  top={3.5}
+                  right={4}
+                  borderRadius={'md'}
+                  _hover={{
+                    color: 'primary.500',
+                    '& .icon': {
+                      bg: 'myGray.100'
+                    }
+                  }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                  }}
                 >
-                  {dataset.intro ||
-                    (dataset.type === DatasetTypeEnum.folder
-                      ? t('core.dataset.Folder placeholder')
-                      : t('core.dataset.Intro Placeholder'))}
+                  <MyMenu
+                    Button={
+                      <Box w={'22px'} h={'22px'}>
+                        <MyIcon
+                          className="icon"
+                          name={'more'}
+                          h={'16px'}
+                          w={'16px'}
+                          px={1}
+                          py={1}
+                          borderRadius={'md'}
+                          cursor={'pointer'}
+                        />
+                      </Box>
+                    }
+                    menuList={[
+                      // {
+                      //   children: [
+                      // {
+                      //   icon: 'edit',
+                      //   label: commonT('dataset.Edit Info'),
+                      //   onClick: () =>
+                      //     setEditedDataset({
+                      //       id: dataset._id,
+                      //       name: dataset.name,
+                      //       intro: dataset.intro,
+                      //       avatar: dataset.avatar
+                      //     })
+                      // },
+                      // {
+                      //   icon: 'common/file/move',
+                      //   label: t('Move'),
+                      //   onClick: () => setMoveDatasetId(dataset._id)
+                      // },
+                      // ...(dataset.permission.hasManagePer
+                      //   ? [
+                      //       {
+                      //         icon: 'support/team/key',
+                      //         label: t('permission.Permission'),
+                      //         onClick: () => setEditPerDatasetIndex(index)
+                      //       }
+                      //     ]
+                      //   : [])
+                      //   ]
+                      // },
+                      // ...(dataset.type != DatasetTypeEnum.folder
+                      //   ? [
+                      //       {
+                      //         children: [
+                      //           {
+                      //             icon: 'export',
+                      //             label: t('Export'),
+                      //             onClick: () => {
+                      //               exportDataset(dataset);
+                      //             }
+                      //           }
+                      //         ]
+                      //       }
+                      //     ]
+                      //   : []),
+                      ...(dataset.permission.hasManagePer
+                        ? [
+                            {
+                              children: [
+                                {
+                                  icon: 'delete',
+                                  label: t('common.Delete'),
+                                  type: 'danger' as 'danger',
+                                  onClick: () => onClickDeleteDataset(dataset._id, dataset.kb_id)
+                                }
+                              ]
+                            }
+                          ]
+                        : [])
+                    ]}
+                  />
                 </Box>
-                <Flex alignItems={'center'} fontSize={'sm'}>
-                  <Box flex={1}>
-                    <PermissionIconText
-                      defaultPermission={dataset.defaultPermission}
-                      color={'myGray.600'}
-                    />
-                  </Box>
-                  {dataset.type !== DatasetTypeEnum.folder && (
-                    <DatasetTypeTag type={dataset.type} py={1} px={2} />
-                  )}
-                </Flex>
-              </MyBox>
-            </MyTooltip>
+              )}
+
+              <Flex mb={3} alignItems={'center'} h={'38px'}>
+                <Avatar src={dataset.avatar} borderRadius={'md'} w={'28px'} />
+                <Box mx={3} fontSize={'20px'} className="textEllipsis3">
+                  {dataset.name}
+                </Box>
+              </Flex>
+              <Box
+                flex={1}
+                className={'textEllipsis3'}
+                py={1}
+                wordBreak={'break-all'}
+                fontSize={'xs'}
+                color={'myGray.500'}
+                borderBottomWidth={'1px'}
+                borderBottomColor={'myGray.200'}
+                mb={2}
+                pb={4}
+              >
+                {dataset.intro ||
+                  (dataset.type === DatasetTypeEnum.folder
+                    ? t('core.dataset.Folder placeholder')
+                    : t('core.dataset.Intro Placeholder'))}
+              </Box>
+              <Flex alignItems={'center'} fontSize={'sm'}>
+                <Box>
+                  <PermissionIconText
+                    defaultPermission={dataset.defaultPermission}
+                    color={'myGray.400'}
+                  />
+                </Box>
+                <Box ml={2} w={'1px'} h={'12px'} backgroundColor={'myGray.300'}></Box>
+                {dataset.type !== DatasetTypeEnum.folder && (
+                  <DatasetTypeTag color={'myGray.400'} type={dataset.type} py={1} px={2} />
+                )}
+              </Flex>
+            </MyBox>
           ))}
         </Grid>
       )}

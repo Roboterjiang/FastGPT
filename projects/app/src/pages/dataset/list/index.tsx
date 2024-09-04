@@ -105,7 +105,12 @@ const Dataset = () => {
   return (
     <PageContainer
       isLoading={myDatasets.length === 0 && isFetchingDatasets}
-      insertProps={{ px: folderDetail ? [4, 6] : [5, '10'] }}
+      insertProps={{
+        px: folderDetail ? [4, 6] : [5, '10'],
+        bg: 'none',
+        border: 'none',
+        boxShadow: '0'
+      }}
     >
       <Flex pt={[4, 6]}>
         <Flex flexGrow={1} flexDirection="column">
@@ -115,7 +120,7 @@ const Dataset = () => {
               FirstPathDom={
                 <Flex flex={1} alignItems={'center'}>
                   <Image src={'/imgs/workflow/db.png'} alt={''} mr={2} h={'24px'} />
-                  <Box className="textlg" letterSpacing={1} fontSize={'24px'} fontWeight={'bold'}>
+                  <Box className="textlg" letterSpacing={1} fontSize={'20px'} fontWeight={'bold'}>
                     {t('core.dataset.My Dataset')}
                   </Box>
                 </Flex>
