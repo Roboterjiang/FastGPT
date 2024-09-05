@@ -63,6 +63,7 @@ const Chat = ({
     onUpdateHistory,
     onClearHistories,
     onDelHistory,
+    batchDeleterHistories,
     isOpenSlider,
     onCloseSlider,
     forbidLoadChat,
@@ -225,8 +226,8 @@ const Chat = ({
         </Box>
       )} */}
 
-      <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px', 0, 0]} position={'relative'}>
-        <Flex h={'100%'} flexDirection={['column', 'row']} bg={'myGray.20'}>
+      <MyBox isLoading={loading} flex={'1 0 0'} w={0} p={[0, '16px', 0, 0]} my={'10px'} position={'relative'}>
+        <Flex h={'100%'} flexDirection={['column', 'row']} bg={'myGray.20'} >
           {/* pc always show history. */}
           {((children: React.ReactNode) => {
             return isPc || !appId ? (
@@ -250,7 +251,9 @@ const Chat = ({
               appId={appId}
               appName={chatData.app.name}
               appAvatar={chatData.app.avatar}
-              onDelHistory={(e) => onDelHistory({ ...e, appId })}
+              onDelHistory={(e) => {
+                return onDelHistory({ ...e, appId })
+            }}
               onClearHistory={() => {
                 onClearHistories({ appId });
               }}
@@ -263,6 +266,10 @@ const Chat = ({
                   chatId: e.chatId,
                   customTitle: e.title
                 });
+              }}
+
+              batchDeleterHistories={(e) =>{
+                batchDeleterHistories({appId,chatIds:e.chatIds})
               }}
             />
           )}
