@@ -320,7 +320,7 @@ function List() {
 
               <Flex mb={3} alignItems={'center'} h={'38px'}>
                 <Avatar src={dataset.avatar} borderRadius={'md'} w={'28px'} />
-                <Box mx={3} fontSize={'20px'} className="textEllipsis3">
+                <Box mx={3} fontWeight={'bold'} fontSize={'18px'} className="textEllipsis3">
                   {dataset.name}
                 </Box>
               </Flex>

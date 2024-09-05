@@ -40,16 +40,34 @@ export const useMyStep = ({
             borderWidth: '0 !important'
           }
         })}
+        bg={'myGray.20'}
+        padding={'5px 12px'}
+        borderRadius={'20px'}
       >
         {steps.map((step, index) => (
           <Step key={step.title}>
             <StepIndicator>
               <StepStatus
-                complete={<StepIcon />}
+                complete={
+                  <Flex
+                      bg={'primary.40'}
+                      color={'primary.10'}
+                      w={'100%'}
+                      h={'100%'}
+                      lineHeight={'100%'}
+                      borderRadius={'50%'}
+                      alignItems={'center'}
+                      justifyContent={'center'}
+                  >
+                    {index + 1}
+                  </Flex>
+                }
                 incomplete={
                   <Flex
-                    bg={'myGray.250'}
-                    color={'myGray.500'}
+                    bg={'white'}
+                    borderColor={'myGray.300'}
+                    borderWidth={'1px'}
+                    color={'black.100'}
                     w={'100%'}
                     h={'100%'}
                     lineHeight={'100%'}
@@ -62,8 +80,8 @@ export const useMyStep = ({
                 }
                 active={
                   <Flex
-                    bg={'primary.500'}
-                    color={'white'}
+                    bg={'primary.40'}
+                    color={'primary.10'}
                     w={'100%'}
                     h={'100%'}
                     lineHeight={'100%'}
@@ -77,11 +95,7 @@ export const useMyStep = ({
               />
             </StepIndicator>
 
-            <Box flexShrink="0">
-              <StepTitle>{step.title}</StepTitle>
-            </Box>
-
-            <StepSeparator />
+            <StepSeparator h={'3px !important'} bg={'linear-gradient(to right, #c3006f, #c3006f, rgba(255,255,255,0)) !important'} />
           </Step>
         ))}
       </Stepper>

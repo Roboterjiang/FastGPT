@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router';
-import { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useState } from 'react';
 import { useTranslation } from 'next-i18next';
 import { createContext, useContextSelector } from 'use-context-selector';
 import { ImportDataSourceEnum, TrainingModeEnum } from '@fastgpt/global/core/dataset/constants';
 import { useMyStep } from '@fastgpt/web/hooks/useStep';
-import { Box, Button, Flex, IconButton } from '@chakra-ui/react';
+import {Box, Button, Flex, IconButton, StepTitle} from '@chakra-ui/react';
 import MyIcon from '@fastgpt/web/components/common/Icon';
 import { TabEnum } from '../Slider';
 import { ImportProcessWayEnum } from '@/web/core/dataset/constants';
@@ -295,35 +295,40 @@ const DatasetImportContextProvider = ({ children }: { children: React.ReactNode 
     <DatasetImportContext.Provider value={contextValue}>
       <Flex>
         {activeStep === 0 ? (
-          <Flex alignItems={'center'}>
-            <IconButton
-              icon={<MyIcon name={'common/backFill'} w={'14px'} />}
-              aria-label={''}
-              size={'smSquare'}
-              w={'26px'}
-              h={'26px'}
-              borderRadius={'50%'}
-              variant={'whiteBase'}
-              mr={2}
-              onClick={() =>
-                router.replace({
-                  query: {
-                    ...router.query,
-                    currentTab: TabEnum.collectionCard
+            <Flex w={'100%'} justifyContent={'space-between'}>
+              <Flex alignItems={'center'}>
+                <Box mr={2} w={'4px'} h={'18px'} backgroundColor={'primary.10'}></Box>
+                <Box fontWeight={'bold'} fontSize={'16px'}>文件上传</Box>
+              </Flex>
+              <Box
+                  color={'primary.10'}
+                  cursor={'pointer'}
+                  onClick={() =>
+                      router.replace({
+                        query: {
+                          ...router.query,
+                          currentTab: TabEnum.collectionCard
+                        }
+                      })
                   }
-                })
-              }
-            />
-            {t('common.Exit')}
-          </Flex>
+              >
+                {t('common.Back')}
+              </Box>
+            </Flex>
         ) : (
-          <Button
-            variant={'whiteBase'}
-            leftIcon={<MyIcon name={'common/backFill'} w={'14px'} />}
-            onClick={goToPrevious}
+          <Flex w={'100%'} justifyContent={'space-between'}>
+          <Flex alignItems={'center'}>
+          <Box mr={2} w={'4px'} h={'18px'} backgroundColor={'primary.10'}></Box>
+          <Box fontWeight={'bold'} fontSize={'16px'}>文件上传</Box>
+          </Flex>
+          <Box
+          color={'primary.10'}
+          cursor={'pointer'}
+          onClick={goToPrevious}
           >
-            {t('common.Last Step')}
-          </Button>
+            {t('common.Back')}
+          </Box>
+          </Flex>
         )}
         <Box flex={1} />
       </Flex>
@@ -340,6 +345,14 @@ const DatasetImportContextProvider = ({ children }: { children: React.ReactNode 
       >
         <Box maxW={['100%', '900px']} mx={'auto'}>
           <MyStep />
+          <Flex fontSize={'13px'} fontWeight={'bold'} mt={'10px'} justifyContent={'space-between'}>
+            <Box color={'primary.10'} flexShrink="0">
+              {t('core.dataset.import.Select file')}
+            </Box>
+            <Box color={activeStep===1?'primary.10':'black.100'} flexShrink="0">
+              {t('core.dataset.import.Upload data')}
+            </Box>
+          </Flex>
         </Box>
       </Box>
       {children}

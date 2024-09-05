@@ -325,6 +325,7 @@ const FileSelector = ({
       borderWidth={'1.5px'}
       borderStyle={'dashed'}
       borderRadius={'md'}
+      bg={'myGray.26'}
       {...(isMaxSelected
         ? {}
         : {
@@ -351,16 +352,16 @@ const FileSelector = ({
         </>
       ) : (
         <>
-          <Box fontWeight={'bold'}>
+          <Box fontWeight={'bold'} mt={'10px'}>
             {isDragging
               ? fileT('Release the mouse to upload the file')
               : fileT('Select and drag file tip')}
           </Box>
           {/* file type */}
-          <Box color={'myGray.500'} fontSize={'xs'}>
+          <Box fontSize={'xs'} mt={'10px'} color={'myGray.400'}>
             {fileT('Support file type', { fileType })}
           </Box>
-          <Box color={'myGray.500'} fontSize={'xs'}>
+          <Box color={'myGray.400'} fontSize={'xs'} mt={'10px'}>
             {/* max count */}
             {maxCount && fileT('Support max count', { maxCount })}
             {/* max size */}

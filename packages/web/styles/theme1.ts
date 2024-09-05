@@ -602,6 +602,7 @@ export const theme = extendTheme({
       22: '#F6F6F6',
       24: '#f9f9ff',
       25: '#FBFBFC',
+      26: '#f9fafb',
       50: '#F7F8FA',
       100: '#F4F4F7',
       150: '#F0F1F6',
@@ -643,6 +644,7 @@ export const theme = extendTheme({
       5: 'rgba(174, 0, 85, 0.5)',
       7: 'rgba(174, 0, 85, 0.7)',
       9: 'rgba(174, 0, 85, 0.9)',
+      10: '#589df6',
 
       50: '#ffe4f0',
       100: '#ffb8d9',

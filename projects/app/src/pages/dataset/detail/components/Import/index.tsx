@@ -47,7 +47,7 @@ const Render = ({
   doc_type: string;
 }) => {
   return (
-    <Flex flexDirection={'column'} bg={'white'} h={'100%'} px={[2, 9]} py={[2, 5]}>
+    <Flex flexDirection={'column'} bg={'white'} h={'100%'} px={[2, 6]} py={[2, 3]}>
       <DatasetImportContextProvider>
         <ImportDataset datasetId={datasetId} kb_id={kb_id} doc_type={doc_type} />
       </DatasetImportContextProvider>

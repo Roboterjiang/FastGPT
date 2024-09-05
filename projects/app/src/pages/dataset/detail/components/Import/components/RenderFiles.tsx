@@ -93,10 +93,16 @@ export const RenderUploadFiles = ({
   return files.length > 0 ? (
     <>
       <TableContainer mt={5}>
-        <Box textAlign={'right'} mb={4}>
-          <Button onClick={batchSetTag}>{t('dataset.Batch set tags')}</Button>
-        </Box>
-        <Table variant={'simple'} fontSize={'sm'} draggable={false}>
+        <Flex alignItems={'center'} justifyContent={'space-between'}>
+          <Flex alignItems={'center'}>
+            <Box mr={2} w={'3px'} h={'16px'} backgroundColor={'primary.10'}></Box>
+            <Box fontWeight={'bold'} fontSize={'15px'}>{t('core.dataset.import.Data Preprocessing')}</Box>
+          </Flex>
+          <Box textAlign={'right'} mb={4}>
+            <Button color={'primary.10'} bg={'primary.60'} borderRadius={'2px'} onClick={batchSetTag}>{t('dataset.Batch set tags')}</Button>
+          </Box>
+        </Flex>
+        <Table borderWidth={'1px'} borderColor={'primary.1 !important'} variant={'simple'} fontSize={'sm'} draggable={false}>
           <Thead draggable={false}>
             <Tr bg={'myGray.100'} mb={2}>
               <Th py={4}>
@@ -164,14 +170,13 @@ export const RenderUploadFiles = ({
                   <Flex alignItems={'center'} fontSize={'xs'}>
                     <Progress
                       value={item.uploadedFileRate}
-                      h={'6px'}
+                      h={'12px'}
                       w={'100%'}
                       maxW={'210px'}
                       size="sm"
                       borderRadius={'20px'}
-                      colorScheme={(item.uploadedFileRate || 0) >= 100 ? 'green' : 'blue'}
+                      colorScheme={(item.uploadedFileRate || 0) >= 100 ? 'pink' : 'pink'}
                       bg="myGray.200"
-                      hasStripe
                       isAnimated
                       mr={2}
                     />
@@ -194,37 +199,56 @@ export const RenderUploadFiles = ({
                         </MyTooltip>
                       )} */}
 
-                      <IconButton
-                        variant={'grayDanger'}
-                        size={'sm'}
-                        icon={<MyIcon name={'delete'} w={'14px'} />}
-                        aria-label={''}
-                        onClick={async () => {
-                          //删除文档
-                          const result = await delAdDatasetDocs(userInfo._id, kb_id, item.dbFileId);
-                          if (result && result.status == 'success') {
-                            setFiles((state) => state.filter((file) => file.id !== item.id));
-                          } else {
-                            toast({
-                              status: 'error',
-                              title: '删除数据失败，请重试'
-                            });
-                          }
-                        }}
-                      />
+                      <Box onClick={() => {
+                        //弹框出现
+                        onOpenTagModal();
+                        setTagFile(item);
+                        setSelectFileIds([]);
+                      }} cursor={'pointer'} color={'primary.10'} mr={'30px'}>{t('dataset.Set tag')}</Box>
+                      <Box onClick={async () => {
+                        //删除文档
+                        const result = await delAdDatasetDocs(userInfo._id, kb_id, item.dbFileId);
+                        if (result && result.status == 'success') {
+                          setFiles((state) => state.filter((file) => file.id !== item.id));
+                        } else {
+                          toast({
+                            status: 'error',
+                            title: '删除数据失败，请重试'
+                          });
+                        }
+                      }} cursor={'pointer'} color={'red.500'}>{t('common.Delete')}</Box>
 
-                      <IconButton
-                        variant={'grayDanger'}
-                        size={'sm'}
-                        icon={<MyIcon name={'tag'} w={'14px'} />}
-                        aria-label={'标记'}
-                        onClick={() => {
-                          //弹框出现
-                          onOpenTagModal();
-                          setTagFile(item);
-                          setSelectFileIds([]);
-                        }}
-                      />
+                      {/*<IconButton*/}
+                      {/*  variant={'grayDanger'}*/}
+                      {/*  size={'sm'}*/}
+                      {/*  icon={<MyIcon name={'delete'} w={'14px'} />}*/}
+                      {/*  aria-label={''}*/}
+                      {/*  onClick={async () => {*/}
+                      {/*    //删除文档*/}
+                      {/*    const result = await delAdDatasetDocs(userInfo._id, kb_id, item.dbFileId);*/}
+                      {/*    if (result && result.status == 'success') {*/}
+                      {/*      setFiles((state) => state.filter((file) => file.id !== item.id));*/}
+                      {/*    } else {*/}
+                      {/*      toast({*/}
+                      {/*        status: 'error',*/}
+                      {/*        title: '删除数据失败，请重试'*/}
+                      {/*      });*/}
+                      {/*    }*/}
+                      {/*  }}*/}
+                      {/*/>*/}
+
+                      {/*<IconButton*/}
+                      {/*  variant={'grayDanger'}*/}
+                      {/*  size={'sm'}*/}
+                      {/*  icon={<MyIcon name={'tag'} w={'14px'} />}*/}
+                      {/*  aria-label={'标记'}*/}
+                      {/*  onClick={() => {*/}
+                      {/*    //弹框出现*/}
+                      {/*    onOpenTagModal();*/}
+                      {/*    setTagFile(item);*/}
+                      {/*    setSelectFileIds([]);*/}
+                      {/*  }}*/}
+                      {/*/>*/}
                     </Flex>
                   )}
                 </Td>

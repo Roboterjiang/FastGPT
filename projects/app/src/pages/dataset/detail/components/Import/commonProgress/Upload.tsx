@@ -154,7 +154,11 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
   return (
     <Box>
       <TableContainer>
-        <Table variant={'simple'} fontSize={'sm'} draggable={false}>
+        <Flex alignItems={'center'} mb={'18px'}>
+          <Box mr={2} w={'3px'} h={'16px'} backgroundColor={'primary.10'}></Box>
+          <Box fontWeight={'bold'} fontSize={'15px'}>{t('core.dataset.import.Upload data')}</Box>
+        </Flex>
+        <Table borderWidth={'1px'} borderColor={'primary.1 !important'} variant={'simple'} fontSize={'sm'} draggable={false}>
           <Thead draggable={false}>
             <Tr bg={'myGray.100'} mb={2}>
               <Th borderLeftRadius={'md'} overflow={'hidden'} borderBottom={'none'} py={4}>
@@ -179,13 +183,13 @@ const Upload = ({ kb_id }: { kb_id: string }) => {
                 <Td>
                   <Box display={'inline-block'}>
                     {item.createStatus === 'waiting' && (
-                      <MyTag colorSchema={'gray'}>{t('common.Waiting')}</MyTag>
+                      <Box color={'yellow.400'}>{t('common.Waiting')}</Box>
                     )}
                     {item.createStatus === 'creating' && (
-                      <MyTag colorSchema={'blue'}>{t('common.Creating')}</MyTag>
+                      <Box color={'blue.10'}>{t('common.Creating')}</Box>
                     )}
                     {item.createStatus === 'finish' && (
-                      <MyTag colorSchema={'green'}>{t('common.Finish')}</MyTag>
+                      <Box color={'green.400'}>{t('common.Finish')}</Box>
                     )}
                   </Box>
                 </Td>

@@ -148,9 +148,9 @@ const Info = ({ datasetId }: { datasetId: string }) => {
   const btnLoading = isSelecting || isDeleting || isSaving || isRebuilding;
 
   return (
-    <Box py={5} px={[5, 10]}>
-      <Flex mt={5} w={'100%'} alignItems={'center'}>
-        <FormLabel flex={['0 0 90px', '0 0 160px']} w={0}>
+    <Box bg={'white'} py={2} px={[5, 10]} h={'calc(100% - 56px)'}>
+      <Flex w={'100%'} alignItems={'center'}>
+        <FormLabel fontWeight={'bold'} flex={['0 0 90px', '0 0 160px']} w={0}>
           {t('core.dataset.Dataset ID')}
         </FormLabel>
         <Box flex={1}>{datasetDetail._id}</Box>
@@ -210,7 +210,7 @@ const Info = ({ datasetId }: { datasetId: string }) => {
         </Box>
       </Flex> */}
 
-      <MyDivider my={6} h={'2px'} maxW={'500px'} />
+      <MyDivider my={2} h={'2px'} maxW={'500px'} />
 
       {datasetDetail.type === DatasetTypeEnum.externalFile && (
         <>
@@ -235,7 +235,7 @@ const Info = ({ datasetId }: { datasetId: string }) => {
         </>
       )}
 
-      <Flex mt={5} w={'100%'} alignItems={'center'}>
+      <Flex mt={5} w={'100%'}>
         <FormLabel flex={['0 0 90px', '0 0 160px']} w={0}>
           {t('core.dataset.Avatar')}
         </FormLabel>
@@ -244,8 +244,8 @@ const Info = ({ datasetId }: { datasetId: string }) => {
             <Avatar
               m={'auto'}
               src={avatar}
-              w={['32px', '40px']}
-              h={['32px', '40px']}
+              w={['44px', '56px']}
+              h={['44px', '56px']}
               cursor={'pointer'}
               onClick={onOpenSelectFile}
             />
@@ -256,11 +256,11 @@ const Info = ({ datasetId }: { datasetId: string }) => {
         <FormLabel flex={['0 0 90px', '0 0 160px']} w={0}>
           {t('core.dataset.Name')}
         </FormLabel>
-        <Input flex={[1, '0 0 320px']} maxLength={30} {...register('name')} />
+        <Input bg={'myGray.22'} flex={[1, '0 0 320px']} maxLength={30} {...register('name')} />
       </Flex>
       <Flex mt={8} alignItems={'center'} w={'100%'}>
         <FormLabel flex={['0 0 90px', '0 0 160px']}>{t('common.Intro')}</FormLabel>
-        <Textarea flex={[1, '0 0 320px']} {...register('intro')} placeholder={t('common.Intro')} />
+        <Textarea bg={'myGray.22'} flex={[1, '0 0 320px']} {...register('intro')} placeholder={t('common.Intro')} />
       </Flex>
 
       {/* {datasetDetail.permission.hasManagePer && (
