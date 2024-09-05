@@ -12,9 +12,16 @@ const WelcomeTextConfig = (props: TextareaProps) => {
   return (
     <>
       <Flex alignItems={'center'}>
-        <MyIcon name={'core/app/simpleMode/chat'} w={'20px'} />
-        <FormLabel ml={2}>{t('core.app.Welcome Text')}</FormLabel>
-        <ChatFunctionTip type={'welcome'} />
+        <Box
+          h={'13px'}
+          mr={2}
+          border={'2px solid'}
+          borderColor='primary.10'
+          borderRadius={'5px'}
+        ></Box>
+        {/* <MyIcon name={'core/app/simpleMode/chat'} w={'20px'} /> */}
+        <FormLabel>{t('core.app.Welcome Text')}</FormLabel>
+        {/* <ChatFunctionTip type={'welcome'} /> */}
       </Flex>
       <MyTextarea
         mt={2}

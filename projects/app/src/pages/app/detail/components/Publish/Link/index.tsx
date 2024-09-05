@@ -53,13 +53,13 @@ import { useUserStore } from '@/web/support/user/useUserStore';
 
 const SelectUsingWayModal = dynamic(() => import('./SelectUsingWayModal'));
 
-const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
+const Share = ({ appId, showCreat, setShowCreat }: { appId: string; type: PublishChannelEnum; showCreat: boolean; setShowCreat: React.Dispatch<React.SetStateAction<boolean>> }) => {
   const { t } = useTranslation();
   const { Loading, setIsLoading } = useLoading();
   const { feConfigs } = useSystemStore();
   const { userInfo } = useUserStore();
   const { copyData } = useCopyData();
-  const [editLinkData, setEditLinkData] = useState<OutLinkEditType>();
+  const [editLinkData, setEditLinkData] = useState<OutLinkEditType>(defaultOutLinkForm);
   const [selectedLinkData, setSelectedLinkData] = useState<OutLinkSchema>();
   const { toast } = useToast();
   const { ConfirmModal, openConfirm } = useConfirm({
@@ -78,14 +78,14 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
   return (
     <MyBox h={'100%'} isLoading={isFetching} position={'relative'}>
       <Flex justifyContent={'space-between'}>
-        <HStack>
+        {/* <HStack>
           <Box color={'myGray.900'} fontSize={'lg'}>
             {t('core.app.Share link')}
           </Box>
           <QuestionTip label={t('core.app.Share link desc detail')} />
-        </HStack>
-        <Button
-          variant={'whitePrimary'}
+        </HStack> */}
+        {/* <Button
+          variant={'primaryOutline'}
           colorScheme={'blue'}
           size={['sm', 'md']}
           {...(shareChatList.length >= 10
@@ -97,7 +97,7 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
           onClick={() => setEditLinkData(defaultOutLinkForm)}
         >
           {t('core.app.share.Create link')}
-        </Button>
+        </Button> */}
       </Flex>
       <TableContainer mt={3}>
         <Table variant={'simple'} w={'100%'} overflowX={'auto'} fontSize={'sm'}>
@@ -184,13 +184,15 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
                           {
                             label: t('common.Edit'),
                             icon: 'edit',
-                            onClick: () =>
+                            onClick: () => {
+                              setShowCreat(true);
                               setEditLinkData({
                                 _id: item._id,
                                 name: item.name,
                                 responseDetail: item.responseDetail,
                                 limit: item.limit
-                              })
+                              });
+                            }
                           },
                           {
                             label: t('common.Delete'),
@@ -222,7 +224,7 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
       {shareChatList.length === 0 && !isFetching && (
         <EmptyTip text={t('core.app.share.Not share link')} />
       )}
-      {!!editLinkData && (
+      {(!!editLinkData && showCreat) && (
         <EditLinkModal
           appId={appId}
           userId={userInfo._id}
@@ -232,7 +234,7 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
             const url = `${location.origin}/chat/share?shareId=${id}`;
             copyData(url, t('core.app.share.Create link tip'));
             refetchShareChatList();
-            setEditLinkData(undefined);
+            setEditLinkData(defaultOutLinkForm);
           }}
           onEdit={() => {
             toast({
@@ -240,9 +242,12 @@ const Share = ({ appId }: { appId: string; type: PublishChannelEnum }) => {
               title: t('common.Update Successful')
             });
             refetchShareChatList();
-            setEditLinkData(undefined);
+            setEditLinkData(defaultOutLinkForm);
           }}
-          onClose={() => setEditLinkData(undefined)}
+          onClose={() => {
+            setEditLinkData(defaultOutLinkForm);
+            setShowCreat(false);
+          }}
         />
       )}
       {!!selectedLinkData && (

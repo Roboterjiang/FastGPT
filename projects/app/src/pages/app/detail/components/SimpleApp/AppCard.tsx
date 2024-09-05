@@ -8,7 +8,9 @@ import {
   Modal,
   ModalBody,
   Checkbox,
-  ModalFooter
+  ModalFooter,
+  Input,
+  Textarea
 } from '@chakra-ui/react';
 import { DragHandleIcon } from '@chakra-ui/icons';
 import { useRouter } from 'next/router';
@@ -71,6 +73,7 @@ const AppCard = () => {
       <Box px={6} py={4} position={'relative'}>
         <Flex alignItems={'center'}>
           <Box fontWeight={'bold'} fontSize={'md'} flex={'1 0 0'} color={'primary.10'}>
+            {/* <MyIcon name={'core/app/simpleMode/dataset'} w={'20px'} /> */}
             {/* i18n* */}
             {'基本信息'}
           </Box>
@@ -79,7 +82,50 @@ const AppCard = () => {
             {appDetail.name}
           </Box> */}
         </Flex>
+
         <Box
+          // flex={1}
+          mt={3}
+          mb={4}
+          // className={'textEllipsis3'}
+          // wordBreak={'break-all'}
+          color={'myGray.600'}
+          fontSize={'xs'}
+          // minH={'46px'}
+        >
+          <Flex alignItems={'center'} justifyContent={'left'}>
+            <Box>
+              {/* i18n* */}
+              {'应用名称'}
+            </Box>
+            <Box flex={1} ml={4}>
+              <Input
+                readOnly
+                value={appDetail.name}
+                // placeholder="输入应用名称"
+                // bg={'myWhite.600'}
+              />
+            </Box>
+            <Avatar ml={4} src={appDetail.avatar} borderRadius={'md'} w={'28px'} />
+          </Flex>
+
+          <Flex mt={3} alignItems={'top'} justifyContent={'left'}>
+            <Box>
+              {/* i18n* */}
+              {'应用简介'}
+            </Box>
+            <Box flex={1} ml={4}>
+              <Textarea
+                readOnly
+                value={appDetail.intro}
+                // placeholder="应用简介"
+                // bg={'myWhite.600'}
+              />
+            </Box>
+          </Flex>
+        </Box>
+
+        {/* <Box
           flex={1}
           mt={3}
           mb={4}
@@ -90,7 +136,7 @@ const AppCard = () => {
           minH={'46px'}
         >
           {appDetail.intro || t('core.app.tip.Add a intro to app')}
-        </Box>
+        </Box> */}
         <HStack alignItems={'flex-end'}>
           <Button
             size={['sm', 'md']}

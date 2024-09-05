@@ -78,13 +78,16 @@ const Logs = () => {
 
   return (
     <>
-      <Box {...cardStyles} boxShadow={2} px={[4, 8]} py={[4, 6]}>
+      <Box {...cardStyles} borderTopRadius={'10px'} borderBottomRadius={'none'} px={[4, 8]} py={[2, 4]}>
         {isPc && (
           <>
-            <Box fontWeight={'bold'} fontSize={['md', 'lg']} mb={2}>
+            {/* <Box fontWeight={'bold'} fontSize={['md', 'lg']} mb={2}>
+              {appT('Chat logs')}
+            </Box> */}
+            <Box fontWeight={'bold'} fontSize={'md'} color={'primary.10'}>
               {appT('Chat logs')}
             </Box>
-            <Box color={'myGray.500'} fontSize={'sm'}>
+            <Box color={'myGray.500'} fontSize={'xs'}>
               {appT('Chat Logs Tips')}{' '}
               {/* <Box
                 as={'span'}
@@ -96,6 +99,9 @@ const Logs = () => {
                 {t('core.chat.Read Mark Description')}
               </Box> */}
             </Box>
+            <Box mt={4}>
+              <hr />
+            </Box>
           </>
         )}
       </Box>
@@ -104,10 +110,13 @@ const Logs = () => {
       <Flex
         flexDirection={'column'}
         {...cardStyles}
-        boxShadow={3.5}
-        mt={4}
+        borderBottomRadius={'10px'}
+        borderTopRadius={'none'}
+        // boxShadow={3.5}
+        // mt={4}
         px={[4, 8]}
-        py={[4, 6]}
+        pb={[4, 6]}
+        // py={[4, 6]}
         flex={'1 0 0'}
       >
         <TableContainer mt={[0, 3]} flex={'1 0 0'} h={0} overflowY={'auto'}>

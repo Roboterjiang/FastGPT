@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Box, Flex, useTheme } from '@chakra-ui/react';
+import { Box, Flex, useTheme, Button } from '@chakra-ui/react';
 
 import { PublishChannelEnum } from '@fastgpt/global/support/outLink/constant';
 import dynamic from 'next/dynamic';
@@ -20,6 +20,9 @@ const OutLink = () => {
   const theme = useTheme();
 
   const appId = useContextSelector(AppContext, (v) => v.appId);
+
+  const [showCreat, setShowCreat] = useState<boolean>(false);
+
 
   const publishList = useRef([
     {
@@ -46,27 +49,49 @@ const OutLink = () => {
 
   return (
     <>
-      <Box {...cardStyles} boxShadow={2} px={[4, 8]} py={[4, 6]}>
-        <MyRadio
-          gridTemplateColumns={['repeat(1,1fr)', 'repeat(auto-fill, minmax(0, 400px))']}
-          iconSize={'20px'}
-          list={publishList.current}
-          value={linkType}
-          onChange={(e) => setLinkType(e as PublishChannelEnum)}
-        />
+      <Box {...cardStyles} borderTopRadius={'10px'} borderBottomRadius={'none'} boxShadow={2} px={[4, 8]} py={[2, 4]}>
+        <Box fontWeight={'bold'} fontSize={'md'} color={'primary.10'}>
+          {/* i18n* */}
+          {'选择发布渠道'}
+        </Box>
+        <Flex alignItems={'center'}>
+          <MyRadio
+            mt={2}
+            gridTemplateColumns={['repeat(1,1fr)', 'repeat(auto-fill, minmax(0, 400px))']}
+            iconSize={'20px'}
+            list={publishList.current}
+            value={linkType}
+            onChange={(e) => setLinkType(e as PublishChannelEnum)}
+          />
+          <Button
+            ml={'auto'}
+            variant={'primaryOutline'}
+            colorScheme={'blue'}
+            size={['sm', 'md']}
+            onClick={() => setShowCreat(true)}
+          >
+            {t('core.app.share.Create link')}
+          </Button>
+        </Flex>
+        <Box mt={4}>
+          <hr />
+        </Box>
       </Box>
 
       <Flex
         flexDirection={'column'}
         {...cardStyles}
-        boxShadow={3.5}
-        mt={4}
+        borderBottomRadius={'10px'}
+        borderTopRadius={'none'}
+        // boxShadow={3.5}
+        // mt={4}
         px={[4, 8]}
-        py={[4, 6]}
+        pb={[4, 6]}
+        // py={[4, 6]}
         flex={'1 0 0'}
       >
         {linkType === PublishChannelEnum.share && (
-          <Link appId={appId} type={PublishChannelEnum.share} />
+          <Link appId={appId} type={PublishChannelEnum.share} showCreat={showCreat} setShowCreat={setShowCreat} />
         )}
         {linkType === PublishChannelEnum.apikey && <API appId={appId} />}
         {linkType === PublishChannelEnum.feishu && <FeiShu appId={appId} />}
