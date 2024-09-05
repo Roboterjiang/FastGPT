@@ -92,7 +92,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
     <Modal isOpen={isOpen} onClose={handleClose} closeOnOverlayClick={false}>
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>{t('tag.Select tag')}</ModalHeader>
+        <ModalHeader fontSize={'16px'}>{t('tag.Select tag')}</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           {loading ? (
@@ -153,12 +153,20 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
             </form>
           )}
         </ModalBody>
-        <ModalFooter>
+        <ModalFooter mt={'20px'} display={'unset'} textAlign={'center'}>
+          <Button
+              borderRadius={'5px'}
+              border={'1px'}
+              borderColor={'primary.10'}
+              bg={''}
+              mr={4}
+              color={'primary.10'}
+              onClick={handleClose}
+          >
+            {t('common.Cancel')}
+          </Button>
           <Button mr={3} onClick={handleFormSubmit}>
             {t('common.Confirm')}
-          </Button>
-          <Button variant="ghost" onClick={handleClose}>
-            {t('common.Cancel')}
           </Button>
         </ModalFooter>
       </ModalContent>
