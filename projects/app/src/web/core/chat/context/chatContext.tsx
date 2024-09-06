@@ -2,7 +2,7 @@ import { useRequest2 } from '@fastgpt/web/hooks/useRequest';
 import { useRouter } from 'next/router';
 import React, { ReactNode, useCallback, useEffect, useRef } from 'react';
 import { createContext } from 'use-context-selector';
-import { delClearChatHistories, delChatHistoryById, putChatHistory } from '../api';
+import { delClearChatHistories, delChatHistoryById, putChatHistory,batchDeleteChatHistories } from '../api';
 import { ChatHistoryItemType } from '@fastgpt/global/core/chat/type';
 import { ClearHistoriesProps, DelHistoryProps, UpdateHistoryProps } from '@/global/core/chat/api';
 import { useDisclosure } from '@chakra-ui/react';
@@ -17,6 +17,7 @@ type ChatContextType = ChatContextValueType & {
   onUpdateHistory: (data: UpdateHistoryProps) => void;
   onDelHistory: (data: DelHistoryProps) => Promise<undefined>;
   onClearHistories: (data: ClearHistoriesProps) => Promise<undefined>;
+  batchDeleterHistories: (data: ClearHistoriesProps&{chatIds:string[]}) => Promise<undefined>;
   isOpenSlider: boolean;
   onCloseSlider: () => void;
   onOpenSlider: () => void;
@@ -40,6 +41,9 @@ export const ChatContext = createContext<ChatContextType>({
     throw new Error('Function not implemented.');
   },
   onClearHistories: function (data: ClearHistoriesProps): Promise<undefined> {
+    throw new Error('Function not implemented.');
+  },
+  batchDeleterHistories: function (data: ClearHistoriesProps&{chatIds:string[]}): Promise<undefined> {
     throw new Error('Function not implemented.');
   },
   isOpenSlider: false,
@@ -128,7 +132,21 @@ const ChatContextProvider = ({
       }
     }
   );
-  const isLoading = isUpdatingHistory || isDeletingHistory || isClearingHistory;
+ 
+  const { runAsync: batchDeleterHistories, loading: isBatchDeleting } = useRequest2(
+    batchDeleteChatHistories,
+    {
+      onSuccess() {
+        loadHistories();
+      },
+      onFinally() {
+        onChangeChatId('');
+      }
+    }
+  );
+
+
+  const isLoading = isUpdatingHistory || isDeletingHistory || isClearingHistory ||isBatchDeleting;
 
   const contextValue = {
     chatId,
@@ -137,6 +155,7 @@ const ChatContextProvider = ({
     onUpdateHistory,
     onDelHistory,
     onClearHistories,
+    batchDeleterHistories,
     isOpenSlider,
     onCloseSlider,
     onOpenSlider,

@@ -226,7 +226,7 @@ ${toolResponse}`}
         )}
         <ChatAvatar src={avatar} type={type} />
 
-        {!!chatStatusMap && statusBoxData && isLastChild && !isTextExists() && (
+        {!!chatStatusMap && statusBoxData && isLastChild && (
           <Flex
             alignItems={'center'}
             px={3}

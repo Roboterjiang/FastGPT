@@ -18,6 +18,7 @@ import { ClientSession } from '@fastgpt/service/common/mongo';
 export type CreateAppBody = {
   parentId?: ParentIdType;
   name?: string;
+  intro?: string;
   avatar?: string;
   type?: AppTypeEnum;
   modules: AppSchema['modules'];
@@ -25,7 +26,7 @@ export type CreateAppBody = {
 };
 
 async function handler(req: ApiRequestProps<CreateAppBody>, res: NextApiResponse<any>) {
-  const { parentId, name, avatar, type, modules, edges } = req.body;
+  const { parentId, name, intro, avatar, type, modules, edges } = req.body;
 
   if (!name || !type || !Array.isArray(modules)) {
     throw new Error('缺少参数');
@@ -41,6 +42,7 @@ async function handler(req: ApiRequestProps<CreateAppBody>, res: NextApiResponse
   const appId = await onCreateApp({
     parentId,
     name,
+    intro,
     avatar,
     type,
     modules,

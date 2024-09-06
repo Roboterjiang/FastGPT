@@ -83,14 +83,99 @@ const InputGuideConfig = ({
   }, [t, isOpenQuestionGuide]);
 
   return (
-    <Flex alignItems={'center'}>
-      <MyIcon name={'core/app/inputGuides'} mr={2} w={'20px'} />
+    <>
       <Flex alignItems={'center'}>
-        <FormLabel>{chatT('Input guide')}</FormLabel>
-        <ChatFunctionTip type={'inputGuide'} />
+        {/* <MyIcon name={'core/app/inputGuides'} mr={2} w={'20px'} /> */}
+        <Flex alignItems={'center'}>
+          <Box
+            h={'13px'}
+            mr={2}
+            border={'2px solid'}
+            borderColor='primary.10'
+            borderRadius={'5px'}
+          ></Box>
+          <FormLabel>{chatT('Input guide')}</FormLabel>
+          {/* <ChatFunctionTip type={'inputGuide'} /> */}
+        </Flex>
+        <Box flex={1} />
+        <MyModal
+          title={chatT('Input guide')}
+          iconSrc="core/app/inputGuides"
+          isOpen={isOpen}
+          onClose={onClose}
+          w={'500px'}
+        >
+          <ModalBody px={[5, 16]} py={[4, 8]}>
+            <Flex justifyContent={'space-between'} alignItems={'center'}>
+              <FormLabel>{t('Is open')}</FormLabel>
+              <Switch
+                isChecked={isOpenQuestionGuide}
+                onChange={(e) => {
+                  onChange({
+                    ...value,
+                    open: e.target.checked
+                  });
+                }}
+              />
+            </Flex>
+            {isOpenQuestionGuide && (
+              <>
+                <Flex mt={8} alignItems={'center'}>
+                  <FormLabel>{chatT('Input guide lexicon')}</FormLabel>
+                  <Box fontSize={'xs'} px={2} bg={'myGray.100'} ml={1} rounded={'full'}>
+                    {total}
+                  </Box>
+                  <Box flex={'1 0 0'} />
+                  <Button
+                    variant={'whiteBase'}
+                    size={'sm'}
+                    leftIcon={<MyIcon boxSize={'4'} name={'common/settingLight'} />}
+                    onClick={() => {
+                      onOpenLexiconConfig();
+                    }}
+                  >
+                    {chatT('Config input guide lexicon')}
+                  </Button>
+                </Flex>
+                <>
+                  {/* <Flex mt={8} alignItems={'center'}>
+                    <FormLabel>{chatT('Custom input guide url')}</FormLabel>
+                    <Flex
+                      onClick={() => window.open(getDocPath('/docs/course/chat_input_guide'))}
+                      color={'primary.700'}
+                      alignItems={'center'}
+                      cursor={'pointer'}
+                    >
+                      <MyIcon name={'book'} ml={4} mr={1} />
+                      {commonT('common.Documents')}
+                    </Flex>
+                    <Box flex={'1 0 0'} />
+                  </Flex>
+                  <Textarea
+                    mt={2}
+                    bg={'myGray.50'}
+                    defaultValue={value.customUrl}
+                    onBlur={(e) =>
+                      onChange({
+                        ...value,
+                        customUrl: e.target.value
+                      })
+                    }
+                  /> */}
+                </>
+              </>
+            )}
+          </ModalBody>
+        </MyModal>
+
+        {isOpenLexiconConfig && <LexiconConfigModal appId={appId} onClose={onCloseLexiconConfig} />}
       </Flex>
-      <Box flex={1} />
-      <MyTooltip label={chatT('Config input guide')}>
+      <Flex alignItems={'center'} justifyContent={'space-between'}>
+        <Box fontSize={'sm'}>
+          {/* i18n* {t('core.app.Config whisper')} */}
+          {'是否开启输入引导'}
+        </Box>
+        {/* <MyTooltip label={chatT('Config input guide')}> */}
         <Button
           variant={'transparentBase'}
           iconSpacing={1}
@@ -100,79 +185,9 @@ const InputGuideConfig = ({
         >
           {formLabel}
         </Button>
-      </MyTooltip>
-      <MyModal
-        title={chatT('Input guide')}
-        iconSrc="core/app/inputGuides"
-        isOpen={isOpen}
-        onClose={onClose}
-        w={'500px'}
-      >
-        <ModalBody px={[5, 16]} py={[4, 8]}>
-          <Flex justifyContent={'space-between'} alignItems={'center'}>
-            <FormLabel>{t('Is open')}</FormLabel>
-            <Switch
-              isChecked={isOpenQuestionGuide}
-              onChange={(e) => {
-                onChange({
-                  ...value,
-                  open: e.target.checked
-                });
-              }}
-            />
-          </Flex>
-          {isOpenQuestionGuide && (
-            <>
-              <Flex mt={8} alignItems={'center'}>
-                <FormLabel>{chatT('Input guide lexicon')}</FormLabel>
-                <Box fontSize={'xs'} px={2} bg={'myGray.100'} ml={1} rounded={'full'}>
-                  {total}
-                </Box>
-                <Box flex={'1 0 0'} />
-                <Button
-                  variant={'whiteBase'}
-                  size={'sm'}
-                  leftIcon={<MyIcon boxSize={'4'} name={'common/settingLight'} />}
-                  onClick={() => {
-                    onOpenLexiconConfig();
-                  }}
-                >
-                  {chatT('Config input guide lexicon')}
-                </Button>
-              </Flex>
-              <>
-                {/* <Flex mt={8} alignItems={'center'}>
-                  <FormLabel>{chatT('Custom input guide url')}</FormLabel>
-                  <Flex
-                    onClick={() => window.open(getDocPath('/docs/course/chat_input_guide'))}
-                    color={'primary.700'}
-                    alignItems={'center'}
-                    cursor={'pointer'}
-                  >
-                    <MyIcon name={'book'} ml={4} mr={1} />
-                    {commonT('common.Documents')}
-                  </Flex>
-                  <Box flex={'1 0 0'} />
-                </Flex>
-                <Textarea
-                  mt={2}
-                  bg={'myGray.50'}
-                  defaultValue={value.customUrl}
-                  onBlur={(e) =>
-                    onChange({
-                      ...value,
-                      customUrl: e.target.value
-                    })
-                  }
-                /> */}
-              </>
-            </>
-          )}
-        </ModalBody>
-      </MyModal>
-
-      {isOpenLexiconConfig && <LexiconConfigModal appId={appId} onClose={onCloseLexiconConfig} />}
-    </Flex>
+        {/* </MyTooltip> */}
+      </Flex>
+    </>
   );
 };
 

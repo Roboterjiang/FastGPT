@@ -138,7 +138,7 @@ const MyApps = () => {
           flex={'1 0 0'}
           h={'100%'}
           pr={folderDetail ? [4, 6] : [4, 10]}
-          pl={3}
+          // pl={3}
           overflowY={'auto'}
           overflowX={'hidden'}
         >

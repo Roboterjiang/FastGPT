@@ -46,6 +46,12 @@ export const delChatHistoryById = (data: DelHistoryProps) => DELETE(`/core/chat/
 export const delClearChatHistories = (data: ClearHistoriesProps) =>
   DELETE(`/core/chat/clearHistories`, data);
 
+
+export const batchDeleteChatHistories = (data: ClearHistoriesProps&{chatIds:string[]}) =>
+  POST(`/core/chat/batchDeleteHistories`, data);
+
+
+
 /**
  * delete one chat record
  */

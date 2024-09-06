@@ -29,7 +29,7 @@ const SimpleEdit = () => {
       {currentTab === TabEnum.appEdit ? (
         <Edit appForm={appForm} setAppForm={setAppForm} />
       ) : (
-        <Flex h={'100%'} flexDirection={'column'} mt={4}>
+        <Flex h={'100%'} flexDirection={'column'}>
           {currentTab === TabEnum.publish && <PublishChannel />}
           {currentTab === TabEnum.logs && <Logs />}
         </Flex>
