@@ -394,7 +394,15 @@ const Header = ({
                   {
                     children: [
                       {
-                        label: <Flex>{t('dataset.Set tag')}</Flex>,
+                        label: <Flex>
+                          <MyIcon
+                              mr={3}
+                              name={'core/tag/tagFill'}
+                              w={'14px'}
+                              _hover={{ color: 'red.600' }}
+                          />
+                          <Box>{t('dataset.Set tag')}</Box>
+                        </Flex>,
                         onClick: () => {
                           if (selectedItems.length == 0) {
                             toast({
@@ -408,7 +416,15 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex>{t('dataset.Batch index')}</Flex>,
+                        label: <Flex>
+                          <MyIcon
+                              mr={3}
+                              name={'common/refreshLight'}
+                              w={'14px'}
+                              _hover={{ color: 'red.600' }}
+                          />
+                          <Box>{t('dataset.Batch index')}</Box>
+                        </Flex>,
                         onClick: () => {
                           if (selectedItems.length == 0) {
                             toast({
@@ -445,7 +461,15 @@ const Header = ({
                         }
                       },
                       {
-                        label: <Flex color={'red.500'}>{t('common.Delete')}</Flex>,
+                        label: <Flex color={'red.500'}>
+                          <MyIcon
+                              mr={3}
+                              name={'delete'}
+                              w={'14px'}
+                              _hover={{ color: 'red.600' }}
+                          />
+                          <Box>{t('common.Delete')}</Box>
+                        </Flex>,
                         onClick: () => {
                           if (selectedItems.length == 0) {
                             toast({

@@ -62,11 +62,11 @@ const Detail = ({ datasetId, currentTab, kb_id, doc_type }: Props) => {
 
           {!!datasetDetail._id && (
             <Box bg={'myWhite.300'} flex={'1 0 0'} pb={0} overflow={'auto'}>
-              {currentTab === TabEnum.collectionCard && (
-                <Flex px={[2, 6]} mt={'12px'} justifyContent={'space-between'}>
+              {(currentTab === TabEnum.collectionCard||currentTab === TabEnum.info) && (
+                <Flex px={[2, 6]} mt={'12px'} pb={5} justifyContent={'space-between'}>
                   <Flex alignItems={'center'}>
                     <Box mr={2} w={'3px'} h={'16px'} backgroundColor={'primary.10'}></Box>
-                    <Box fontSize={'14px'}>{t('common.File')}</Box>
+                    <Box fontWeight={'bold'} fontSize={'14px'}>{currentTab === TabEnum.collectionCard?t('common.File'):'知识库配置'}</Box>
                   </Flex>
                   <Box
                     color={'primary.10'}

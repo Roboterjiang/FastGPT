@@ -326,7 +326,7 @@ const CollectionCard = () => {
           overflowY={'auto'}
           fontSize={'sm'}
         >
-          <Table colorScheme="gray" variant={'striped'} draggable={false}>
+          <Table variant={'simple'} draggable={false}>
             <Thead draggable={false}>
               <Tr>
                 <Th py={4}>

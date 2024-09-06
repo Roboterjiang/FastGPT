@@ -100,7 +100,7 @@ const Header = ({
       </Box>
       <Box py={1}>
         <Flex>
-          <Box flex={'1'}>
+          <Box flex={'1'} my={'auto'}>
             <FolderPath paths={paths} hoverStyle={{ color: 'primary.600' }} onClick={onclickRoute} />
           </Box>
           {currentTab === TabEnum.appEdit && (
@@ -121,12 +121,12 @@ const Header = ({
                       ? t(publishStatusStyle.published.text)
                       : t(publishStatusStyle.unPublish.text)}
                   </MyTag>
-                  <IconButton
+                  <Button
                     mr={[2, 4]}
-                    icon={<MyIcon name={'history'} w={'18px'} />}
+                    // icon={<MyIcon name={'history'} w={'18px'} />}
                     aria-label={''}
                     size={'sm'}
-                    w={'30px'}
+                    // w={'30px'}
                     variant={'whitePrimary'}
                     onClick={() => {
                       const { nodes, edges } = form2AppWorkflow(appForm);
@@ -136,7 +136,10 @@ const Header = ({
                         chatConfig: appForm.chatConfig
                       });
                     }}
-                  />
+                  >
+                    {/* i18n* */}
+                    {'发布记录'}
+                  </Button>
                   <PopoverConfirm
                     showCancel
                     content={t('core.app.Publish Confirm')}
@@ -157,6 +160,9 @@ const Header = ({
             ml={'5px'}
             variant='ghost'
             colorScheme={'primary'}
+            onClick={() => {
+              router.push(`/app/list`);
+            }}
           >
             {/* i18n* */}
             {'返回'}
