@@ -89,6 +89,7 @@ const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
     onUpdateHistory,
     onClearHistories,
     onDelHistory,
+    batchDeleterHistories,
     isOpenSlider,
     onCloseSlider,
     forbidLoadChat,
@@ -309,6 +310,7 @@ const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
               );
             })(
               <ChatHistorySlider
+                isOutLink={true}
                 appName={chatData.app.name}
                 appAvatar={chatData.app.avatar}
                 confirmClearText={t('core.chat.Confirm to clear share chat history')}
@@ -335,6 +337,10 @@ const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
                     outLinkUid
                   });
                 }}
+
+                batchDeleterHistories={(e) =>{
+                    batchDeleterHistories({shareId, outLinkUid,chatIds:e.chatIds})
+                  }}
               />
             )}
 
@@ -345,6 +351,7 @@ const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
             w={['100%', 0]}
             flex={'1 0 0'}
             flexDirection={'column'}
+            
           >
             {/* header */}
             {showHead === '1' ? (
@@ -353,6 +360,7 @@ const OutLink = ({ appName, appIntro, appAvatar, responseDetail }: Props) => {
                 appName={chatData.app.name}
                 history={chatData.history}
                 showHistory={showHistory === '1'}
+                chatData={chatData}
               />
             ) : null}
             {/* chat box */}
