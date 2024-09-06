@@ -513,7 +513,7 @@ const ChatInput = ({
                     height={['22px', '25px']}
                     cursor={'pointer'}
                     name={'stop'}
-                    color={'gray.500'}
+                    color={'primary.10'}
                   />
                 ) : (
                   <MyTooltip label={t('core.chat.Send Message')}>
