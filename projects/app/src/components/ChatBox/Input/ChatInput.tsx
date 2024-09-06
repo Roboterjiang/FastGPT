@@ -487,9 +487,9 @@ const ChatInput = ({
                 alignItems={'center'}
                 justifyContent={'center'}
                 flexShrink={0}
-                h={['28px', '32px']}
-                w={['28px', '32px']}
-                borderRadius={'md'}
+                h={['28px', '36px']}
+                w={['28px', '36px']}
+                borderRadius={'50%'}
                 bg={
                   isSpeaking || isChatting
                     ? ''
@@ -521,7 +521,7 @@ const ChatInput = ({
                       name={'core/chat/sendFill'}
                       width={['18px', '20px']}
                       height={['18px', '20px']}
-                      color={inputValue ? 'white' : 'myGray.1'}
+                      color={'white'}
                     />
                   </MyTooltip>
                 )}
