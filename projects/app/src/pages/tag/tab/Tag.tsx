@@ -38,6 +38,8 @@ import {
 import { useRequest2 } from '@fastgpt/web/hooks/useRequest';
 import { TagItemType } from '@fastgpt/global/core/tag/type';
 import { useConfirm } from '@fastgpt/web/hooks/useConfirm';
+import { getTableBgColor } from '@fastgpt/global/common/table/tools';
+
 
 import MyBox from '@fastgpt/web/components/common/MyBox';
 import { useTranslation } from 'next-i18next';
@@ -196,8 +198,8 @@ const TagInfo: React.FC = () => {
             </Tr>
           </Thead>
           <Tbody>
-            {tags.map((tag) => (
-              <Tr key={tag._id}>
+            {tags.map((tag,index) => (
+              <Tr key={tag._id} bg={getTableBgColor(index,false)}>
                 <Td>{tag.tagKey}</Td>
                 <Td>{tag.tagValue}</Td>
                 <Td>

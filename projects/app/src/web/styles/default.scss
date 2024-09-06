@@ -39,6 +39,13 @@
   background-color: #d30065 !important;
 }
 
+.upload-progress{
+  div{
+    background-color: unset;
+  }
+  background: linear-gradient(to right, #ffb6c1, #c71585) !important;
+}
+
 span[tabindex='0'] {
   line-height: 1;
 }
