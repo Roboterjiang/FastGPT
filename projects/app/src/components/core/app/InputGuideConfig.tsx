@@ -100,7 +100,7 @@ const InputGuideConfig = ({
         <Box flex={1} />
         <MyModal
           title={chatT('Input guide')}
-          iconSrc="core/app/inputGuides"
+          // iconSrc="core/app/inputGuides"
           isOpen={isOpen}
           onClose={onClose}
           w={'500px'}

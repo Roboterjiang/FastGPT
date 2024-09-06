@@ -97,7 +97,7 @@ const TTSSelect = ({
         <MyModal
           title={
             <>
-              <MyIcon name={'core/app/simpleMode/tts'} mr={2} w={'20px'} />
+              {/* <MyIcon name={'core/app/simpleMode/tts'} mr={2} w={'20px'} /> */}
               {t('core.app.TTS')}
             </>
           }

@@ -46,7 +46,7 @@ const WhisperConfig = ({
         <Box flex={1} />
         <MyModal
           title={t('core.app.Whisper config')}
-          iconSrc="core/app/simpleMode/whisper"
+          // iconSrc="core/app/simpleMode/whisper"
           isOpen={isOpen}
           onClose={onClose}
         >
