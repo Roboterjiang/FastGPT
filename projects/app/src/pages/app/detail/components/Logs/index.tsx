@@ -39,6 +39,7 @@ import EmptyTip from '@fastgpt/web/components/common/EmptyTip';
 import { useContextSelector } from 'use-context-selector';
 import { AppContext } from '../context';
 import { cardStyles } from '../constants';
+import { getTableBgColor } from '@fastgpt/global/common/table/tools';
 
 const Logs = () => {
   const { t } = useTranslation();
@@ -132,10 +133,11 @@ const Logs = () => {
               </Tr>
             </Thead>
             <Tbody fontSize={'xs'}>
-              {logs.map((item) => (
+              {logs.map((item, index) => (
                 <Tr
                   key={item._id}
                   _hover={{ bg: 'myWhite.600' }}
+                  bg={getTableBgColor(index, detailLogsId == item.id)}
                   cursor={'pointer'}
                   title={'点击查看对话详情'}
                   onClick={() => setDetailLogsId(item.id)}

@@ -48,6 +48,7 @@ import QuestionTip from '@fastgpt/web/components/common/MyTooltip/QuestionTip';
 import EmptyTip from '@fastgpt/web/components/common/EmptyTip';
 import FormLabel from '@fastgpt/web/components/common/MyBox/FormLabel';
 import MyBox from '@fastgpt/web/components/common/MyBox';
+import { getTableBgColor } from '@fastgpt/global/common/table/tools';
 
 import { useUserStore } from '@/web/support/user/useUserStore';
 
@@ -122,8 +123,8 @@ const Share = ({ appId, showCreat, setShowCreat }: { appId: string; type: Publis
             </Tr>
           </Thead>
           <Tbody>
-            {shareChatList.map((item) => (
-              <Tr key={item._id}>
+            {shareChatList.map((item, index) => (
+              <Tr key={item._id} bg={getTableBgColor(index, false)}>
                 <Td>{item.name}</Td>
                 {feConfigs?.isPlus && (
                   <>

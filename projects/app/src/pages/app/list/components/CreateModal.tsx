@@ -22,7 +22,7 @@ import { useRouter } from 'next/router';
 import { simpleBotTemplates, workflowTemplates, pluginTemplates } from '@/web/core/app/templates';
 import { useSystemStore } from '@/web/common/system/useSystemStore';
 import { useRequest } from '@fastgpt/web/hooks/useRequest';
-import Avatar from '@/components/Avatar';
+import Avatar from '@/components/Avatar/index_Round';
 import MyTooltip from '@fastgpt/web/components/common/MyTooltip';
 import MyModal from '@fastgpt/web/components/common/MyModal';
 import { useTranslation } from 'next-i18next';
@@ -156,10 +156,10 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
             <Avatar
               flexShrink={0}
               src={avatar}
-              w={['28px', '32px']}
-              h={['28px', '32px']}
+              w={['28px', '32px', '45px', '60px']}
+              h={['28px', '32px', '45px', '60px']}
               cursor={'pointer'}
-              borderRadius={'sm'}
+              // borderRadius={'sm'}
               onClick={onOpenSelectFile}
             />
           </MyTooltip>
