@@ -436,7 +436,6 @@ const CollectionCard = () => {
                       alignItems={'center'}
                       w={'auto'}
                       color={collection.color}
-                      borderRadius={'md'}
                     >
                       {t(collection.statusText)}
                     </Box>
