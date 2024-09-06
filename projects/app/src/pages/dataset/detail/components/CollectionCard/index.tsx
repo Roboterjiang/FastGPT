@@ -436,20 +436,7 @@ const CollectionCard = () => {
                       alignItems={'center'}
                       w={'auto'}
                       color={collection.color}
-                      bg={collection.bg}
-                      borderWidth={'1px'}
-                      borderColor={collection.borderColor}
-                      px={3}
-                      py={1}
                       borderRadius={'md'}
-                      _before={{
-                        content: '""',
-                        w: '6px',
-                        h: '6px',
-                        mr: 2,
-                        borderRadius: 'lg',
-                        bg: collection.color
-                      }}
                     >
                       {t(collection.statusText)}
                     </Box>
