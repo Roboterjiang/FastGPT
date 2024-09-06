@@ -521,13 +521,15 @@ const Table = tableMultiStyle({
   sizes: {
     md: defineStyle({
       table: {
-        fontsize: 'sm'
+        fontsize: 'sm',
       },
       thead: {
         tr: {
           bg: 'myGray.100',
+          color: 'black.60',
           fontSize: 'sm',
           th: {
+            color: 'black.60',
             borderBottom: 'none',
             overflow: 'hidden',
             '&:first-of-type': {
@@ -542,6 +544,7 @@ const Table = tableMultiStyle({
       tbody: {
         tr: {
           td: {
+            color: 'black.30',  
             overflow: 'hidden',
             '&:first-of-type': {
               borderLeftRadius: 'md'
@@ -552,11 +555,48 @@ const Table = tableMultiStyle({
           }
         }
       }
-    })
+    }),
+    sm: defineStyle({
+        table: {
+          fontsize: 'sm',
+        },
+        thead: {
+          tr: {
+            bg: 'myGray.100',
+            color: 'black.60',
+            fontSize: 'sm',
+            th: {
+              color: 'black.60',
+              borderBottom: 'none',
+              overflow: 'hidden',
+              '&:first-of-type': {
+                borderLeftRadius: 'md'
+              },
+              '&:last-of-type': {
+                borderRightRadius: 'md'
+              }
+            }
+          }
+        },
+        tbody: {
+          tr: {
+            td: {
+              color: 'black.30',  
+              overflow: 'hidden',
+              '&:first-of-type': {
+                borderLeftRadius: 'md'
+              },
+              '&:last-of-type': {
+                borderRightRadius: 'md'
+              }
+            }
+          }
+        }
+      }),
   },
   defaultProps: {
-    size: 'md'
-  }
+    size: 'md',
+  },
 });
 
 // 全局主题
@@ -598,8 +638,10 @@ export const theme = extendTheme({
       '05': 'rgba(17, 24, 36, 0.05)',
       1: 'rgba(17, 24, 36, 0.1)',
       15: 'rgba(17, 24, 36, 0.15)',
+      16: '#f0f1f3',
       20: '#F5F5F5',
       22: '#F6F6F6',
+      23: '#f6f8fa',
       24: '#f9f9ff',
       25: '#FBFBFC',
       26: '#f9fafb',
@@ -617,6 +659,7 @@ export const theme = extendTheme({
       900: '#111824'
     },
     primary: {
+       '005': 'rgba(174, 0, 85, 0.05)',
       1: 'rgba(174, 0, 85, 0.1)',
       '015': 'rgba(174, 0, 85, 0.15)',
       3: 'rgba(174, 0, 85, 0.3)',
@@ -708,6 +751,7 @@ export const theme = extendTheme({
     },
     black: {
       30: '#333333',
+      60: '#666666',
       100: '#000000'
     }
   },

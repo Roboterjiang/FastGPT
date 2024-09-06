@@ -28,6 +28,9 @@ import {
 import { DeleteIcon, SearchIcon } from '@chakra-ui/icons';
 import { ChatHistoryItemType } from '@fastgpt/global/core/chat/type';
 import dayjs from 'dayjs';
+
+import { getTableBgColor } from '@fastgpt/global/common/table/tools';;
+
 interface ChatHistoryModalProps {
     isOpen: boolean;
     onClose: () => void;
@@ -117,7 +120,7 @@ const ChatHistoryModal: React.FC<ChatHistoryModalProps> = (
                     <ModalCloseButton />
                     <ModalBody>
                         <TableContainer fontSize={'sm'} h={'400px'} overflowY={'auto'}>
-                            <Table variant="simple">
+                            <Table size={'md'}  >
                                 <Thead>
                                     <Tr>
                                         <Th>
@@ -132,8 +135,8 @@ const ChatHistoryModal: React.FC<ChatHistoryModalProps> = (
                                     </Tr>
                                 </Thead>
                                 <Tbody>
-                                    {filterHistories.map(item => (
-                                        <Tr key={item.chatId} bg={selectedItems.includes(item.chatId) ? 'pink.50' : 'white'}>
+                                    {filterHistories.map((item,index) => (
+                                        <Tr key={item.chatId} bg={getTableBgColor(index,selectedItems.includes(item.chatId))}>
                                             <Td width={'40px'}>
                                                 <Checkbox
                                                     isChecked={selectedItems.includes(item.chatId)}
