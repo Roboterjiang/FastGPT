@@ -51,9 +51,9 @@ const WelcomeTextConfig = dynamic(() => import('@/components/core/app/WelcomeTex
 
 const BoxStyles: BoxProps = {
   px: 5,
-  py: '16px',
-  borderBottomWidth: '1px',
-  borderBottomColor: 'borderColor.low'
+  py: '12px',
+  // borderBottomWidth: '1px',
+  // borderBottomColor: 'borderColor.low'
 };
 const LabelStyles: BoxProps = {
   w: ['60px', '100px'],
@@ -123,10 +123,12 @@ const EditForm = ({
     <>
       <Box>
         {/* ai */}
-        <Box {...BoxStyles}>
+        <Box
+          {...BoxStyles}
+        >
           <Flex alignItems={'center'}>
-            <MyIcon name={'core/app/simpleMode/ai'} w={'20px'} />
-            <FormLabel ml={2} flex={1}>
+            {/* <MyIcon name={'core/app/simpleMode/ai'} w={'20px'} /> */}
+            <FormLabel flex={1} fontWeight={'bold'} fontSize={'md'} color={'primary.10'}>
               {appT('AI Settings')}
             </FormLabel>
           </Flex>
@@ -188,18 +190,27 @@ const EditForm = ({
         <Box {...BoxStyles}>
           <Flex alignItems={'center'}>
             <Flex alignItems={'center'} flex={1}>
-              <MyIcon name={'core/app/simpleMode/dataset'} w={'20px'} />
-              <FormLabel ml={2}>{t('core.dataset.Choose Dataset')}</FormLabel>
+              {/* <MyIcon name={'core/app/simpleMode/dataset'} w={'20px'} /> */}
+              <Box
+                h={'13px'}
+                mr={2}
+                border={'2px solid'}
+                borderColor='primary.10'
+                borderRadius={'5px'}
+              ></Box>
+              <FormLabel>{t('core.dataset.Choose Dataset')}</FormLabel>
             </Flex>
             <Button
-              variant={'transparentBase'}
+              variant={'primaryGhost'}
+              border={'none'}
               leftIcon={<MyIcon name="common/addLight" w={'0.8rem'} />}
               iconSpacing={1}
               size={'sm'}
               fontSize={'sm'}
               onClick={onOpenKbSelect}
             >
-              {t('common.Choose')}
+              {/* i18n* {t('common.Choose')} */}
+              {'选择知识库'}
             </Button>
             {/* <Button
               variant={'transparentBase'}

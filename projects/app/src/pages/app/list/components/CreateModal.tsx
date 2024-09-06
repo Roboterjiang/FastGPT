@@ -35,6 +35,7 @@ import { useI18n } from '@/web/context/I18n';
 type FormType = {
   avatar: string;
   name: string;
+  intro: string;
   templateId: string;
 };
 
@@ -75,6 +76,7 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
     defaultValues: {
       avatar: typeData.avatar,
       name: '',
+      intro: '',
       templateId: typeData.templates[2].id
     }
   });
@@ -118,6 +120,7 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
         parentId,
         avatar: data.avatar || template.avatar,
         name: data.name,
+        intro: data.intro,
         type: template.type,
         modules: template.modules || [],
         edges: template.edges || []
@@ -146,8 +149,20 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
           mt={4}
           color={'myGray.800'}
           fontSize={'sm'}
+          textAlign={'center'}
           // fontWeight={'bold'}
         >
+          <MyTooltip label={t('common.Set Avatar')}>
+            <Avatar
+              flexShrink={0}
+              src={avatar}
+              w={['28px', '32px']}
+              h={['28px', '32px']}
+              cursor={'pointer'}
+              borderRadius={'sm'}
+              onClick={onOpenSelectFile}
+            />
+          </MyTooltip>
         </Box>
         {/* 应用名称 */}
         <Box
@@ -160,17 +175,6 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
           {'应用名称'}
         </Box>
         <Flex mt={2} alignItems={'center'}>
-          {/* <MyTooltip label={t('common.Set Avatar')}>
-            <Avatar
-              flexShrink={0}
-              src={avatar}
-              w={['28px', '32px']}
-              h={['28px', '32px']}
-              cursor={'pointer'}
-              borderRadius={'sm'}
-              onClick={onOpenSelectFile}
-            />
-          </MyTooltip> */}
           <Input
             flex={1}
             // ml={4}
@@ -201,9 +205,8 @@ const CreateModal = ({ onClose, type }: { type: CreateAppType; onClose: () => vo
           <Textarea
             flex={1}
             placeholder="请描写应用简介"
-            autoFocus
-            maxLength={20}
             bg={'myWhite.600'}
+            {...register('intro')}
           />
         </Flex>
         {/* <Box mt={[4, 7]} mb={[0, 3]} color={'myGray.800'} fontWeight={'bold'}>
