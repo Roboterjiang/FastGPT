@@ -83,6 +83,20 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
     }
   });
 
+  const customStyles = {
+    control: (provided, state) => ({
+      ...provided,
+      backgroundColor: '#f6f6f6'
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      '&:hover':{
+        borderLeftWidth:'5px',
+        borderLeftColor:'#d30065'
+      }
+    }),
+  };
+
   const handleFormSubmit = handleSubmit((data: FormTagValues) => {
     onSubmit(data);
     onClose();
@@ -130,6 +144,7 @@ const SelectTagModal: React.FC<SelectTagModalProps> = ({
                   //   rules={{ required: '请选择标签' }}
                   render={({ field }) => (
                     <Select
+                      styles={customStyles}
                       defaultValue={selectTags?.map((tag) => ({
                         value: tag.tagValue,
                         label: tag.tagValue

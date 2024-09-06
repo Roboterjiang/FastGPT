@@ -250,13 +250,14 @@ const CollectionCard = () => {
 
   const getTagInfo = (collection: DatasetCollectionsListItemType) => {
     return (
+        collection.tagInfo&&collection.tagInfo.length>0?
       <HStack spacing={2}>
-        {collection.tagInfo?.map((tag, index) => (
+        {collection.tagInfo.map((tag, index) => (
           <Tag size={'sm'} key={index} variant="solid" colorScheme="primary" borderRadius="full">
             {tag.tagValue}
           </Tag>
         ))}
-      </HStack>
+      </HStack>:<HStack spacing={2}><Box>无</Box></HStack>
     );
   };
 
@@ -305,7 +306,7 @@ const CollectionCard = () => {
   };
 
   return (
-    <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'calc(100% - 36px)'} py={[2, 4]}>
+    <MyBox isLoading={isLoading || batchUpdateTagLoading} h={'calc(100% - 56px)'} py={[2, 4]}>
       <Flex ref={BoxRef} flexDirection={'column'} py={[1, 3]} h={'100%'}>
         {/* header */}
         <Header
@@ -355,14 +356,13 @@ const CollectionCard = () => {
               {formatCollections.map((collection, index) => (
                 <Tr
                   key={collection._id}
-                  _hover={{ bg: 'myGray.50' }}
                   cursor={'pointer'}
                   data-drag-id={
                     collection.type === DatasetCollectionTypeEnum.folder
                       ? collection._id
                       : undefined
                   }
-                  bg={dragTargetId === collection._id ? 'primary.100' : ''}
+                  bg={selectedItems.includes(collection._id) ? 'pink.50':'white'}
                   userSelect={'none'}
                   onDragStart={() => {
                     setDragStartId(collection._id);
@@ -391,7 +391,7 @@ const CollectionCard = () => {
                     setDragTargetId(undefined);
                   }}
                 >
-                  <Td>
+                  <Td w={'30px'}>
                     <Controller
                       name="selectedItems"
                       control={control}
@@ -426,7 +426,7 @@ const CollectionCard = () => {
                       </MyTooltip>
                     </Flex>
                   </Td>
-                  <Td w={'50px'}>{t(getDocType(collection.doc_type))}</Td>
+                  <Td>{t(getDocType(collection.doc_type))}</Td>
                   <Td>{getTagInfo(collection)}</Td>
                   <Td>{dayjs(collection.updateTime).format('YYYY/MM/DD HH:mm')}</Td>
                   <Td>
