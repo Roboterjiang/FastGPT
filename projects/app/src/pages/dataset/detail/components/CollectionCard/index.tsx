@@ -33,6 +33,7 @@ import { useRequest } from '@fastgpt/web/hooks/useRequest';
 import { useRouter } from 'next/router';
 import MyMenu from '@fastgpt/web/components/common/MyMenu';
 import { useEditTitle } from '@/web/common/hooks/useEditTitle';
+import { getTableBgColor } from '@fastgpt/global/common/table/tools';
 import {
   DatasetCollectionTypeEnum,
   DatasetStatusEnum,
@@ -362,7 +363,7 @@ const CollectionCard = () => {
                       ? collection._id
                       : undefined
                   }
-                  bg={selectedItems.includes(collection._id) ? 'pink.50':'white'}
+                  bg={getTableBgColor(index,selectedItems.includes(collection._id))}
                   userSelect={'none'}
                   onDragStart={() => {
                     setDragStartId(collection._id);
