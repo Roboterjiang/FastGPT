@@ -91,8 +91,9 @@ const SliderApps = ({ apps, activeAppId }: { apps: AppListItemType[]; activeAppI
             bg={'myGray.100'}
             justifyContent={'space-between'}
           >
-            <Box fontWeight={'bold'} fontSize={'md'} color={'black.30'}>
-              {t('core.chat.Recent use')}
+            <Box fontWeight={'bold'} fontSize={'md'} color={'black.30'} lineHeight={'18px'}>
+              <MyIcon mr={1} name={'core/chat/icontime'} w={'20px'} />
+              {t('core.chat.Recent use') + 3}
             </Box>
             <MyPopover
               placement="bottom-end"
