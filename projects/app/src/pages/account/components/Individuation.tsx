@@ -42,7 +42,7 @@ const Individuation = () => {
   return (
     <Box>
       <Flex bg={'myGray.25'} pl={5} alignItems={'center'} fontSize={'sm'} h={'50px'}>
-        <MyIcon color={'primary.10'} mr={2} name={'support/user/individuation'} w={'20px'} />
+        <MyIcon color={'primary.10'} mr={2} name={'support/user/iconSettings'} w={'0.9rem'} />
         {t('support.account.Individuation')}
       </Flex>
 

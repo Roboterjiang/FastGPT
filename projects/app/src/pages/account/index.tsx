@@ -80,7 +80,7 @@ const Account = ({ currentTab }: { currentTab: TabEnum }) => {
     //     ]
     //   : []),
     {
-      icon: 'support/user/individuation',
+      icon: 'support/user/iconSettings',
       label: t('support.account.Individuation'),
       value: TabEnum.individuation
     },
