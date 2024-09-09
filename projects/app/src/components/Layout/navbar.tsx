@@ -116,6 +116,10 @@ const Navbar = ({ unread }: { unread: number }) => {
         {navbarList.map((item) => (
           <Box
             key={item.link}
+              {...(item.link==='/account')?{
+                position:'absolute',
+                bottom: 5
+              }:{}}
             {...itemStyles}
             {...(item.activeLink.includes(router.pathname)
               ? {

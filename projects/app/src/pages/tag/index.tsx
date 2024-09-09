@@ -6,7 +6,7 @@ import PageContainer from '@/components/PageContainer';
 const TabTag = dynamic(() => import('./tab/Tag'));
 const Config = () => {
   return (
-    <PageContainer>
+    <PageContainer insertProps={{ boxShadow: '0', border: 'none', backgroundColor: 'myWhite.100' }}>
       <TabTag />
     </PageContainer>
   );
