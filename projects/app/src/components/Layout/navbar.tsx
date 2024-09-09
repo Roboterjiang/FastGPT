@@ -91,6 +91,7 @@ const Navbar = ({ unread }: { unread: number }) => {
       h={'100%'}
       w={'100%'}
       userSelect={'none'}
+      bg={'myWhite.550'}
     >
       {/* logo */}
       <Box
