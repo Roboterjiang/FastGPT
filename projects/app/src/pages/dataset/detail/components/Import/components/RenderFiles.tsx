@@ -174,10 +174,8 @@ export const RenderUploadFiles = ({
                       w={'100%'}
                       maxW={'210px'}
                       size="sm"
+                      className={'upload-progress'}
                       borderRadius={'20px'}
-                      colorScheme={(item.uploadedFileRate || 0) >= 100 ? 'pink' : 'pink'}
-                      bg="myGray.200"
-                      isAnimated
                       mr={2}
                     />
                     {`${item.uploadedFileRate}%`}

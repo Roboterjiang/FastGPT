@@ -80,14 +80,14 @@ const Dataset = () => {
     () => (
       <InputGroup maxW={['auto', '250px']} height={'36px'}>
         <InputLeftElement h={'full'} alignItems={'center'} display={'flex'}>
-          <MyIcon name={'common/searchLight'} w={'1rem'} />
+          <MyIcon color={'myGray.300'} name={'common/searchLight'} w={'1rem'} />
         </InputLeftElement>
         <Input
           value={searchKey}
           size={'md'}
           h={'36px'}
           onChange={(e) => setSearchKey(e.target.value)}
-          placeholder={datasetT('Search dataset')}
+          placeholder={datasetT('Search dataset')+'...'}
           maxLength={30}
           bg={'white'}
         />
@@ -119,7 +119,7 @@ const Dataset = () => {
               paths={paths}
               FirstPathDom={
                 <Flex flex={1} alignItems={'center'}>
-                  <Image src={'/imgs/workflow/db.png'} alt={''} mr={2} h={'24px'} />
+                  <MyIcon color={'primary.10 !important'} mr={2} name={'core/dataset/knowledge'} w={'20px'} h={'20px'} />
                   <Box className="textlg" letterSpacing={1} fontSize={'20px'} fontWeight={'bold'}>
                     {t('core.dataset.My Dataset')}
                   </Box>

@@ -32,7 +32,9 @@ const MyTextarea = React.forwardRef<HTMLTextAreaElement, Props>(function MyTexta
     <>
       <Editor textareaRef={TextareaRef} {...childProps} onOpenModal={onOpen} />
       {isOpen && (
-        <MyModal iconSrc="/imgs/modal/edit.svg" title={title} isOpen onClose={onClose}>
+        <MyModal
+          // iconSrc="/imgs/modal/edit.svg"
+          title={title} isOpen onClose={onClose}>
           <ModalBody>
             <Editor
               textareaRef={ModalTextareaRef}
