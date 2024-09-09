@@ -116,7 +116,7 @@ const MyApps = () => {
   );
 
   return (
-    <Flex flexDirection={'column'} h={'100%'}>
+    <Flex px={[5, 10]} flexDirection={'column'} h={'100%'} bg={'myWhite.450'}>
       {paths.length > 0 && (
         <Box pt={[4, 6]} pl={3}>
           <FolderPath
