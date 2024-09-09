@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Flex, Link, Progress } from '@chakra-ui/react';
+import { Box, Flex, Link, Progress,Text } from '@chakra-ui/react';
 import RawSourceBox from '@/components/core/dataset/RawSourceBox';
 import type { SearchDataResponseItemType } from '@fastgpt/global/core/dataset/type.d';
 import NextLink from 'next/link';
@@ -201,9 +201,18 @@ const QuoteItem = ({
         </Flex>
 
         <Box flex={'1 0 0'} pb={4}>
-          {/* <Box color={'black'}>{quoteItem.sourceName}</Box> */}
-          <Box color={'black'}>{quoteItem.q}</Box>
-          <Box bg={'white'} p={4} mt={2} color={'myGray.600'}>{quoteItem.a}</Box>
+          
+          <Box color={'black.30'} display={'flex'} alignItems={'center'}> 
+            <Box fontWeight={'600'} mr={2} ml={'-12px'}  w={'3px'} h={'18px'} display={'inline-block'} backgroundColor={'primary.10'}></Box>{quoteItem.q}
+          </Box>
+          <Box borderRadius={'13px'}    bg={'white'}  p={4} mt={2} >
+             <Box color={'black.30'} display={'inline-block'}> 
+               以下内容来自： <Text as='u'  color={'primary.10'}>{quoteItem.sourceName}</Text >
+             </Box>
+            
+            <Box fontSize={'12px'} mt={2} lineHeight={'18px'} color={'black.60'} letterSpacing={'0.4px'}>{quoteItem.a}</Box>
+            
+          </Box>
           {/* <Markdown source={quoteItem.a} showAnimation={true} /> */}
         </Box>
 

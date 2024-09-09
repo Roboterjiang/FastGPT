@@ -41,8 +41,8 @@ const QuoteModal = ({
         onClose={onClose}
         maxH={['90vh', '80vh']}
         isCentered
-        minW={['90vw', '600px']}
-        p={'10px'}
+        minW={['90vw', '900px']}
+        py={'10px'}
         // iconSrc={!!metadata ? undefined : '/imgs/modal/quote.svg'}
         title={
           <Box color={'black.30'} >
@@ -83,7 +83,9 @@ export const QuoteList = React.memo(function QuoteList({
         <Box
           key={i}
           flex={'1 0 0'}
-          p={2}
+          px={4}
+          pt={2}
+          pb={3}
           borderRadius={'sm'}
           _notLast={{ mb: 2 }}
           _hover={{ '& .hover-data': { display: 'flex' } }}

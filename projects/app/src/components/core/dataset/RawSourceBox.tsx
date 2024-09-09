@@ -59,6 +59,8 @@ const RawSourceBox = ({
           maxW={['200px', '300px']}
           className={props.className ?? 'textEllipsis'}
           wordBreak={'break-all'}
+          color={'black.30'}
+          fontWeight={'600'}
         >
           {sourceName || t('common.UnKnow Source')}
         </Box>
