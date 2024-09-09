@@ -203,7 +203,8 @@ const QuoteItem = ({
         <Box flex={'1 0 0'} pb={4}>
           
           <Box color={'black.30'} display={'flex'} alignItems={'center'}> 
-            <Box fontWeight={'600'} mr={2} ml={'-12px'}  w={'3px'} h={'18px'} display={'inline-block'} backgroundColor={'primary.10'}></Box>{quoteItem.q}
+            <Box fontWeight={'600'} mr={2} ml={'-12px'}  w={'3px'} h={'18px'} display={'inline-block'} backgroundColor={'primary.10'}></Box>
+            <Text fontWeight={'600'}>{quoteItem.q}</Text>  
           </Box>
           <Box borderRadius={'13px'}    bg={'white'}  p={4} mt={2} >
              <Box color={'black.30'} display={'inline-block'}> 
