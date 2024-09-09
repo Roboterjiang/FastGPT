@@ -343,7 +343,7 @@ const FileSelector = ({
           })}
       {...props}
     >
-      <MyIcon name={'common/uploadFileFill'} w={'32px'} />
+      <MyIcon name={'common/iconup2'} w={'32px'} />
       {isMaxSelected ? (
         <>
           <Box color={'myGray.500'} fontSize={'xs'}>

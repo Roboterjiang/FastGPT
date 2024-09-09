@@ -35,11 +35,11 @@ const Slider = ({ currentTab }: { currentTab: TabEnum }) => {
     {
       label: t('core.dataset.Collection'),
       value: TabEnum.collectionCard,
-      icon: 'common/overviewLight'
+      icon: 'common/iconTips'
     },
     // { label: t('core.dataset.test.Search Test'), value: TabEnum.test, icon: 'kbTest' },
     ...(datasetDetail.permission.hasManagePer
-      ? [{ label: t('common.Config'), value: TabEnum.info, icon: 'common/settingLight' }]
+      ? [{ label: t('common.Config'), value: TabEnum.info, icon: 'common/iconTips' }]
       : [])
   ];
 

@@ -43,6 +43,7 @@ import { getTableBgColor } from '@fastgpt/global/common/table/tools';
 
 import MyBox from '@fastgpt/web/components/common/MyBox';
 import { useTranslation } from 'next-i18next';
+import MyIcon from "@fastgpt/web/components/common/Icon";
 
 const TagInfo: React.FC = () => {
   const { t } = useTranslation();
@@ -223,7 +224,7 @@ const TagInfo: React.FC = () => {
                   </Button>
                   <IconButton
                     ml={6}
-                    icon={<DeleteIcon />}
+                    icon={<MyIcon name={'delete'} w={'18px'} p={2} />}
                     size="sm"
                     bg={'none'}
                     border={'none'}
