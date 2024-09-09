@@ -66,15 +66,16 @@ const ChatItem = ({
     type === ChatRoleEnum.Human
       ? {
           order: 0,
-          borderRadius: '8px 0 8px 8px',
+          borderRadius: '17px 0 17px 17px',
+          boxShadow:'0px 0px 12px 0px rgba(235,228,228,0.29)',
           justifyContent: 'flex-end',
           textAlign: 'right',
-          bg: 'primary.40'
+          bg: 'rgba(211, 0, 101, 0.12)'
         }
       : {
           order: 1,
-          borderRadius: '0 8px 8px 8px',
-          boxShadow: '0 0 8px rgba(0,0,0,0.15)',
+          borderRadius: '0 17px 17px 17px',
+          boxShadow: '0px 0px 12px 0px rgba(235,228,228,0.29)',
           justifyContent: 'flex-start',
           textAlign: 'left',
           bg: 'white'

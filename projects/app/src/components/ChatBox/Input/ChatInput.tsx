@@ -495,7 +495,7 @@ const ChatInput = ({
                     ? ''
                     : !havInput || hasFileUploading
                       ? '#E5E5E5'
-                      : 'primary.500'
+                      : 'primary.10'
                 }
                 cursor={havInput ? 'pointer' : 'not-allowed'}
                 lineHeight={1}
@@ -513,7 +513,7 @@ const ChatInput = ({
                     height={['22px', '25px']}
                     cursor={'pointer'}
                     name={'stop'}
-                    color={'gray.500'}
+                    color={'primary.10'}
                   />
                 ) : (
                   <MyTooltip label={t('core.chat.Send Message')}>

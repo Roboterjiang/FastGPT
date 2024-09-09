@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Flex, Link, Progress } from '@chakra-ui/react';
+import { Box, Flex, Link, Progress,Text } from '@chakra-ui/react';
 import RawSourceBox from '@/components/core/dataset/RawSourceBox';
 import type { SearchDataResponseItemType } from '@fastgpt/global/core/dataset/type.d';
 import NextLink from 'next/link';
@@ -108,6 +108,9 @@ const QuoteItem = ({
         _hover={{ '& .hover-data': { visibility: 'visible' } }}
         h={'100%'}
         display={'flex'}
+        bg={'myGray.23'}
+        pl={4}
+        pr={4}
         flexDirection={'column'}
       >
         <Flex alignItems={'center'} mb={3} flexWrap={'wrap'} gap={3}>
@@ -197,13 +200,24 @@ const QuoteItem = ({
             ))}
         </Flex>
 
-        <Box flex={'1 0 0'}>
-          <Box color={'black'}>{quoteItem.q}</Box>
-          {/* <Box color={'myGray.600'}>{quoteItem.a}</Box> */}
-          <Markdown source={quoteItem.a} showAnimation={true} />
+        <Box flex={'1 0 0'} pb={4}>
+          
+          <Box color={'black.30'} display={'flex'} alignItems={'center'}> 
+            <Box fontWeight={'600'} mr={2} ml={'-12px'}  w={'3px'} h={'18px'} display={'inline-block'} backgroundColor={'primary.10'}></Box>
+            <Text fontWeight={'600'}>{quoteItem.q}</Text>  
+          </Box>
+          <Box borderRadius={'13px'}    bg={'white'}  p={4} mt={2} >
+             <Box color={'black.30'} display={'inline-block'}> 
+               以下内容来自： <Text as='u'  color={'primary.10'}>{quoteItem.sourceName}</Text >
+             </Box>
+            
+            <Box fontSize={'12px'} mt={2} lineHeight={'18px'} color={'black.60'} letterSpacing={'0.4px'}>{quoteItem.a}</Box>
+            
+          </Box>
+          {/* <Markdown source={quoteItem.a} showAnimation={true} /> */}
         </Box>
 
-        {canViewSource && (
+        {/* {canViewSource && (
           <Flex
             alignItems={'center'}
             flexWrap={'wrap'}
@@ -215,7 +229,7 @@ const QuoteItem = ({
             <MyTooltip label={t('core.dataset.Quote Length')}>
               <Flex alignItems={'center'}>
                 <MyIcon name="common/text/t" w={'14px'} mr={1} color={'myGray.500'} />
-                {/* {quoteItem.q.length + (quoteItem.a?.length || 0)} */}
+                {quoteItem.q.length + (quoteItem.a?.length || 0)}
               </Flex>
             </MyTooltip>
             <RawSourceBox
@@ -256,7 +270,7 @@ const QuoteItem = ({
                 </Box>
               </MyTooltip>
             )}
-            {/* {linkToDataset && (
+            {linkToDataset && (
               <Link
                 as={NextLink}
                 className="hover-data"
@@ -268,9 +282,9 @@ const QuoteItem = ({
                 {t('core.dataset.Go Dataset')}
                 <MyIcon name={'common/rightArrowLight'} w={'10px'} />
               </Link>
-            )} */}
+            )}
           </Flex>
-        )}
+        )} */}
       </MyBox>
 
       {editInputData && (

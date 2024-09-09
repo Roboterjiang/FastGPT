@@ -39,18 +39,20 @@ const QuoteModal = ({
       <MyModal
         isOpen={true}
         onClose={onClose}
-        h={['90vh', '80vh']}
+        maxH={['90vh', '80vh']}
         isCentered
-        minW={['90vw', '600px']}
-        iconSrc={!!metadata ? undefined : '/imgs/modal/quote.svg'}
+        minW={['90vw', '900px']}
+        py={'10px'}
+        // iconSrc={!!metadata ? undefined : '/imgs/modal/quote.svg'}
         title={
-          <Box>
+          <Box color={'black.30'} >
             {metadata ? (
               <RawSourceBox {...metadata} canView={showDetail} />
             ) : (
-              <>{t('core.chat.Quote Amount', { amount: rawSearch.length })}</>
+            //   <>{t('core.chat.Quote Amount', { amount: rawSearch.length })}</>
+               <>{'知识库引用 · 共' + rawSearch.length + ' 条'}</>
             )}
-            <Box fontSize={'xs'} color={'myGray.500'} fontWeight={'normal'}>
+            <Box mt={1} fontSize={'xs'} color={'myGray.500'} fontWeight={'normal'}>
               {t('core.chat.quote.Quote Tip')}
             </Box>
           </Box>
@@ -81,12 +83,13 @@ export const QuoteList = React.memo(function QuoteList({
         <Box
           key={i}
           flex={'1 0 0'}
-          p={2}
+          px={4}
+          pt={2}
+          pb={3}
           borderRadius={'sm'}
-          border={theme.borders.base}
           _notLast={{ mb: 2 }}
           _hover={{ '& .hover-data': { display: 'flex' } }}
-          bg={i % 2 === 0 ? 'white' : 'myWhite.500'}
+          bg={'myGray.22'}
         >
           <QuoteItem quoteItem={item} canViewSource={showDetail} linkToDataset={showDetail} />
         </Box>
