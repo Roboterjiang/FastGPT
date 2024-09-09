@@ -54,11 +54,13 @@ const RawSourceBox = ({
           : {})}
         {...props}
       >
-        <MyIcon name={icon as any} w={['14px', '16px']} mr={2} />
+        {/* <MyIcon name={icon as any} w={['14px', '16px']} mr={2} /> */}
         <Box
           maxW={['200px', '300px']}
           className={props.className ?? 'textEllipsis'}
           wordBreak={'break-all'}
+          color={'black.30'}
+          fontWeight={'600'}
         >
           {sourceName || t('common.UnKnow Source')}
         </Box>
